@@ -62,7 +62,7 @@
                         <a href="blog.html">Forum</a>
                     </li>
                     <li>
-                        <a href="contact.html">Register</a>
+                        <a href="register.php">Register</a>
                     </li>
                 </ul>
             </div>
