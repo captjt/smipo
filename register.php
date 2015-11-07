@@ -83,30 +83,35 @@
                     <p>
                     	<form name="register" id="register" action="registerhandle.php" method="post">
                     		<center>
-                    			<table>
+                    			<table class="table">
                     				<tr>
                     					<td>First Name:</td>
-                    					<td><input type="text" width="25" name="firstname" id="firstname" onblur="validateUsername();" /></td>
+                    					<td><input type="text" width="30" name="firstname" id="firstname" onblur="validateUsername();" /></td>
                     					<td id="firstname-err"></td>
                     				</tr>
                     				<tr>
                     					<td>Last Name:</td>
-                    					<td><input type="text" width="25" name="lastname" id="lastname" onblur="validateUsername();" /></td>
+                    					<td><input type="text" width="30" name="lastname" id="lastname" onblur="validateUsername();" /></td>
                     					<td id="lastname-err"></td>
                     				</tr>
                     				<tr>
-                    					<td>Desired Username:</td>
-                    					<td><input type="text" width="25" name="username" id="username" onblur="validateUsername();" /></td>
+                    					<td>Desired Username</td>
+                    					<td><input type="text" width="30" name="username" id="username" onblur="validateUsername();" /></td>
                     					<td id="username-err"></td>
                     				</tr>
                     				<tr>
+                    					<td>Email</td>
+                    					<td><input type="text" width="30" name="email" id="email" /></td>
+                    					<td id="email-err"></td>
+                    				</tr>
+                    				<tr>
                     					<td>Password</td>
-                    					<td><input type="password" width="25" name="password" id="password" onblur="validatePassword();" /></td>
+                    					<td><input type="password" width="30" name="password" id="password" onblur="validatePassword();" /></td>
                     					<td id="password-err"></td>
                     				</tr>
                     				<tr>
                     					<td>Verify Password</td>
-                    					<td><input type="password" width="25" name="ver_password" id="ver_password" onblur="validateVer_Password();" /></td>
+                    					<td><input type="password" width="30" name="ver_password" id="ver_password" onblur="validateVer_Password();" /></td>
                     					<td id="ver_password-err"></td>
                     				</tr>
                     			</table>
