@@ -21,6 +21,9 @@
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
 
+    <!-- Javascript for Validation -->
+    <script src="js/validateRegister.js" type="text/javascript"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -86,12 +89,12 @@
                     			<table class="table">
                     				<tr>
                     					<td>First Name:</td>
-                    					<td><input type="text" width="30" name="firstname" id="firstname" onblur="validateUsername();" /></td>
+                    					<td><input type="text" width="30" name="firstname" id="firstname" onblur="validateFirst();" /></td>
                     					<td id="firstname-err"></td>
                     				</tr>
                     				<tr>
                     					<td>Last Name:</td>
-                    					<td><input type="text" width="30" name="lastname" id="lastname" onblur="validateUsername();" /></td>
+                    					<td><input type="text" width="30" name="lastname" id="lastname" onblur="validateLast();" /></td>
                     					<td id="lastname-err"></td>
                     				</tr>
                     				<tr>
@@ -106,7 +109,7 @@
                     				</tr>
                     				<tr>
                     					<td>Password</td>
-                    					<td><input type="password" width="30" name="password" id="password" onblur="validatePassword();" /></td>
+                    					<td><input type="password" width="30" name="password" id="password" onblur="validatePasswords();" /></td>
                     					<td id="password-err"></td>
                     				</tr>
                     				<tr>
