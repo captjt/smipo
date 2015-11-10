@@ -2,6 +2,7 @@
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $username = $_POST['username'];
+$useremail = $_POST['email'];
 $userpass = $_POST['password'];
 
 $dbuser="jtaylor32"; 
@@ -10,9 +11,17 @@ $database="jtaylor32";
 $connect = mysql_connect("localhost", $dbuser, $password); 
 @mysql_select_db($database) or die( "Unable to select database"); 
 
-mysql_query("INSERT INTO `members`(`firstname`, `lastname`, `username`, `password`) 
-	VALUES ('$firstname', '$lastname', '$username', '$userpass')"); 
-mysql_close($connect);
+if ($firstname !== null) {
+	if ($lastname !== null) {
+		if ($username !== null) {
+			if ($userpass !== null) {
+				mysql_query("INSERT INTO `members`(`firstname`, `lastname`, `username`, `email`, `password`) 
+					VALUES ('$firstname', '$lastname', '$username', '$useremail', '$userpass')"); 
+				mysql_close($connect);
+			}
+		}
+	}
+}
 
 ini_set('display_errors', True); 
 error_reporting(E_ALL | E_STRICT);
@@ -92,23 +101,43 @@ error_reporting(E_ALL | E_STRICT);
 	<div class="container-container">
 		<table table id="table_div" class="table table-striped">
 			<tr>
-				<td>Username:</td>
+				<td>First Name :</td>
 				<td><?php echo ($_POST['firstname']); ?></td>
 			</tr> 
 			<tr>
-				<td>Password:</td>
+				<td>Last Name :</td>
 				<td><?php echo ($_POST['lastname']); ?></td>
 			</tr> 
 			<tr>
-				<td>Food Culture:</td>
+				<td>Username :</td>
 				<td><?php echo ($_POST['username']); ?></td>
 			</tr>
 			<tr>
-				<td>Favorite Dish:</td>
+				<td>Email :</td>
+				<td><?php echo ($_POST['email']); ?></td>
+			</tr>
+			<tr>
+				<td>Password :</td>
 				<td><?php echo ($_POST['password']); ?></td>
 			</tr>
 		</table>
+	</div>
 
-		<center><em>Report any concerns to jtaylor32@radford.edu</em></center>
-	</body> 
-	</html> 
+	<footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; Radford SMIPO 2015</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+</body> 
+
+</html> 
