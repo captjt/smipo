@@ -102,6 +102,7 @@ function validatePasswords(){
   }
   if(result==null){
     reportError('password', 'Password must contain at least one letter');
+    isValid = false;
     document.getElementById('register').disabled = true;
   }
   if(isValid==true){
@@ -128,6 +129,32 @@ function validateVer_Password(){
   }
   if(isValid==true){
     removeError('ver_password');
+  }
+  return isValid;
+}
+
+/**
+ * Function validateEmail 
+ * @return boolean if called report error is true or false for the email element
+ */
+function validateEmail(){
+  removeError('email');
+  var isValid = true;
+  var email = document.getElementById('email').value;
+  var result = email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i);
+
+  if(email == null){
+    reportError('email', 'Email must be filled out');
+    document.getElementById('register').disabled = true;
+    isValid = false;
+  }
+  if(result == null){
+    reportError('email', 'Email is not correctly filled out');
+    document.getElementById('register').disabled = true;
+    isValid = false;
+  }
+  if(isValid == true){
+    removeError('email');
   }
   return isValid;
 }

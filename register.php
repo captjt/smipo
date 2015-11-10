@@ -86,7 +86,7 @@
                     <p>
                     	<form name="register" id="register" action="registerhandle.php" method="post">
                     		<center>
-                    			<table class="table">
+                    			<table class="table-condensed">
                     				<tr>
                     					<td>First Name:</td>
                     					<td><input type="text" width="30" name="firstname" id="firstname" onblur="validateFirst();" /></td>
@@ -104,7 +104,7 @@
                     				</tr>
                     				<tr>
                     					<td>Email</td>
-                    					<td><input type="text" width="30" name="email" id="email" /></td>
+                    					<td><input type="text" width="30" name="email" id="email" onblur="validateEmail();" /></td>
                     					<td id="email-err"></td>
                     				</tr>
                     				<tr>
