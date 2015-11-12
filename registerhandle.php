@@ -1,20 +1,17 @@
 <?php 
+require('connect.php');
+
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $username = $_POST['username'];
 $useremail = $_POST['email'];
 $userpass = $_POST['password'];
 
-$dbuser="jtaylor32"; 
-$password="123456"; 
-$database="jtaylor32"; 
-$connect = mysql_connect("localhost", $dbuser, $password); 
-@mysql_select_db($database) or die( "Unable to select database"); 
-
 if ($firstname !== null) {
 	if ($lastname !== null) {
 		if ($username !== null) {
 			if ($userpass !== null) {
+				#echo "Nothing equaled null";
 				mysql_query("INSERT INTO `members`(`firstname`, `lastname`, `username`, `email`, `password`) 
 					VALUES ('$firstname', '$lastname', '$username', '$useremail', '$userpass')"); 
 				mysql_close($connect);
@@ -82,7 +79,7 @@ error_reporting(E_ALL | E_STRICT);
 						<a href="index.html">Home</a>
 					</li>
 					<li>
-						<a href="about.html">About</a>
+						<a href="about.php">About</a>
 					</li>
 					<li>
 						<a href="blog.html">Forum</a>
@@ -98,29 +95,44 @@ error_reporting(E_ALL | E_STRICT);
 	</nav>
 
 
-	<div class="container-container">
-		<table table id="table_div" class="table table-striped">
-			<tr>
-				<td>First Name :</td>
-				<td><?php echo ($_POST['firstname']); ?></td>
-			</tr> 
-			<tr>
-				<td>Last Name :</td>
-				<td><?php echo ($_POST['lastname']); ?></td>
-			</tr> 
-			<tr>
-				<td>Username :</td>
-				<td><?php echo ($_POST['username']); ?></td>
-			</tr>
-			<tr>
-				<td>Email :</td>
-				<td><?php echo ($_POST['email']); ?></td>
-			</tr>
-			<tr>
-				<td>Password :</td>
-				<td><?php echo ($_POST['password']); ?></td>
-			</tr>
-		</table>
+	<div class="container">
+    	<div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                	<hr>
+	                    <h2 class="intro-text text-center">User Profile Created
+	                        <strong></strong>
+	                    </h2>
+                    </hr>
+                    <p>
+                    	<center>
+	                    	<table class="table-condensed">
+	                    		<tr>
+	                    			<td>First Name :</td>
+	                    			<td><?php echo ($_POST['firstname']); ?></td>
+	                    		</tr> 
+	                    		<tr>
+	                    			<td>Last Name :</td>
+	                    			<td><?php echo ($_POST['lastname']); ?></td>
+	                    		</tr> 
+	                    		<tr>
+	                    			<td>Username :</td>
+	                    			<td><?php echo ($_POST['username']); ?></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td>Email :</td>
+	                    			<td><?php echo ($_POST['email']); ?></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td>Password :</td>
+	                    			<td><?php echo ($_POST['password']); ?></td>
+	                    		</tr>
+	                    	</table>
+	                    </center>
+                    </p>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<footer>
