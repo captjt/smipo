@@ -1,23 +1,74 @@
 <?php 
 require('connect.php');
 
-$firstname = $_POST['firstname'];
-$lastname = $_POST['lastname'];
-$username = $_POST['username'];
-$useremail = $_POST['email'];
-$userpass = $_POST['password'];
+$errorMsg = '';
 
-if ($firstname !== null) {
-	if ($lastname !== null) {
-		if ($username !== null) {
-			if ($userpass !== null) {
-				#echo "Nothing equaled null";
-				mysql_query("INSERT INTO `members`(`firstname`, `lastname`, `username`, `email`, `password`) 
-					VALUES ('$firstname', '$lastname', '$username', '$useremail', '$userpass')"); 
-				mysql_close($connect);
-			}
-		}
+#checking if the username field is not NULL
+#if it is NULL return error message 'username is required'
+if(isset($_POST['username'])){
+
+	#setting username variable to the input from the 'username' field in the form
+	$username = $_POST['username'];
+
+	#query to fetch if the username is already used - returns username if it is already created
+	$query = mysql_query("SELECT username FROM members WHERE username='".$username."'");
+
+	#run if statement to see if the query returned a username that was already created
+	#if the username is already created return an error message telling us it exists
+	if (mysql_num_rows($query) != 0){
+		$errorMsg .= '<span style="color:#ff0000">Username already exists</span><br />';
 	}
+
+	#setting variables to get selected fields from the form
+	$firstname = $_POST['firstname'];
+	$lastname = $_POST['lastname'];
+	$useremail = $_POST['email'];
+	$userpass = $_POST['password'];
+
+	#checking for html special characters
+	$firstname = htmlspecialchars($firstname);
+	$lastname = htmlspecialchars($lastname);
+	$username = htmlspecialchars($username);
+
+	#checking for slashes
+	$firstname = stripslashes($firstname);
+	$lastname = stripslashes($lastname);
+	$username = stripslashes($username);
+
+	#checking our fields are not null
+	if(!$firstname){
+		$errorMsg .= '<span style="color:#ff0000">Your first name is required</span><br />';
+	}
+	if(!$lastname){
+		$errorMsg .= '<span style="color:#ff0000">Your last name is required</span><br />';
+	}
+	if(!$username){
+		$errorMsg .= '<span style="color:#ff0000">Your username is required</span><br />';
+	}
+	if(!$useremail){
+		$errorMsg .= '<span style="color:#ff0000">Your email is required</span><br />';
+	}
+	if(!$userpass){
+		$errorMsg .= '<span style="color:#ff0000">Your password is required</span><br />';
+	}
+
+	#making our data viable to enter into the database
+	$firstname = mysql_real_escape_string($firstname);
+	$lastname = mysql_real_escape_string($lastname);
+	$username = mysql_real_escape_string($username);
+	$useremail = mysql_real_escape_string($useremail);
+	$userpass = mysql_real_escape_string($userpass);
+
+}
+else{
+	$errorMsg .= '<span style="color:#ff0000">Your username is required</span><br />';
+}
+
+#if we have no errors run the sql query to insert data into the database
+if(empty($errorMsg)){
+	mysql_query("INSERT INTO `members`(`firstname`, `lastname`, `username`, `email`, `password`) 
+		VALUES ('$firstname', '$lastname', '$username', '$useremail', '$userpass')"); 
+	mysql_close($connect);
 }
 
 ini_set('display_errors', True); 
@@ -85,7 +136,7 @@ error_reporting(E_ALL | E_STRICT);
 						<a href="blog.html">Forum</a>
 					</li>
 					<li>
-						<a href="contact.html">Register</a>
+						<a href="register.php">Register</a>
 					</li>
 				</ul>
 			</div>
@@ -100,33 +151,42 @@ error_reporting(E_ALL | E_STRICT);
             <div class="box">
                 <div class="col-lg-12">
                 	<hr>
-	                    <h2 class="intro-text text-center">User Profile Created
+	                    <h2 class="intro-text text-center">User Profile Information
 	                        <strong></strong>
 	                    </h2>
                     </hr>
                     <p>
                     	<center>
 	                    	<table class="table-condensed">
-	                    		<tr>
-	                    			<td>First Name :</td>
-	                    			<td><?php echo ($_POST['firstname']); ?></td>
-	                    		</tr> 
-	                    		<tr>
-	                    			<td>Last Name :</td>
-	                    			<td><?php echo ($_POST['lastname']); ?></td>
-	                    		</tr> 
-	                    		<tr>
-	                    			<td>Username :</td>
-	                    			<td><?php echo ($_POST['username']); ?></td>
-	                    		</tr>
-	                    		<tr>
-	                    			<td>Email :</td>
-	                    			<td><?php echo ($_POST['email']); ?></td>
-	                    		</tr>
-	                    		<tr>
-	                    			<td>Password :</td>
-	                    			<td><?php echo ($_POST['password']); ?></td>
-	                    		</tr>
+		                    		<tr>
+		                    			<td>First Name :</td>
+		                    			<td><?php echo ($_POST['firstname']); ?></td>
+		                    		</tr> 
+		                    		<tr>
+		                    			<td>Last Name :</td>
+		                    			<td><?php echo ($_POST['lastname']); ?></td>
+		                    		</tr> 
+		                    		<tr>
+		                    			<td>Username :</td>
+		                    			<td><?php echo ($_POST['username']); ?></td>
+		                    		</tr>
+		                    		<tr>
+		                    			<td>Email :</td>
+		                    			<td><?php echo ($_POST['email']); ?></td>
+		                    		</tr>
+		                    		<tr>
+		                    			<td>Password :</td>
+		                    			<td><?php echo ($_POST['password']); ?></td>
+		                    		</tr>
+	                    		<div id="table-error">
+	                    			<tr>
+		                    			<p id="error">
+		                    				<?php 
+		                    					echo "$errorMsg";
+		                    				?>
+		                    			</p>
+		                    		</tr>
+	                    		</div>
 	                    	</table>
 	                    </center>
                     </p>
