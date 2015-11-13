@@ -65,7 +65,7 @@ require("connect.php");
                         <a href="blog.html">Forum</a>
                     </li>
                     <li>
-                        <a href="register.php">Register</a>
+                        <a href="login.php">Login</a>
                     </li>
                 </ul>
             </div>

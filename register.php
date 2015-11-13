@@ -62,10 +62,10 @@
                         <a href="about.php">About</a>
                     </li>
                     <li>
-                        <a href="blog.html">Forum</a>
+                        <a href="">Forum</a>
                     </li>
                     <li>
-                        <a href="register.php">Register</a>
+                        <a href="login.php">Login</a>
                     </li>
                 </ul>
             </div>

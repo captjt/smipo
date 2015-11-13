@@ -24,6 +24,7 @@ if(isset($_POST['username'])){
 	$lastname = $_POST['lastname'];
 	$useremail = $_POST['email'];
 	$userpass = $_POST['password'];
+	$validpass = $_POST['ver_password'];
 
 	#checking for html special characters
 	$firstname = htmlspecialchars($firstname);
@@ -50,6 +51,10 @@ if(isset($_POST['username'])){
 	}
 	if(!$userpass){
 		$errorMsg .= '<span style="color:#ff0000">Your password is required</span><br />';
+	}
+	#checking if the password field are equal so we don't have a mismatch
+	if($userpass !== $validpass){
+		$errorMsg .= '<span style="color:#ff0000">Your passwords do not match</span><br />';
 	}
 
 	#making our data viable to enter into the database
@@ -133,10 +138,10 @@ error_reporting(E_ALL | E_STRICT);
 						<a href="about.php">About</a>
 					</li>
 					<li>
-						<a href="blog.html">Forum</a>
+						<a href="">Forum</a>
 					</li>
 					<li>
-						<a href="register.php">Register</a>
+						<a href="login.php">Login</a>
 					</li>
 				</ul>
 			</div>
@@ -173,10 +178,6 @@ error_reporting(E_ALL | E_STRICT);
 		                    		<tr>
 		                    			<td>Email :</td>
 		                    			<td><?php echo ($_POST['email']); ?></td>
-		                    		</tr>
-		                    		<tr>
-		                    			<td>Password :</td>
-		                    			<td><?php echo ($_POST['password']); ?></td>
 		                    		</tr>
 	                    		<div id="table-error">
 	                    			<tr>
