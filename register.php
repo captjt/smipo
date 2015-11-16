@@ -79,7 +79,7 @@
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">Enter your information
+                    <h2 class="intro-text text-center">Enter Your Information
                         <strong></strong>
                     </h2>
                     </hr>

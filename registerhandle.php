@@ -162,34 +162,39 @@ error_reporting(E_ALL | E_STRICT);
                     </hr>
                     <p>
                     	<center>
-	                    	<table class="table-condensed">
-		                    		<tr>
-		                    			<td>First Name :</td>
-		                    			<td><?php echo ($_POST['firstname']); ?></td>
-		                    		</tr> 
-		                    		<tr>
-		                    			<td>Last Name :</td>
-		                    			<td><?php echo ($_POST['lastname']); ?></td>
-		                    		</tr> 
-		                    		<tr>
-		                    			<td>Username :</td>
-		                    			<td><?php echo ($_POST['username']); ?></td>
-		                    		</tr>
-		                    		<tr>
-		                    			<td>Email :</td>
-		                    			<td><?php echo ($_POST['email']); ?></td>
-		                    		</tr>
-	                    		<div id="table-error">
-	                    			<tr>
-		                    			<p id="error">
-		                    				<?php 
-		                    					echo "$errorMsg";
-		                    				?>
-		                    			</p>
-		                    		</tr>
-	                    		</div>
-	                    	</table>
-	                    </center>
+                    		<table class="table-condensed">
+                    			<tr>
+                    				<td>First Name :</td>
+                    				<td><?php echo ($_POST['firstname']); ?></td>
+                    			</tr> 
+                    			<tr>
+                    				<td>Last Name :</td>
+                    				<td><?php echo ($_POST['lastname']); ?></td>
+                    			</tr> 
+                    			<tr>
+                    				<td>Username :</td>
+                    				<td><?php echo ($_POST['username']); ?></td>
+                    			</tr>
+                    			<tr>
+                    				<td>Email :</td>
+                    				<td><?php echo ($_POST['email']); ?></td>
+                    			</tr>
+                    			<tr>
+                    				<td>
+                    					<p id="error">
+                    						<?php 
+                    						echo "$errorMsg";
+                    						?>
+                    					</p>
+                    				</td>
+                    			</tr>
+                    			<tr>
+                    				<td>
+                    					<a href="register.php">Back to registration</a>	
+                    				</td>
+                    			</tr>
+                    		</table>
+                    	</center>
                     </p>
 				</div>
 			</div>

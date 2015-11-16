@@ -118,7 +118,7 @@ else{
         <div class="box">
           <div class="col-lg-12">
             <hr>
-            <h2 class="intro-text text-center">Enter Your Information
+            <h2 class="intro-text text-center">Enter Your User Credentials
               <strong></strong>
             </h2>
           </hr>
