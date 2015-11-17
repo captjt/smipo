@@ -3,6 +3,9 @@
 require('connect.php');
 
 session_start();
+
+$errorMsg = '';
+
 $username = $_POST['userid'];
 $userpass = $_POST['password'];
 
@@ -33,7 +36,8 @@ if (mysql_num_rows($result)){
   }
 }
 else{
-  #do nothing
+  #set error message
+  $errorMsg .= '<span style="color:#ff0000">Invalid Password and/or Username</span>';
 }
 
 ?>
@@ -128,7 +132,11 @@ else{
             <input type="text" name="userid" id="userid" class="form-control" placeholder="Username" required autofocus>
             <label for="inputPassword" class="sr-only">Password</label>
             <input name="password" type="password" id="password" class="form-control" placeholder="Password" required>
-            <br />
+            <p id="error">
+              <?php 
+              echo "$errorMsg";
+              ?>
+            </p>
             <button type="submit">Login</button>
           </form>
         </div>
