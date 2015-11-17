@@ -95,10 +95,22 @@ require("connect.php");
                 </div>
                 <div class="clearfix"></div>
             </div>
-        </div>
-
+        </div>		
+		
         <div class="row">
             <div class="box">
+				<div class="row">
+					<div class="col-md-2"></div>
+					<div class="col-md-8">
+						<div class="text-center">
+							<button type="button" class="btn btn-primary" id="executive_button" onClick="toggleExec()">Excecutive Board</button>
+							<button type="button" class="btn btn-primary" id="faculty_button" onClick="toggleFaculty()">Faculty Advisors</button>
+							<button type="button" class="btn btn-primary" id="investment_button" onClick="toggleInvestments()">Investments Division</button>
+							<button type="button" class="btn btn-primary" id="operations_button" onClick="toggleOperations()">Operations Division</button>
+						</div>
+					</div>
+					<div class="col-md-2"></div>
+				</div>
                 <div class="col-lg-12">
                     <hr>
                     <h2 class="intro-text text-center">Our
@@ -106,29 +118,120 @@ require("connect.php");
                     </h2>
                     <hr>
                 </div>
-				<?php
-				$counter = 0;
-				$sql = 'SELECT * FROM members';
-				$result = $db->query($sql);
-				while ($row = $result->fetchRow()) {
-					// 3 users per line.
-					if ($counter >= 3) {
-						$counter = 0;
-						echo "<div class='clearfix'></div>";
-					}
-					echo "<div class='col-sm-4 text-center'>";
-					echo "<center>";
-					if ($row[img_source] == null) {
-						echo "<img class='img-responsive' src='img/corporate.jpg' alt=''>";
-					}
-					else {
-						echo "<img class='img-responsive' src=" . $row[img_source] . " alt='img/corporate.jpg'>";
-					}
-					echo "<h3>" . $row['firstname'] . ' ' . $row['lastname'] . "<br /> <small>info</small></h3></center></div>";
-					$counter = $counter + 1;
-				}				
-				?>
-                <div class="clearfix"></div>
+				<!-- script toggles for button press. Php only activates in GET/POST requests to server so we must use JS.
+					 There is probably a better way to do this, to much repeated code.
+				-->
+				<script>
+					  var toggleExec = function() {
+						  var mydiv = document.getElementById('execSQL'); // if clicked others shouldn't show up either.
+						  var facdiv = document.getElementById('facSQL');
+						  var invdiv = document.getElementById('invSQL');
+						  var oprdiv = document.getElementById('oprSQL');
+						  if (mydiv.style.display === 'block' || mydiv.style.display === '')
+							mydiv.style.display = 'none';
+						  else
+							mydiv.style.display = 'block';
+							facdiv.style.display = 'none';
+							invdiv.style.display = 'none';
+							oprdiv.style.display = 'none';
+					  }
+					  var toggleFaculty = function() {
+						  var mydiv = document.getElementById('facSQL'); // if clicked others shouldn't show up either.
+						  var execdiv = document.getElementById('execSQL');
+						  var invdiv = document.getElementById('invSQL');
+						  var oprdiv = document.getElementById('oprSQL');
+						  if (mydiv.style.display === 'block' || mydiv.style.display === '')
+							mydiv.style.display = 'none';
+						  else
+							mydiv.style.display = 'block';
+							execdiv.style.display = 'none';
+							invdiv.style.display = 'none';
+							oprdiv.style.display = 'none';
+					  }
+					  var toggleInvestments = function() {
+						  var mydiv = document.getElementById('invSQL'); // if clicked others shouldn't show up either.
+						  var facdiv = document.getElementById('facSQL');
+						  var execdiv = document.getElementById('execSQL');
+						  var oprdiv = document.getElementById('oprSQL');
+						  if (mydiv.style.display === 'block' || mydiv.style.display === '')
+							mydiv.style.display = 'none';
+						  else
+							mydiv.style.display = 'block';
+							execdiv.style.display = 'none';
+							facdiv.style.display = 'none';
+							oprdiv.style.display = 'none';
+					  }
+					  var toggleOperations = function() {
+						  var mydiv = document.getElementById('oprSQL'); // if clicked others shouldn't show up either.
+						  var execdiv = document.getElementById('execSQL');
+						  var invdiv = document.getElementById('invSQL');
+						  var facdiv = document.getElementById('facSQL');
+						  if (mydiv.style.display === 'block' || mydiv.style.display === '')
+							mydiv.style.display = 'none';
+						  else
+							mydiv.style.display = 'block';
+							execdiv.style.display = 'none';
+							invdiv.style.display = 'none';
+							facdiv.style.display = 'none';
+					  }
+				</script>
+				<div class="row">
+						<?php 
+							// display
+							function displayLoop($preparedSQL) {
+								require("connect.php");
+								$counter = 0;
+								$result = $db->query($preparedSQL);
+								while ($row = $result->fetchRow()) {
+									// 3 users per line.
+									if ($counter >= 3) {
+										$counter = 0;
+										echo "<div class='clearfix'></div>";
+									}
+									echo "<div class='col-sm-4 text-center'>";
+									echo "<center>";
+									if ($row[img_source] == null) {
+										echo "<img class='img-responsive' src='img/corporate.jpg' alt='' width='125' height='125'>";
+									}
+									else {
+										echo "<img class='img-responsive' src=" . $row[img_source] . " alt='img/corporate.jpg' width='125' height='125'>";
+									}
+									echo "<h3>" . $row['firstname'] . ' ' . $row['lastname'] . "<br /> <small>" . $row['position'] . "</small></h3></center></div>";
+									$counter = $counter + 1;
+								}
+							}
+						?>
+						<!-- Various divs based on division -->
+						<div id="execSQL" style="display:none">
+							<?php
+								$sql = 'SELECT * FROM members INNER JOIN department_assignment ON members.member_id = department_assignment.member_id WHERE department_id = 1';
+								displayLoop($sql);
+							?>
+							<div class="clearfix"></div>
+						</div>
+						<div id="facSQL" style="display:none">
+							<?php
+								$sql = 'SELECT * FROM members INNER JOIN department_assignment ON members.member_id = department_assignment.member_id WHERE department_id = 2';
+								displayLoop($sql);
+							?>
+							<div class="clearfix"></div>
+						</div>
+						<div id="invSQL" style="display:none">
+							<?php
+								$sql = 'SELECT * FROM members INNER JOIN department_assignment ON members.member_id = department_assignment.member_id WHERE department_id = 3';
+								displayLoop($sql);
+							?>
+							<div class="clearfix"></div>
+						</div>
+						<div id="oprSQL" style="display:none">
+							<?php
+								$sql = 'SELECT * FROM members INNER JOIN department_assignment ON members.member_id = department_assignment.member_id WHERE department_id = 4';
+								displayLoop($sql);
+							?>
+							<div class="clearfix"></div>
+						</div>
+						<!-- end divisional divs -->
+				</div>
             </div>
         </div>
 
