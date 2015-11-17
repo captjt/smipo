@@ -3,6 +3,9 @@
 require('connect.php');
 
 session_start();
+
+$errorMsg = '';
+
 $username = $_POST['userid'];
 $userpass = $_POST['password'];
 
@@ -33,7 +36,8 @@ if (mysql_num_rows($result)){
   }
 }
 else{
-  #do nothing
+  #set error message
+  $errorMsg .= '<span style="color:#ff0000">Invalid Password and/or Username</span>';
 }
 
 ?>
@@ -81,7 +85,7 @@ else{
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -91,7 +95,7 @@ else{
         <a class="navbar-brand" href="index.html">SMIPO</a>
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li>
             <a href="index.html">Home</a>
@@ -128,7 +132,11 @@ else{
             <input type="text" name="userid" id="userid" class="form-control" placeholder="Username" required autofocus>
             <label for="inputPassword" class="sr-only">Password</label>
             <input name="password" type="password" id="password" class="form-control" placeholder="Password" required>
-            <br />
+            <p id="error">
+              <?php 
+              echo "$errorMsg";
+              ?>
+            </p>
             <button type="submit">Login</button>
           </form>
         </div>
