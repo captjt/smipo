@@ -165,19 +165,19 @@ error_reporting(E_ALL | E_STRICT);
                     		<table class="table-condensed">
                     			<tr>
                     				<td>First Name :</td>
-                    				<td><?php echo ($_POST['firstname']); ?></td>
+                    				<td><?php echo ($firstname); ?></td>
                     			</tr> 
                     			<tr>
                     				<td>Last Name :</td>
-                    				<td><?php echo ($_POST['lastname']); ?></td>
+                    				<td><?php echo ($lastname); ?></td>
                     			</tr> 
                     			<tr>
                     				<td>Username :</td>
-                    				<td><?php echo ($_POST['username']); ?></td>
+                    				<td><?php echo ($username); ?></td>
                     			</tr>
                     			<tr>
                     				<td>Email :</td>
-                    				<td><?php echo ($_POST['email']); ?></td>
+                    				<td><?php echo ($useremail); ?></td>
                     			</tr>
                     			<tr>
                     				<td>
