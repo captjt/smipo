@@ -80,13 +80,13 @@ require("connect.php");
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">About
-                        <strong>SMIPO</strong>
+                    <h2 class="intro-text text-center">
+                    	About <strong>SMIPO</strong>
                     </h2>
                     <hr>
                 </div>
                 <div class="col-md-6">
-                    <img class="img-responsive img-border-left" src="img/slide-3.jpg" alt="">
+                    <img class="img-responsive img-border img-center" src="../smipo/img/smipo-logo.jpg" alt="">
                 </div>
                 <div class="col-md-6">
                     <p>
@@ -113,8 +113,8 @@ require("connect.php");
 				</div>
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">Our
-                        <strong>Team</strong>
+                    <h2 class="intro-text text-center">
+                    	Our <strong>Team</strong>
                     </h2>
                     <hr>
                 </div>
@@ -194,7 +194,7 @@ require("connect.php");
 										echo "<img class='img-responsive' src='img/corporate.jpg' alt='' width='125' height='125'>";
 									}
 									else {
-										echo "<img class='img-responsive' src=" . $row[img_source] . " alt='img/corporate.jpg' width='125' height='125'>";
+										echo "<img class='img-responsive' src=" . $row[img_source] . " alt='smipo/img/corporate.jpg' width='125' height='125'>";
 									}
 									echo "<h3>" . $row['firstname'] . ' ' . $row['lastname'] . "<br /> <small>" . $row['position'] . "</small></h3></center></div>";
 									$counter = $counter + 1;
