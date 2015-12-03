@@ -85,7 +85,7 @@ require("connect.php");
                     </h2>
                     <hr>
             		<p class="text-center">
-            			<a href="../smipo/newsletters/October-2015.pdf">Montly Newsletter</a>
+            			<a href="../smipo/misc/October-2015.pdf">Montly Newsletter</a>
             		</p>
             		<hr>
             	</div>	
@@ -181,7 +181,7 @@ require("connect.php");
 				</script>
 				<div class="row">
 						<?php 
-							// display
+							//display
 							function displayLoop($preparedSQL) {
 								require("connect.php");
 								$counter = 0;
@@ -198,7 +198,7 @@ require("connect.php");
 										echo "<img class='img-responsive' src='img/corporate.jpg' alt='' width='125' height='125'>";
 									}
 									else {
-										echo "<img class='img-responsive' src=" . $row[img_source] . " alt='img/corporate.jpg' width='125' height='125'>";
+										echo "<img class='img-responsive' src=" . 'img/' . $row[img_source] . " alt='img/corporate.jpg' width='125' height='125'>";
 									}
 									echo "<h3>" . $row['firstname'] . ' ' . $row['lastname'] . "<br /> <small>" . $row['position'] . "</small></h3></center></div>";
 									$counter = $counter + 1;
