@@ -159,6 +159,9 @@ error_reporting(E_ALL | E_STRICT);
 	                    <h2 class="intro-text text-center">User Profile Information
 	                        <strong></strong>
 	                    </h2>
+	                    <h3 class="intro-text text-center">
+	                    	<a href="login.php">Login</a>
+	                    </h3>
                     </hr>
                     <p>
                     	<center>
@@ -193,6 +196,7 @@ error_reporting(E_ALL | E_STRICT);
                     					<a href="register.php">Back to registration</a>	
                     				</td>
                     			</tr>
+                    			</table>
                     		</table>
                     	</center>
                     </p>
