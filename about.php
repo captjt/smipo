@@ -198,7 +198,7 @@ require("connect.php");
 										echo "<img class='img-responsive' src='img/corporate.jpg' alt='' width='125' height='125'>";
 									}
 									else {
-										echo "<img class='img-responsive' src=" . $row[img_source] . " alt='smipo/img/corporate.jpg' width='125' height='125'>";
+										echo "<img class='img-responsive' src=" . $row[img_source] . " alt='img/corporate.jpg' width='125' height='125'>";
 									}
 									echo "<h3>" . $row['firstname'] . ' ' . $row['lastname'] . "<br /> <small>" . $row['position'] . "</small></h3></center></div>";
 									$counter = $counter + 1;
