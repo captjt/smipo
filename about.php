@@ -84,7 +84,11 @@ require("connect.php");
                     	About <strong>SMIPO</strong>
                     </h2>
                     <hr>
-                </div>
+            		<p class="text-center">
+            			<a href="../smipo/newsletters/October-2015.pdf">Montly Newsletter</a>
+            		</p>
+            		<hr>
+            	</div>	
                 <div class="col-md-6">
                     <img class="img-responsive img-border img-center" src="../smipo/img/smipo-logo.jpg" alt="">
                 </div>
