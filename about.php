@@ -94,7 +94,12 @@ require("connect.php");
                 </div>
                 <div class="col-md-6">
                     <p>
-                        Our goal is to allow students at Radford University an opportunity to gain practical experience in the management and decision-making processes of a corporate structured organization by participating in hands-on management of the funds of Radford University Foundation’s endowment to the Student Management Investment Portfolio Organization.
+                        Our goal is to allow students at Radford University 
+                        an opportunity to gain practical experience in the 
+                        management and decision-making processes of a corporate 
+                        structured organization by participating in hands-on management 
+                        of the funds of Radford University Foundation’s endowment to 
+                        the Student Managed Investment Portfolio Organization.
                     </p>
                 </div>
                 <div class="clearfix"></div>
