@@ -200,10 +200,10 @@ require("connect.php");
 									echo "<div class='col-sm-4 text-center'>";
 									echo "<center>";
 									if ($row[img_source] == null) {
-										echo "<img class='img-responsive' src='img/corporate.jpg' alt='' width='125' height='125'>";
+										echo "<img class='img-responsive' src='img/smipo-logo.jpg' alt='' width='125' height='125'>";
 									}
 									else {
-										echo "<img class='img-responsive' src=" . 'img/' . $row[img_source] . " alt='img/corporate.jpg' width='125' height='125'>";
+										echo "<img class='img-responsive' src=" . 'img/' . $row[img_source] . " alt='img/smipo-logo.jpg' width='125' height='125'>";
 									}
 									echo "<h3>" . $row['firstname'] . ' ' . $row['lastname'] . "<br /> <small>" . $row['position'] . "</small></h3></center></div>";
 									$counter = $counter + 1;
