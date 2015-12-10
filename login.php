@@ -91,6 +91,7 @@
     						<button type="submit">Login</button>
     					</form>
     				</div>
+                    <br />
     				<a href="register.php">Not a user?</a>
     			</div>
     		</div>

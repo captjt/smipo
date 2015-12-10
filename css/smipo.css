@@ -57,6 +57,11 @@ hr {
     min-width: 100%;
 }
 
+.carousel-inner > .item > img{
+       width:600px;
+       height:360px;
+     }
+
 .brand-before,
 .brand-name {
     text-transform: capitalize;

@@ -156,8 +156,8 @@ error_reporting(E_ALL | E_STRICT);
             <div class="box">
                 <div class="col-lg-12">
                 	<hr>
-	                    <h2 class="intro-text text-center">User Profile Information
-	                        <strong></strong>
+	                    <h2 class="intro-text text-center">
+	                    	User Profile Information
 	                    </h2>
 	                    <h3 class="intro-text text-center">
 	                    	<a href="login.php">Login</a>
