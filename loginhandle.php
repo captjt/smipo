@@ -15,7 +15,7 @@ $userpass = htmlspecialchars($userpass);
 $username = mysql_real_escape_string($username);
 $userpass = mysql_real_escape_string($userpass);
 
-$result = mysql_query("select username from members where password ='$userpass'");
+$result = mysql_query("select username, member_id, status from members where password ='$userpass'");
 
 #checking if the result is NULL
 if (!$result){
@@ -27,7 +27,9 @@ if (mysql_num_rows($result)){
   while($row = mysql_fetch_array($result)) { 
     for($i=0;$i<=count($row);$i++) {
       if($row[$i]==$row['$username']){
-        $_SESSION['user'] = $username;
+        $_SESSION['user'] = $row['username'];
+        $_SESSION['user_id'] = $row['member_id'];
+        $_SESSION['status'] = $row['status'];
         header("Location:index.html");
         break;
       }
