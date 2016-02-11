@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- SMIPO Board Selection
+	@author James
 
-<?php require('connect.php'); ?>
-
+ -->
+<?php
+require("connect.php");
+$board_id = $_GET['id'];
+$sql = 'SELECT * FROM Categories WHERE cat_id = ' . $board_id;
+$result = $db->query($sql);
+$row = $result->fetchRow();
+?>
 <head>
 
     <meta charset="utf-8">
@@ -11,7 +19,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin - SMIPO</title>
+    <title>Forums - SMIPO</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -22,9 +30,6 @@
     <!-- Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
-
-    <!-- Javascript for Validation -->
-    <!-- Nothing yet for Validation -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,14 +43,15 @@
 <body>
 
     <div class="brand">Radford SMIPO</div>
-    <div class="address-bar">Radford's Division of SMIPO | <a href="https://www.radford.edu/content/radfordcore/home.html"> Radford University </a> | Radford, Virginia</div>
+    <div class="address-bar">Radford's Division of SMIPO | <a href="https://www.radford.edu/content/radfordcore/home.html"> Radford University </a> | Radford, Virginia
+    </div>
 
     <!-- Navigation -->
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -55,7 +61,7 @@
                 <a class="navbar-brand" href="index.html">SMIPO</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="index.html">Home</a>
@@ -77,37 +83,31 @@
     </nav>
 
     <div class="container">
-    	<div class="row">
+
+        <div class="row">
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">Administration Page
-                        <strong></strong>
+                    <h2 class="intro-text text-center">SMIPO Boards
                     </h2>
-                    </hr>
-                    <p>
-                        <form name="search_user" id="search_user" action="usersearch.php" method="post">
-                            <center>
-                                <table class="table-condensed">
-                                    <tr>
-                                        <td>First Name :</td>
-                                        <td><input type="text" width="30" name="firstname" id="firstname" onblur="validateFirst();"/></td>
-                                        <td id="firstname-err"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Last Name :</td>
-                                        <td><input type="text" width="30" name="lastname" id="lastname" onblur="validateLast();"/></td>
-                                        <td id="lastname-err"></td>
-                                    </tr>
-                                </table>
-                                <br />
-                                <button name="search_user" type="submit" onclick="validateAll()" formmethod="post">Search</button>
-                            </center>
-                        </form>
-                    </p>
+                    <hr>
                 </div>
+                <div class="row">
+				<!-- main content area -->
+						<div id="boards" >
+							<?php
+								echo "<p>You are viewing the " . $row['cat_name'] . " board</p><br />";
+								echo "<p>In future updates I will implement restrictions based on access and implement rendering of threads</p>";
+								echo "<p> Threads and what not will be displayed here...</p>";
+							?>
+							<div class="clearfix"></div>
+						</div>
+				</div>
+                <div class="clearfix"></div>
             </div>
-        </div>
+        </div>		
+		
+
     </div>
     <!-- /.container -->
 
@@ -130,4 +130,3 @@
 </body>
 
 </html>
-<?php  ?>

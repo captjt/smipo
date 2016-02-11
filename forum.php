@@ -98,12 +98,13 @@ require("connect.php");
 								require("connect.php");
 								$result = $db->query($preparedSQL);
 								echo "<table>";
+								/* Really sloppy, in need of refactoring */
 								while ($row = $result->fetchRow()) {
 									echo "<tr>";
 									echo "<div class='clearfix'></div>";
 									echo "<div class='col-sm-4 text-center'>";
 									echo "<center>";
-									echo "<h3>" . $row['cat_name'] . ' ' . "<br /> <small>" . $row['cat_description'] . "</small></h3></center></div>";
+									echo "<h3>" . "<a href='boards.php?id=" . $row['cat_id'] . "'>" . $row['cat_name'] . '</a> ' . "<br /> <small>" . $row['cat_description'] . "</small></h3></center></div>";
 									echo "</tr>";
 								}
 								echo "</table>";

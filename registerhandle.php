@@ -138,7 +138,7 @@ error_reporting(E_ALL | E_STRICT);
 						<a href="about.php">About</a>
 					</li>
 					<li>
-						<a href="">Forum</a>
+						<a href="forum.php">Forum</a>
 					</li>
 					<li>
 						<a href="login.php">Login</a>
