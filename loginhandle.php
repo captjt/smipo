@@ -2,47 +2,52 @@
 
 require('connect.php');
 
-session_start();
+  if(empty($_SESSION)) // if the session not yet started 
+    session_start();
 
-$errorMsg = '';
+  $_SESSION['status'] = 0;
 
-$username = $_POST['userid'];
-$userpass = $_POST['password'];
+  $errorMsg = '';
 
-$username = htmlspecialchars($username);
-$userpass = htmlspecialchars($userpass);
+  $username = $_POST['userid'];
+  $userpass = $_POST['password'];
 
-$username = mysql_real_escape_string($username);
-$userpass = mysql_real_escape_string($userpass);
+  $username = htmlspecialchars($username);
+  $userpass = htmlspecialchars($userpass);
 
-$result = mysql_query("select username, member_id, status from members where password ='$userpass'");
+  $username = mysql_real_escape_string($username);
+  $userpass = mysql_real_escape_string($userpass);
 
-#checking if the result is NULL
-if (!$result){
-  echo 'Could not run query: ' . mysql_error();
-  exit;
-}
-#checking each returned value from the query - with '$username'
-if (mysql_num_rows($result)){
-  while($row = mysql_fetch_array($result)) { 
-    for($i=0;$i<=count($row);$i++) {
-      if($row[$i]==$row['$username']){
-        $_SESSION['user'] = $row['username'];
-        $_SESSION['user_id'] = $row['member_id'];
-        $_SESSION['status'] = $row['status'];
-        header("Location:index.html");
-        break;
-      }
-    }
-    break;
+  $result = mysql_query("select username, member_id, status from members where username = '$username' AND password ='$userpass'");
+
+  #checking if the result is NULL
+  if (!$result){
+    echo 'Could not run query: ' . mysql_error();
+    exit;
   }
-}
-else{
-  #set error message
-  $errorMsg .= '<span style="color:#ff0000">Invalid Password and/or Username</span>';
-}
 
-?>
+  #checking each returned value from the query - with '$username'
+  if (mysql_num_rows($result)){
+    while($row = mysql_fetch_array($result)) { 
+      for($i=0;$i<=count($row);$i++) {
+        if($row[$i]==$row['$username']){
+          $_SESSION['user'] = $row['username'];
+          $_SESSION['user_id'] = $row['member_id'];
+          $_SESSION['status'] = $row['status'];
+          $_SESSION['logged_in'] = true;
+          header("Location:index.php");
+          break;
+        }
+      }
+      break;
+    }
+  }
+  else{
+  #set error message
+    $errorMsg .= '<span style="color:#ff0000">Invalid Password and/or Username</span>';
+  }
+
+  ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,44 +84,8 @@ else{
 </head>
 
 <body>
-  <div class="brand">Radford SMIPO</div>
-  <div class="address-bar">Radford's Division of SMIPO | <a href="https://www.radford.edu/content/radfordcore/home.html"> Radford University </a> | Radford, Virginia</div>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-default" role="navigation">
-    <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-        <a class="navbar-brand" href="index.html">SMIPO</a>
-      </div>
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li>
-            <a href="index.html">Home</a>
-          </li>
-          <li>
-            <a href="about.php">About</a>
-          </li>
-          <li>
-            <a href="forum.php">Forum</a>
-          </li>
-          <li>
-            <a href="login.php">Login</a>
-          </li>
-        </ul>
-      </div>
-      <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-  </nav>
+  <?php require_once("navigation.php"); ?>
 
   <center>
     <div class="container">

@@ -1,7 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php require('connect.php'); ?>
+<?php 
+
+    require('connect.php'); 
+      
+    if(empty($_SESSION)) // if the session not yet started 
+        session_start();
+
+    $status = $_SESSION['status'];
+    $user = $_SESSION['user'];
+
+    if($status<2)
+    {
+        echo '<script language="javascript">';
+        echo 'alert("You do not have high enough permissions")';
+        echo '</script>';
+        header("Location:login.php");
+    }
+?>
 
 <head>
 
@@ -37,52 +54,15 @@
 
 <body>
 
-    <div class="brand">Radford SMIPO</div>
-    <div class="address-bar">Radford's Division of SMIPO | <a href="https://www.radford.edu/content/radfordcore/home.html"> Radford University </a> | Radford, Virginia</div>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">SMIPO</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="index.html">Home</a>
-                    </li>
-                    <li>
-                        <a href="about.php">About</a>
-                    </li>
-                    <li>
-                        <a href="forum.php">Forum</a>
-                    </li>
-                    <li>
-                        <a href="login.php">Login</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+    <?php require_once("navigation.php"); ?>
 
     <div class="container">
     	<div class="row">
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">Administration Page
-                        <strong></strong>
+                    <h2 class="intro-text text-center">
+                        Search for Site Member
                     </h2>
                     </hr>
                     <p>
@@ -98,6 +78,13 @@
                                         <td>Last Name :</td>
                                         <td><input type="text" width="30" name="lastname" id="lastname" onblur="validateLast();"/></td>
                                         <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td id="search-err">
+                                            <?php
+                                                echo $_SESSION['searchError'];
+                                            ?>
+                                        </td>
                                     </tr>
                                 </table>
                                 <br />

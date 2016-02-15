@@ -2,7 +2,21 @@
 
 require('connect.php');
 
-session_start();
+// server should keep session data for AT LEAST 1 hour
+ini_set('session.gc_maxlifetime', 3600);
+
+// each client should remember their session id for EXACTLY 1 hour
+session_set_cookie_params(3600);
+
+session_start(); // ready to go!
+
+if($_SESSION['status']<2)
+{
+  echo '<script language="javascript">';
+  echo 'alert("You do not have high enough permissions")';
+  echo '</script>';
+  header("Location:login.php");
+}
 
 $errorMsg = '';
 
@@ -31,11 +45,29 @@ $query2 = "Select *
               on department_assignment.department_id = department.department_id ) as alias
             where firstname = '$firstname' and lastname = '$lastname'";
 
-$query = mysql_query($query2);
+$query3 = "Select *
+            from members  
+            where firstname = '$firstname' or lastname ='$lastname'";
+
+$query4 = "Select * 
+            from members 
+            where firstname = '$firstname' and lastname = '$lastname'";
+
+if ($firstname === "" OR $lastname === "")
+{
+  $query = mysql_query($query3);
+}
+if ($firstname !== "" and $lastname !== "")
+{
+  $query = mysql_query($query4);
+}
+
 
 #checking for valid rows from $query
 if (mysql_num_rows($query) === 0){
-  $errorMsg .= '<span style="color:#ff0000">There are no members accounts</span><br />';
+  $errorMsg = '<span style="color:#ff0000">There are no members accounts with that information</span><br />';
+  $_SESSION['searchError'] = $errorMsg;
+  header("Location:admin.php");
 }
 
 #checking if the result is NULL
@@ -53,12 +85,27 @@ if (mysql_num_rows($query)){
     $department_id = $row['department_id'];
     $position = $row['position'];
     $department = $row['name'];
+
+    $_SESSION['searchError'] = "";
     break;
   }
+
+  if ($status == 0):
+    $status_meaning = "Public";
+  elseif ($status == 1):
+    $status_meaning = "Member";
+  elseif ($status == 2):
+    $status_meaning = "Administrator";
+  else:
+    $status_meaning = "Never happen";
+  endif;
+
+
 }
 else{
   #set error message
-  $errorMsg .= '<span style="color:#ff0000">Invalid Username</span>';
+  $errorMsg = '<span style="color:#ff0000">There are no members accounts with that information</span><br />';
+  $_SESSION['searchError'] = $errorMsg;
 }
 
 
@@ -123,44 +170,7 @@ function getDepartment($dept_id)
       </head>
 
       <body>
-        <div class="brand">Radford SMIPO</div>
-        <div class="address-bar">Radford's Division of SMIPO | <a href="https://www.radford.edu/content/radfordcore/home.html"> Radford University </a> | Radford, Virginia</div>
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-default" role="navigation">
-          <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-              <a class="navbar-brand" href="index.html">SMIPO</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
-              <ul class="nav navbar-nav">
-                <li>
-                  <a href="index.html">Home</a>
-                </li>
-                <li>
-                  <a href="about.php">About</a>
-                </li>
-                <li>
-                  <a href="">Forum</a>
-                </li>
-                <li>
-                  <a href="login.php">Login</a>
-                </li>
-              </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-          </div>
-          <!-- /.container -->
-        </nav>
+        <?php require_once("navigation.php"); ?>
 
         <center>
           <div class="container">
@@ -168,7 +178,7 @@ function getDepartment($dept_id)
               <div class="box">
                 <div class="col-lg-12">
                   <hr>
-                  <h2 class="intro-text text-center">Change the status and department position for 
+                  <h2 class="intro-text text-center">Change the permission status for 
                     <strong><?php echo "$firstname $lastname"; ?></strong>
                   </h2>
                 </hr>
@@ -180,6 +190,32 @@ function getDepartment($dept_id)
         <div class="container">
           <div class="row">
             <div class="box">
+                <div class="col-lg-12">
+                    <hr class="visible-xs">
+                      <h2 class="intro-text text-center">
+                        <strong>REMINDER</strong> When updating the user's permissions
+                      </h2>
+
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <strong>Publics</strong> are only able to view the public section of the forum and have basic site functionality
+                        </li>
+                        <li class="list-group-item">
+                          <strong>Members</strong> are able to view and use everything the site has in store for regular club memberships
+                        </li>
+                        <li class="list-group-item">
+                          <strong>Administrators</strong> are able to view and have admin functionality
+                        </li>
+                      </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="container">
+          <div class="row">
+            <div class="box">
               <div class="col-lg-12">
                 <form name="update_user" id="update_user" action="update_user" method="post">
                   <center>
@@ -187,7 +223,7 @@ function getDepartment($dept_id)
                       <tr>
                         <td>First Name:</td>
                         <td class="bordered"><?php echo "$firstname"; ?></td>
-                        <td id="firstname-err"></td>
+                        <td id="firstname-err"><?php echo "$oneNameInvalid" ?></td>
                       </tr>
                       <tr>
                         <td>Last Name:</td>
@@ -195,30 +231,28 @@ function getDepartment($dept_id)
                         <td id="lastname-err"></td>
                       </tr>
                       <tr>
-                        <td>Update Status</td>
-                        <td><input type="text" width="30" name="status" id="status" placeholder="<?php echo "$status"; ?>" required/>
-                        </td>
+                        <td>Current Status:</td>
+                        <td class="bordered"><?php echo "$status_meaning"; ?></td>
                         <td id="status-err"></td>
                       </tr>
                       <tr>
-                        <td>Update Department</td>
-                        <td><input type="text" width="30" name="department" id="department" placeholder="<?php echo "$department"; ?>" required/></td>
-                        <td id="department-err"></td>
+                        <td>Update Status</td>
+                        <td>
+                          <input type="radio" name="status" id="status" value="Public"> Public<br>
+                          <input type="radio" name="status" id="status" value="Member" checked> Member<br>
+                          <input type="radio" name="status" id="status" value="Administrator"> Administrator
+                        </td>
+                        <td id="update-status-err"></td>
                       </tr>
-                      <tr>
-                        <td>Update Position</td>
-                        <td><input type="text" width="30" name="position" id="position" placeholder="<?php echo "$position"; ?>" required/></td>
-                        <td id="position-err"></td>
-                      </tr>
-                      </table>
-                      <button name="edit" type="submit" onclick="validateAll()" formmethod="post">Update</button>
-                    </center>
-                  </form>
-                </div>
+                    </table>
+                    <button name="edit" type="submit" onclick="validateAll()" formmethod="post">Update</button>
+                  </center>
+                </form>
               </div>
             </div>
           </div>
-        </center>
+        </div>
+      </center>
 
         <footer>
           <div class="container">
