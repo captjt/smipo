@@ -107,6 +107,18 @@ hr {
     margin: 0 auto 0;
 }
 
+.thread_table {
+	display: table;
+    float: none;
+    margin: 0 auto;
+    table-layout: fixed;
+    font-size: 1.25em;
+	border: 1px solid black;
+	}
+.thread_data {
+	padding: 10px 50px;
+}
+
 footer {
     background: #fff;
     background: rgba(255,255,255,0.9);
@@ -186,6 +198,7 @@ footer p {
         table-layout: fixed;
         font-size: 1.25em;
     }
+	
 }
 
 @media screen and (min-width:1200px) {

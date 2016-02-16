@@ -60,7 +60,6 @@ require("connect.php");
 								require("connect.php");
 								$result = $db->query($preparedSQL);
 								echo "<table>";
-								/* Really sloppy, in need of refactoring */
 								while ($row = $result->fetchRow()) {
 									echo "<tr>";
 									echo "<div class='clearfix'></div>";

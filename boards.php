@@ -50,7 +50,8 @@ $row = $result->fetchRow();
             <div class="box">
                 <div class="col-lg-12">
                     <hr>
-                    <h2 class="intro-text text-center">SMIPO Boards
+                    <h2 class="intro-text text-center"> 
+						<?php echo "<p>You are viewing the " . $row['cat_name'] . " board</p><br />";?>
                     </h2>
                     <hr>
                 </div>
@@ -58,9 +59,26 @@ $row = $result->fetchRow();
 				<!-- main content area -->
 						<div id="boards" >
 							<?php
-								echo "<p>You are viewing the " . $row['cat_name'] . " board</p><br />";
-								echo "<p>In future updates I will implement restrictions based on access and implement rendering of threads</p>";
-								echo "<p> Threads and what not will be displayed here...</p>";
+								/* Get threads */
+								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id;
+								$result2 = $db->query($sql2);
+								/* set up table headers */
+								echo "<table class='thread_table'>";
+								echo "<tr>";
+								echo "<th class='thread_data'> <strong> Date </strong> </th>";
+								echo "<th class='thread_data'> <strong> Topic </strong> </th>";
+								echo "<th class='thread_data'> <strong> Original Poster </strong> </th>";
+								echo "</tr>";
+								/* end table headers */
+								/* pull threads from database and display */
+								while($threads = $result2->fetchRow()) {
+									echo "<tr>";
+									echo "<td class='thread_data'>" . $threads['topic_date'] . "</td>";
+									echo "<td class='thread_data'>" . $threads['topic_subject'] . "</td>";
+									echo "<td class='thread_data'>" . $threads['topic_by'] . "</td>";
+									echo "</tr class='thread_data'>";
+								}
+								echo "</table>";
 							?>
 							<div class="clearfix"></div>
 						</div>
