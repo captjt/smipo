@@ -5,6 +5,7 @@
       
     if(empty($_SESSION)) // if the session not yet started 
         session_start();
+        
 ?>
 
 <html>
@@ -38,16 +39,35 @@
                     <li>
                         <a href="forum.php">Forum</a>
                     </li>
-                    <li>
-                        <?php 
-                            if($_SESSION['logged_in']):
-                                echo '<a href="logout.php">Logout, ' . $_SESSION['user'] . '</a>';
+                    <?php 
+                        if($_SESSION['logged_in']):
+                            echo '
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Hello<span class="caret"></span></a>
+                                 ';
+                            echo '<ul class="dropdown-menu">';
+                            echo '<li><a href="profile.php">Profile</a></li>';
+
+                            if($_SESSION['logged_in']&&$_SESSION['status']==2):
+                                echo "<li>";
+                                echo '<a href="admin.php">Admin</a>';
+                                echo "</li";
                             else:
-                                echo '<a href="login.php">Login</a>';
+                                #do nothing
                             endif;
-                        ?>
+
+                            echo '<li><a href="logout.php">Logout</a></li>';
+                            echo '</ul';
+                            echo '</li>';
+                        else:
+                            echo '<li>';
+                            echo '<a href="login.php">Login</a>';
+                            echo '</li>';
+                        endif;
+                    ?>
                     </li>
-                    <?php
+                    <?php 
+                        /*
                         if($_SESSION['logged_in']&&$_SESSION['status']==2):
                             echo "<li>";
                             echo '<a href="admin.php">Admin</a>';
@@ -55,6 +75,7 @@
                         else:
                             #do nothing
                         endif;
+                        */
                     ?>
                 </ul>
             </div>

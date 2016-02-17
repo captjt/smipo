@@ -13,17 +13,25 @@ require('connect.php');
     if($logged_in):
         #querying the users information to populate the profile page
 
-    	$query = "Select *
-				    from 
-				    (
-					    Select members.member_id, firstname, lastname, username, email, phone, graduation_year, status, department_assignment.department_id, position, name 
-					    from `members`
-					    inner join `department_assignment`
-					    on members.member_id = department_assignment.member_id
-					    inner join `department`
-					    on department_assignment.department_id = department.department_id 
-					) as alias
-				    where username = '$username' AND member_id = '$user_id'";
+        if($status>0):
+        	$query = "Select *
+    				    from 
+    				    (
+    					    Select members.member_id, firstname, lastname, username, email, phone, graduation_year, status, img_source, department_assignment.department_id, position, name 
+    					    from `members`
+    					    inner join `department_assignment`
+    					    on members.member_id = department_assignment.member_id
+    					    inner join `department`
+    					    on department_assignment.department_id = department.department_id 
+    					) as alias
+    				    where username = '$username' AND member_id = '$user_id'";
+        elseif($status==0):
+            $query = "Select * from members
+                        where username = '$username' AND member_id = '$user_id'";
+        else:
+            #not a valid user
+            break;
+        endif;
 
     	$query = mysql_query($query);
 
@@ -55,6 +63,7 @@ require('connect.php');
 				$phone = $row['phone'];
 				$grad_year = $row['graduation_year'];
 				$status = $row['status'];
+                $img_source = $row['img_source'];
 				$department_id = $row['department_id'];
 				$position = $row['position'];
 				$department = $row['name'];
@@ -83,6 +92,16 @@ require('connect.php');
     else:
         header("Location:login.php");
     endif;
+
+      if ($status == 0):
+        $status_meaning = "Public";
+      elseif ($status == 1):
+        $status_meaning = "Member";
+      elseif ($status == 2):
+        $status_meaning = "Administrator";
+      else:
+        $status_meaning = "Never happen";
+      endif;
 ?>
 
 <!DOCTYPE html>
@@ -121,86 +140,121 @@ require('connect.php');
 
     	<?php require_once("navigation.php"); ?>
 
-    	<center>
-    		<div class="container">
-    			<div class="row">
-    				<div class="box">
-    					<div class="col-lg-12">
-    						<h2 class="intro-text text-left">Change the permission status for 
-    							<strong><?php echo "$firstname $lastname"; ?></strong>
-    						</h2>
-    					</hr>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
+        <div class="container">
+          <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?php echo "$firstname $lastname"; ?></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 " align="center"> 
+                                    <?php
+                                    if ($row['img_source'] == null):
+                                        echo "<img class='img-circle img-responsive' src='img/smipo-logo.jpg' alt='' width='125' height='125'>";
+                                    else:
+                                        echo "<img class='img-circle img-responsive' src=" . 'img/' . $row['img_source'] . " alt='img/smipo-logo.jpg' width='125' height='125'>";
+                                    endif;
+                                    ?>
+                                </div>
 
-    	<div class="container">
-    		<div class="row">
-    			<div class="box">
-    				<div class="col-lg-12">
-    					<hr class="visible-xs">
-    					<h2 class="intro-text text-center">
-    						<strong>REMINDER</strong> When updating the user's permissions
-    					</h2>
+            <?php 
 
-    					<ul class="list-group">
-    						<li class="list-group-item">
-    							<strong>Publics</strong> are only able to view the public section of the forum and have basic site functionality
-    						</li>
-    						<li class="list-group-item">
-    							<strong>Members</strong> are able to view and use everything the site has in store for regular club memberships
-    						</li>
-    						<li class="list-group-item">
-    							<strong>Administrators</strong> are able to view and have admin functionality
-    						</li>
-    					</ul>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
+                if($status>0):
+                    echo '
+                            <div class=" col-md-9 col-lg-9 "> 
+                                <table class="table table-user-information">
+                                    <tbody>
+                                        <tr>
+                                            <td>Department</td>
+                                            <td>'
+                                                . $department . 
+                                            '</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Position</td>
+                                            <td>' 
+                                                . $position .                                        
+                                            '</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Username</td>
+                                            <td>'
+                                                . $username .
+                                            '</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Account Type</td>
+                                            <td>'
+                                                . $status_meaning .
+                                            '</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Graduation Year</td>
+                                            <td>' 
+                                                . $grad_year .
+                                            '</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone</td>
+                                            <td>' 
+                                                . $phone .
+                                            '</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>
+                                                <a href=' . $email . '>' . $email . '</a>
+                                            </td>
+                                        </tr>   
+                                    </tbody>
+                                </table>
+                            </div>';
+                else:
+                    echo '
+                        <div class=" col-md-9 col-lg-9 "> 
+                          <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Username</td>
+                                        <td>'
+                                            . $username .
+                                        '</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Account Type</td>
+                                        <td>'
+                                            . $status_meaning .
+                                        '</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>    
+                                            <a href=' . $email . '>' . $email . '</a>
+                                        </td>
+                                    </tr>   
+                                </tbody>
+                            </table>
+                        </div>';
+                endif;
+             ?>
+</div>
+</div>
+<div class="panel-footer">
+    <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+    <span class="pull-right">
+        <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+        <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+    </span>
+</div>
 
+</div>
+</div>
+</div>
+</div>
 
-    	<div class="container">
-    		<div class="row">
-    			<div class="box">
-    				<div class="col-lg-12">
-    					<form name="update_user" id="update_user" action="update_user" method="post">
-    						<center>
-    							<table class="table-condensed">
-    								<tr>
-    									<td>First Name:</td>
-    									<td class="bordered"><?php echo "$firstname"; ?></td>
-    									<td id="firstname-err"><?php echo "$oneNameInvalid" ?></td>
-    								</tr>
-    								<tr>
-    									<td>Last Name:</td>
-    									<td class="bordered"><?php echo "$lastname"; ?></td>
-    									<td id="lastname-err"></td>
-    								</tr>
-    								<tr>
-    									<td>Current Status:</td>
-    									<td class="bordered"><?php echo "$status_meaning"; ?></td>
-    									<td id="status-err"></td>
-    								</tr>
-    								<tr>
-    									<td>Update Status</td>
-    									<td>
-    										<input type="radio" name="status" id="status" value="Public"> Public<br>
-    										<input type="radio" name="status" id="status" value="Member" checked> Member<br>
-    										<input type="radio" name="status" id="status" value="Administrator"> Administrator
-    									</td>
-    									<td id="update-status-err"></td>
-    								</tr>
-    							</table>
-    							<button name="edit" type="submit" onclick="validateAll()" formmethod="post">Update</button>
-    						</center>
-    					</form>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </center>
+</center>
 
-    </body>
+</body>
 </html>
