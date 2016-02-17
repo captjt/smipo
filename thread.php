@@ -66,14 +66,14 @@ $row = $result->fetchRow();
 								/* set up table headers */
 								echo "<table class='thread_table'>";
 								echo "<tr>";
-								echo "<th class='thread_data'> <strong> Poster </strong> </th>";
-								echo "<th class='thread_data'> <strong> Date </strong> </th>";
-								echo "<th class='thread_data'> <strong> Content </strong> </th>";
+								echo "<th class='thread_header'> <strong> Poster </strong> </th>";
+								echo "<th class='thread_header'> <strong> Date </strong> </th>";
+								echo "<th class='thread_header'> <strong> Content </strong> </th>";
 								echo "</tr>";
 								/* end table headers */
 								/* pull replies from database and display */
 								while($replies = $result2->fetchRow()) {
-									echo "<tr>";
+									echo "<tr class='thread_row'>";
 									echo "<td class='thread_data'>" . displayMember($replies['reply_by']) . "</td>";
 									echo "<td class='thread_data'>" . $replies['reply_date'] . "</td>";
 									echo "<td class='thread_data'>" . $replies['reply_content'] . "</td>";

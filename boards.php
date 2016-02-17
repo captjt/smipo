@@ -65,14 +65,14 @@ $row = $result->fetchRow();
 								/* set up table headers */
 								echo "<table class='thread_table'>";
 								echo "<tr>";
-								echo "<th class='thread_data'> <strong> Date </strong> </th>";
-								echo "<th class='thread_data'> <strong> Topic </strong> </th>";
-								echo "<th class='thread_data'> <strong> Original Poster </strong> </th>";
+								echo "<th class='thread_header'> <strong> Date </strong> </th>";
+								echo "<th class='thread_header'> <strong> Topic </strong> </th>";
+								echo "<th class='thread_header'> <strong> Original Poster </strong> </th>";
 								echo "</tr>";
 								/* end table headers */
 								/* pull threads from database and display */
 								while($threads = $result2->fetchRow()) {
-									echo "<tr>";
+									echo "<tr class='thread_row'>";
 									echo "<td class='thread_data'>" . $threads['topic_date'] . "</td>";
 									echo "<td class='thread_data'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "'>" . $threads['topic_subject'] . "</a></td>";
 									echo "<td class='thread_data'>" . $threads['topic_by'] . "</td>";

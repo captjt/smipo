@@ -59,13 +59,13 @@ require("connect.php");
 							function displayLoop($preparedSQL) {
 								require("connect.php");
 								$result = $db->query($preparedSQL);
-								echo "<table>";
+								echo "<table class='thread_table'>";
+								echo "<tr>";
+								echo "<th class='thread_header'> <strong>Board Name</strong> </th> <th class='thread_header'> <strong>Description</strong> </th>";
 								while ($row = $result->fetchRow()) {
-									echo "<tr>";
-									echo "<div class='clearfix'></div>";
-									echo "<div class='col-sm-4 text-center'>";
-									echo "<center>";
-									echo "<h3>" . "<a href='boards.php?id=" . $row['cat_id'] . "'>" . $row['cat_name'] . '</a> ' . "<br /> <small>" . $row['cat_description'] . "</small></h3></center></div>";
+									echo "<tr class='thread_row'>";
+									echo "<h3> <td class='thread_data'>" . "<a href='boards.php?id=" . $row['cat_id'] . "'>" . $row['cat_name'] . '</a> ' . "</td> ";
+									echo "<td class='thread_data'> <small>" . $row['cat_description'] . "</small> </h3> </td>";
 									echo "</tr>";
 								}
 								echo "</table>";

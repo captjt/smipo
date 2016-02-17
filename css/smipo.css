@@ -113,12 +113,21 @@ hr {
     margin: 0 auto;
     table-layout: fixed;
     font-size: 1.25em;
-	border: 1px solid black;
 	}
-.thread_data {
+.thread_header {
+	background: #0099ff;
+	color: black;
 	padding: 10px 50px;
 }
-
+.thread_data {
+	padding: 10px 50px;
+	border-bottom: 2px solid #D3D3D3;
+}
+.thread_row:nth-child(even) {
+	padding: 10px 50px;
+	border-bottom: 2px solid #D3D3D3;
+	background: #D3D3D3;
+}
 footer {
     background: #fff;
     background: rgba(255,255,255,0.9);
