@@ -1,12 +1,10 @@
 <?php 
 require('connect.php');
-// server should keep session data for AT LEAST 1 hour
-ini_set('session.gc_maxlifetime', 3600);
 
-// each client should remember their session id for EXACTLY 1 hour
-session_set_cookie_params(3600);
-
-session_start(); // ready to go!
+if(empty($_SESSION)): // if the session not yet started 
+    session_start();
+    $_SESSION['logged_in'] = false;
+endif;
 $errorMsg = '';
 
 #checking if the username field is not NULL
@@ -41,6 +39,12 @@ if(isset($_POST['username'])){
 	$firstname = stripslashes($firstname);
 	$lastname = stripslashes($lastname);
 	$username = stripslashes($username);
+
+    if (!filter_var($useremail, FILTER_VALIDATE_EMAIL) === false):
+      $useremail = $useremail;
+    else:
+      $errorMsg .= '<span style="color:#ff0000">Your email is not valid</span><br />';
+    endif;
 
 	#checking our fields are not null
 	if(!$firstname){
@@ -82,8 +86,6 @@ if(empty($errorMsg)){
 	mysql_close($connect);
 }
 
-ini_set('display_errors', True); 
-error_reporting(E_ALL | E_STRICT);
 ?> 
 
 <!DOCTYPE html>

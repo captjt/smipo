@@ -1,5 +1,9 @@
 <?php
-    
+        
+    if(empty($_SESSION)): // if the session not yet started 
+        session_start();
+    endif;
+
 ?>
 
 <!DOCTYPE html>
