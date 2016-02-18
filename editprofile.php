@@ -1,17 +1,17 @@
 <?php
-
-require('connect.php'); 
+	
+	require('connect.php'); 
       
     if(empty($_SESSION)) // if the session not yet started 
         session_start();
 
-    $status = $_SESSION['status'];
     $username = $_SESSION['user'];
     $user_id = $_SESSION['user_id'];
-    $logged_in = $_SESSION['logged_in'];
+    $status = $_SESSION['status'];
+	$logged_in = $_SESSION['logged_in'];
 
     if($logged_in):
-        #querying the users information to populate the profile page
+        #querying the users information to populate the edit profile page
 
         if($status>0):
         	$query = "Select *
@@ -60,27 +60,20 @@ require('connect.php');
 				$firstname = $row['firstname'];
 				$lastname = $row['lastname'];
 				$email = $row['email'];
-				$phone = $row['phone'];
+				if($row['phone']==""):
+					$phone="Default";
+				else:
+					$phone = $row['phone'];
+				endif;
 				$grad_year = $row['graduation_year'];
-				$status = $row['status'];
-                $img_source = $row['img_source'];
 				$department_id = $row['department_id'];
 				$position = $row['position'];
 				$department = $row['name'];
 				$_SESSION['searchError'] = "";
+
+
 				break;
 			}
-
-			#get the status meanings from the integers in database
-			if ($status == 0):
-				$status_meaning = "Public";
-			elseif ($status == 1):
-				$status_meaning = "Member";
-			elseif ($status == 2):
-				$status_meaning = "Administrator";
-			else:
-				$status_meaning = "Never happen";
-			endif;
 		}
 		else
 		{
@@ -90,18 +83,19 @@ require('connect.php');
 		}
 
     else:
-        header("Location:login.php");
+        header("Location:profile.php");
     endif;
 
-      if ($status == 0):
-        $status_meaning = "Public";
-      elseif ($status == 1):
-        $status_meaning = "Member";
-      elseif ($status == 2):
-        $status_meaning = "Administrator";
-      else:
-        $status_meaning = "Never happen";
-      endif;
+    if ($status == 0):
+		$status_meaning = "Public";
+	elseif ($status == 1):
+		$status_meaning = "Member";
+	elseif ($status == 2):
+		$status_meaning = "Administrator";
+	else:
+		$status_meaning = "Never happen";
+	endif;
+
 ?>
 
 <!DOCTYPE html>
@@ -163,20 +157,44 @@ require('connect.php');
 
                 if($status>0):
                     echo '
-                            <div class=" col-md-9 col-lg-9 "> 
+                            <div class=" col-md-9 col-lg-9 ">
+                              <form name="editprofile" id="editprofile" action="editprofile-handle.php" method="post">  
                                 <table class="table table-user-information">
                                     <tbody>
+                                    	<tr>
+                                            <td>First Name</td>
+                                            <td>
+                                            <input type="text" width="30" name="firstname" id="firstname" 
+                                            	value='.$firstname.'
+                                            	onblur="validateFirst();" required/>
+                                            </td>
+                                            <td id="firstname-err"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last Name</td>
+                                            <td>
+                                            <input type="text" width="30" name="department" id="department" 
+                                            	value='.$lastname.'
+                                            	onblur="validateLast();" required/>
+                                            </td>
+                                            <td id="lastname-err"></td>
+                                        </tr>
                                         <tr>
                                             <td>Department</td>
-                                            <td>'
-                                                . $department . 
-                                            '</td>
+                                            <td>
+                                            <input type="text" width="30" name="department" id="department" 
+                                            	value='.$department.'
+                                            	onblur="validateDepartment();" required/>
+                                            </td>
+                                            <td id="department-err"></td>
                                         </tr>
                                         <tr>
                                             <td>Position</td>
-                                            <td>' 
-                                                . $position .                                        
-                                            '</td>
+                                            <td><input type="text" width="30" name="position" id="position" 
+                                            	value='.$position.'
+                                            	onblur="validatePosition();" required/>
+                                            </td>
+                                            <td id="position-err"></td>
                                         </tr>
                                         <tr>
                                             <td>Username</td>
@@ -192,34 +210,64 @@ require('connect.php');
                                         </tr>
                                         <tr>
                                             <td>Graduation Year</td>
-                                            <td>' 
-                                                . $grad_year .
+                                            <td>'.
+                                            	'<input type="text" width="30" name="grad_year" id="grad_year" 
+                                            		value='.$grad_year.' onblur="validateGradYear();" required/>'.
                                             '</td>
+                                            <td id="grad_year-err"></td>
                                         </tr>
                                         <tr>
                                             <td>Phone</td>
-                                            <td>' 
-                                                . $phone .
+                                            <td>'.
+                                            	'<input type="text" width="30" name="phone" id="phone" 
+                                            		onblur="validatePhone();" value='.$phone.' required/>'.
                                             '</td>
+                                            <td id="phone-err"></td>
                                         </tr>
                                         <tr>
                                             <td>Email</td>
-                                            <td>
-                                                <a href=' . $email . '>' . $email . '</a>
-                                            </td>
-                                        </tr>   
+                                            <td>'.
+                                                '<input type="text" width="30" name="email" id="email" value='.$email.' onblur="validateEmail();" required/>'.
+                                            '</td>
+                                            <td id="email-err"></td>
+                                        </tr>  
+                                        <tr>
+                                        	<td>
+	                                    	<button name="updateprofile" type="submit" onclick="validateAll()" formmethod="post">Update Profile</button>
+	                                    	</td>
+                                    	</tr> 
                                     </tbody>
                                 </table>
+                              </form>
                             </div>';
                 else:
                     echo '
-                        <div class=" col-md-9 col-lg-9 "> 
+                        <div class=" col-md-9 col-lg-9 ">
+                         <form name="editprofile" id="editprofile" action="editprofile-handle.php" method="post"> 
                           <table class="table table-user-information">
                                 <tbody>
+                                	<tr>
+                                        <td>First Name</td>
+                                        <td>
+                                        <input type="text" width="30" name="firstname" id="firstname" 
+                                        	value='.$firstname.'
+                                        	onblur="validateFirst();" required/>
+                                        </td>
+                                        <td id="firstname-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last Name</td>
+                                        <td>
+                                        <input type="text" width="30" name="department" id="department" 
+                                        	value='.$lastname.'
+                                        	onblur="validateLast();" required/>
+                                        </td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
                                     <tr>
                                         <td>Username</td>
-                                        <td>'
-                                            . $username .
+                                        <td>' 
+                                        	. $username .
                                         '</td>
                                     </tr>
                                     <tr>
@@ -229,31 +277,44 @@ require('connect.php');
                                         '</td>
                                     </tr>
                                     <tr>
-                                        <td>Email</td>
-                                        <td>    
-                                            <a href=' . $email . '>' . $email . '</a>
+                                        <td>Graduation Year</td>
+                                        <td>
+                                        <input type="text" width="30" name="grad_year" id="grad_year" value='.$grad_year.' onblur="validateGradYear();" required/>
                                         </td>
-                                    </tr>   
+                                        <td id="grad_year-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone</td>
+                                        <td>
+                                        	<input type="text" width="30" name="phone" id="phone" value='.$phone.' onblur="validatePhone();" required/>
+
+                                        </td>
+                                        <td id="phone-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>
+                                            <input type="text" width="30" name="email" id="email" value='.$email.' onblur="validateEmail();" required/>
+                                        </td>
+                                        <td id="email-err"></td>
+                                    </tr>    
+                                    <tr>
+                                    	<td>
+                                    	<button name="updateprofile" type="submit" onclick="validateAll()" formmethod="post">Update Profile</button>
+                                    	</td>
+                                    </tr>
                                 </tbody>
                             </table>
+                           </form>
                         </div>';
                 endif;
              ?>
 </div>
 </div>
-<div class="panel-footer">
-    <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
-    <span class="pull-right">
-        <a href="editprofile.php" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-        <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-    </span>
-</div>
-
 </div>
 </div>
 </div>
 </div>
-
 </center>
 
 </body>
