@@ -71,12 +71,18 @@ $row = $result->fetchRow();
 								echo "</tr>";
 								/* end table headers */
 								/* pull threads from database and display */
+								/*Setting up counter*/
+								$x = 0;
 								while($threads = $result2->fetchRow()) {
+									if($x === 25){
+										break;
+									}
 									echo "<tr class='thread_row'>";
 									echo "<td class='thread_data'>" . $threads['topic_date'] . "</td>";
 									echo "<td class='thread_data'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "'>" . $threads['topic_subject'] . "</a></td>";
 									echo "<td class='thread_data'>" . $threads['topic_by'] . "</td>";
 									echo "</tr class='thread_data'>";
+									$x += 1;
 								}
 								echo "</table>";
 							?>
