@@ -2,13 +2,8 @@
 
 require('connect.php');
 
-// server should keep session data for AT LEAST 1 hour
-ini_set('session.gc_maxlifetime', 3600);
-
-// each client should remember their session id for EXACTLY 1 hour
-session_set_cookie_params(3600);
-
-session_start(); // ready to go!
+  if(empty($_SESSION)) // if the session not yet started 
+      session_start();
 
 if($_SESSION['status']<2)
 {
@@ -79,6 +74,7 @@ if (!$query){
 if (mysql_num_rows($query)){
   while($row = mysql_fetch_array($query)) { 
     $member_id = $row['member_id'];
+    $sel_username = $row['username'];
     $firstname = $row['firstname'];
     $lastname = $row['lastname'];
     $status = $row['status'];
@@ -86,6 +82,7 @@ if (mysql_num_rows($query)){
     $position = $row['position'];
     $department = $row['name'];
 
+    $_SESSION['selectedUsername'] = $sel_username;
     $_SESSION['searchError'] = "";
     break;
   }
@@ -108,30 +105,6 @@ else{
   $_SESSION['searchError'] = $errorMsg;
 }
 
-
-#function to be used later
-#NOTE query doesn't fetch correctly
-function getDepartment($dept_id)
-{
-  #query to run and fetch the department name for the user's account
-  $dept_query = mysql_query("SELECT name from `department` where `department_id` = '$dept_id'");
-
-  #checking if the result is NULL
-  if (!$query){
-    echo 'Could not run query: ' . mysql_error();
-    exit;
-  }
-  #checking each returned value from the query - with '$username'
-  if (mysql_num_rows($query)){
-    while($row = mysql_fetch_array($query)) { 
-      $result = $row['name'];
-      break;
-    }
-  }
-  echo "$result";
-  #return result from query
-  return $result;
-}
 
 ?>
 
@@ -217,7 +190,7 @@ function getDepartment($dept_id)
           <div class="row">
             <div class="box">
               <div class="col-lg-12">
-                <form name="update_user" id="update_user" action="update_user" method="post">
+                <form name="update_user" id="update_user" action="update_user.php" method="post">
                   <center>
                     <table class="table-condensed">
                       <tr>
