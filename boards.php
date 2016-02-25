@@ -7,6 +7,11 @@
 <?php
 require("connect.php");
 $board_id = $_GET['id'];
+if(!IS_SET($_GET['startingThread'])){
+	$startingThread = 0;
+}else{
+	$startingThread = $_GET['startingThread'];
+}
 $sql = 'SELECT * FROM Categories WHERE cat_id = ' . $board_id;
 $result = $db->query($sql);
 $row = $result->fetchRow();
@@ -60,7 +65,8 @@ $row = $result->fetchRow();
 						<div id="boards" >
 							<?php
 								/* Get threads */
-								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id;
+								$sql2 = "SELECT * FROM `Topics` WHERE board_id = '$board_id' ORDER BY 'topic_id' ASC LIMIT '$startingThread', 25"
+								//'SELECT * FROM Topics WHERE board_id = ' . $board_id;
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='thread_table'>";
@@ -70,6 +76,7 @@ $row = $result->fetchRow();
 								echo "<th class='thread_header'> <strong> Original Poster </strong> </th>";
 								echo "</tr>";
 								/* end table headers */
+								
 								/* pull threads from database and display */
 								while($threads = $result2->fetchRow()) {
 									echo "<tr class='thread_row'>";
@@ -78,8 +85,15 @@ $row = $result->fetchRow();
 									echo "<td class='thread_data'>" . $threads['topic_by'] . "</td>";
 									echo "</tr class='thread_data'>";
 								}
+								$startingTheard = $startingTheard + 25;
 								echo "</table>";
 								/*  */
+								echo "BEFORE";
+								echo "<form action='boards.php?id='.$board_id.'&startingThread='.$startingTheard>";
+								echo "<input type='submit' value='>>>'/>";
+								echo "</form>";
+								echo "AFTER";
+								
 								echo "<form action='newThread.php?board=" . $board_id . "&req=new' method='POST'>";
 								echo "<input type='submit' value='New Topic'>";
 								echo "</form>";
