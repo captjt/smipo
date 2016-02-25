@@ -48,7 +48,6 @@
                                  ';
                             echo '<ul class="dropdown-menu">';
                             echo '<li><a href="profile.php">Profile</a></li>';
-
                             if($_SESSION['logged_in']&&$_SESSION['status']==2):
                                 echo "<li>";
                                 echo '<a href="admin.php">Admin</a>';
@@ -56,10 +55,8 @@
                             else:
                                 #do nothing
                             endif;
-
                             echo '<li><a href="logout.php">Logout</a></li>';
                             echo '</ul';
-                            echo '</li>';
                         else:
                             echo '<li>';
                             echo '<a href="login.php">Login</a>';

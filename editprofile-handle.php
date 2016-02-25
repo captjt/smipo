@@ -92,7 +92,7 @@ if($logged_in):
                 WHERE `username` = '$username'";
       $query = mysql_query($queryMember);
 
-      $queryCheckPosition = "Select * from department_assignment where `member_id` = '$member_id'";
+      $queryCheckPosition = "Select * from department_assignment where `member_id` = '$user_id'";
       $queryCheckPosition = mysql_query($queryCheckPosition);
 
       #this is seeing if the member is already assigned a position
@@ -103,6 +103,7 @@ if($logged_in):
                 WHERE `member_id` = '$member_id'";
         $queryMember = mysql_query($queryMember);
         $_SESSION['editProfileStatus'] = '<span style="color:#0000ff">Successful Update</span><br />';
+        $_SESSION['toggle'] = true;
         header("Location:profile.php");
       else:
         $queryMember = "INSERT INTO `department_assignment` (`member_id`, `department_id`, `position`) VALUES ($member_id, $department, '$position')";
