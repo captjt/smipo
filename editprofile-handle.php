@@ -5,9 +5,6 @@ require('connect.php');
 if(empty($_SESSION)) // if the session not yet started 
     session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 'on');
-
 $username = $_SESSION['user'];
 $user_id = $_SESSION['user_id'];
 $status = $_SESSION['status'];
@@ -67,6 +64,15 @@ if($logged_in):
     if(!$grad_year):
       $errorMsg .= '<span style="color:#ff0000">Your graduation year is required</span><br />';
     endif;
+    if(!$phone):
+      $errorMsg .= '<span style="color:#ff0000">Your phone is required</span><br />';
+    else:
+      if(preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $phone)):
+        $phone = $phone;
+      else:
+        $errorMsg .= '<span style="color:#ff0000">Your phone is not filled out correctly XXX-XXX-XXXX</span><br />';
+      endif;
+    endif;
     if(!$email):
       $errorMsg .= '<span style="color:#ff0000">Your email is required</span><br />';
     endif;
@@ -82,7 +88,7 @@ if($logged_in):
     if($errorMsg==""):
       #query to update the members table for the profile - that is a member account
       $queryMember = "UPDATE `members` SET `firstname` = '$firstname', `lastname` = '$lastname',
-                `email` = '$email', `phone` = $phone, `graduation_year` = $grad_year
+                `email` = '$email', `phone` = '$phone', `graduation_year` = $grad_year
                 WHERE `username` = '$username'";
       $query = mysql_query($queryMember);
 
@@ -102,10 +108,12 @@ if($logged_in):
         $queryMember = "INSERT INTO `department_assignment` (`member_id`, `department_id`, `position`) VALUES ($member_id, $department, '$position')";
         $queryMember = mysql_query($queryMember);
         $_SESSION['editProfileStatus'] = '<span style="color:#0000ff">Successful Update</span><br />';
+        $_SESSION['toggle'] = true;
         header("Location:profile.php");
       endif; 
     else:
       $_SESSION['editProfileStatus'] = $errorMsg;
+      $_SESSION['toggle'] = true;
       header("Location:editprofile.php");
     endif; 
 
@@ -143,18 +151,23 @@ if($logged_in):
     if(!$lastname):
       $errorMsg .= '<span style="color:#ff0000">Your last name is required</span><br />';
     endif;
-    if(!$department):
-      $errorMsg .= '<span style="color:#ff0000">Your department is required</span><br />';
-    endif;
-    if(!$position):
-      $errorMsg .= '<span style="color:#ff0000">Your position is required</span><br />';
-    endif;
     if(!$grad_year):
       $errorMsg .= '<span style="color:#ff0000">Your graduation year is required</span><br />';
+    endif;
+    if(!$phone):
+      $errorMsg .= '<span style="color:#ff0000">Your phone is required</span><br />';
+    else:
+      if(preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $phone)):
+        $phone = $phone;
+      else:
+        $errorMsg .= '<span style="color:#ff0000">Your phone is not filled out correctly XXX-XXX-XXXX</span><br />';
+      endif;
     endif;
     if(!$email):
       $errorMsg .= '<span style="color:#ff0000">Your email is required</span><br />';
     endif;
+
+
 
     $firstname = mysql_real_escape_string($firstname);
     $lastname = mysql_real_escape_string($lastname);
@@ -165,14 +178,17 @@ if($logged_in):
     if($errorMsg==""):
       #query to update the members table for the profile - that is a member account
       $queryMember = "UPDATE `members` SET `firstname` = '$firstname', `lastname` = '$lastname',
-                `email` = '$email', `phone` = $phone, `graduation_year` = $grad_year
+                `email` = '$email', `phone` = '$phone', `graduation_year` = $grad_year
                 WHERE `username` = '$username'";
       $query = mysql_query($queryMember);
       $_SESSION['editProfileStatus'] = '<span style="color:#0000ff">Successful Update</span><br />';
+      $_SESSION['toggle'] = true;
       header("Location:profile.php");
     else:
       $_SESSION['editProfileStatus'] = $errorMsg;
-      header("Location:[editprofile].php");
+      $_SESSION['toggle'] = true;
+      header("Location:editprofile.php");
+
     endif; 
   else:
     echo "I got here";

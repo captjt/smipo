@@ -9,22 +9,34 @@ require('connect.php');
     $username = $_SESSION['user'];
     $user_id = $_SESSION['user_id'];
     $logged_in = $_SESSION['logged_in'];
+    $toggle = $_SESSION['toggle'];
 
     if($logged_in):
         #querying the users information to populate the profile page
 
         if($status>0):
-        	$query = "Select *
-    				    from 
-    				    (
-    					    Select members.member_id, firstname, lastname, username, email, phone, graduation_year, status, img_source, department_assignment.department_id, position, name 
-    					    from `members`
-    					    inner join `department_assignment`
-    					    on members.member_id = department_assignment.member_id
-    					    inner join `department`
-    					    on department_assignment.department_id = department.department_id 
-    					) as alias
-    				    where username = '$username' AND member_id = '$user_id'";
+            $queryCheckPosition = "Select * from department_assignment where `member_id` = '$member_id'";
+            $queryCheckPosition = mysql_query($queryCheckPosition);
+
+            #this is seeing if the member is already assigned a position
+            #if they have not been assigned yet - this will insert a new record in the department_assignment table
+            if(mysql_num_rows($queryCheckPosition)==1):
+                    $query = "Select *
+                                from 
+                                (
+                                    Select members.member_id, firstname, lastname, username, email, phone, graduation_year, status, img_source, department_assignment.department_id, position, name 
+                                    from `members`
+                                    inner join `department_assignment`
+                                    on members.member_id = department_assignment.member_id
+                                    inner join `department`
+                                    on department_assignment.department_id = department.department_id 
+                                ) as alias
+                                where username = '$username' AND member_id = '$user_id'";
+            else: 
+                 $query = "Select * from members
+                        where username = '$username' AND member_id = '$user_id'";
+            endif;
+
         elseif($status==0):
             $query = "Select * from members
                         where username = '$username' AND member_id = '$user_id'";
@@ -243,11 +255,15 @@ require('connect.php');
 </div>
 <div class="panel-footer">
     <a href="editprofile.php" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-    <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+    <a href="deleteprofile.php" data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
     <p>
         <?php 
-            $output = $_SESSION['editProfileStatus'];
-            echo "$output"; 
+            if($toggle==true):
+                $output = $_SESSION['editProfileStatus'];
+                echo "$output"; 
+            else:
+                #do nothing
+            endif;
         ?>
     </p>
 </div>
@@ -258,6 +274,16 @@ require('connect.php');
 </div>
 
 </center>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Copyright &copy; Radford SMIPO 2015</p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>

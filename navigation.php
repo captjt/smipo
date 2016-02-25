@@ -5,6 +5,7 @@
       
     if(empty($_SESSION)) // if the session not yet started 
         session_start();
+
         
 ?>
 
@@ -43,7 +44,7 @@
                         if($_SESSION['logged_in']):
                             echo '
                                     <li class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Hello<span class="caret"></span></a>
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">More<span class="caret"></span></a>
                                  ';
                             echo '<ul class="dropdown-menu">';
                             echo '<li><a href="profile.php">Profile</a></li>';

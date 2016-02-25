@@ -9,22 +9,33 @@
     $user_id = $_SESSION['user_id'];
     $status = $_SESSION['status'];
 	$logged_in = $_SESSION['logged_in'];
+    $_SESSION['toggle'] = false;
 
     if($logged_in):
         #querying the users information to populate the edit profile page
 
         if($status>0):
-        	$query = "Select *
-    				    from 
-    				    (
-    					    Select members.member_id, firstname, lastname, username, email, phone, graduation_year, status, img_source, department_assignment.department_id, position, name 
-    					    from `members`
-    					    inner join `department_assignment`
-    					    on members.member_id = department_assignment.member_id
-    					    inner join `department`
-    					    on department_assignment.department_id = department.department_id 
-    					) as alias
-    				    where username = '$username' AND member_id = '$user_id'";
+        	$queryCheckPosition = "Select * from department_assignment where `member_id` = '$member_id'";
+            $queryCheckPosition = mysql_query($queryCheckPosition);
+
+            #this is seeing if the member is already assigned a position
+            #if they have not been assigned yet - this will insert a new record in the department_assignment table
+            if(mysql_num_rows($queryCheckPosition)==1):
+                    $query = "Select *
+                                from 
+                                (
+                                    Select members.member_id, firstname, lastname, username, email, phone, graduation_year, status, img_source, department_assignment.department_id, position, name 
+                                    from `members`
+                                    inner join `department_assignment`
+                                    on members.member_id = department_assignment.member_id
+                                    inner join `department`
+                                    on department_assignment.department_id = department.department_id 
+                                ) as alias
+                                where username = '$username' AND member_id = '$user_id'";
+            else: 
+                 $query = "Select * from members
+                        where username = '$username' AND member_id = '$user_id'";
+            endif;
         elseif($status==0):
             $query = "Select * from members
                         where username = '$username' AND member_id = '$user_id'";
@@ -67,7 +78,11 @@
 				endif;
 				$grad_year = $row['graduation_year'];
 				$department_id = $row['department_id'];
-				$position = $row['position'];
+				if($row['position']==""):
+                    $position= 'None';
+                else:
+                    $position = $row['position'];
+                endif;
 				$department = $row['name'];
 				$_SESSION['searchError'] = "";
 
@@ -252,7 +267,7 @@
                 else:
                     echo '
                         <div class=" col-md-9 col-lg-9 ">
-                         <form name="editprofile" id="editprofile" action="editprofile-handle.php" method="post"> 
+                         <form name="editprofile" id="editprofile" action="editprofile-handle.php" method="post">  
                           <table class="table table-user-information">
                                 <tbody>
                                 	<tr>
@@ -298,7 +313,7 @@
                                         	<input type="text" width="30" name="phone" id="phone" value='.$phone.' onblur="validatePhone();" required/>
 
                                         </td>
-                                        <td id="phone-err">Hello</td>
+                                        <td id="phone-err"></td>
                                     </tr>
                                     <tr>
                                         <td>Email</td>
@@ -311,6 +326,10 @@
                                     	<td>
                                     	<button name="updateprofile" type="submit" onclick="validateAll();" formmethod="post">Update Profile</button>
                                     	</td>
+                                    </tr>
+                                    <tr>
+                                        <td>'.$_SESSION['editProfileStatus'].'
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -325,6 +344,16 @@
 </div>
 </div>
 </center>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Copyright &copy; Radford SMIPO 2015</p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>
