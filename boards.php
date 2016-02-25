@@ -7,7 +7,7 @@
 <?php
 require("connect.php");
 $board_id = $_GET['id'];
-if(!is_set($_GET['startingThread'])){
+if(!isset($_GET['startingThread'])){
 	$startingThread = 0;
 }else{
 	$startingThread = $_GET['startingThread'];
