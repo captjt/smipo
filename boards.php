@@ -65,7 +65,7 @@ $row = $result->fetchRow();
 						<div id="boards" >
 							<?php
 								/* Get threads */
-								$sql2 = "SELECT * FROM `Topics` WHERE board_id = '$board_id' ORDER BY 'topic_id' ASC LIMIT '$startingThread', 25"
+								$sql2 = "SELECT * FROM `Topics` WHERE board_id = '$board_id' ORDER BY 'topic_id' ASC LIMIT '$startingThread', 25";
 								//'SELECT * FROM Topics WHERE board_id = ' . $board_id;
 								$result2 = $db->query($sql2);
 								/* set up table headers */
