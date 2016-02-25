@@ -121,6 +121,7 @@
 
 	<!-- Javascript for Validation -->
 	<script src="js/validateRegister.js" type="text/javascript"></script>
+    <script src="js/validateProfile.js" type="text/javascript"></script>
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -173,7 +174,7 @@
                                         <tr>
                                             <td>Last Name</td>
                                             <td>
-                                            <input type="text" width="30" name="department" id="department" 
+                                            <input type="text" width="30" name="lastname" id="lastname" 
                                             	value='.$lastname.'
                                             	onblur="validateLast();" required/>
                                             </td>
@@ -182,9 +183,13 @@
                                         <tr>
                                             <td>Department</td>
                                             <td>
-                                            <input type="text" width="30" name="department" id="department" 
-                                            	value='.$department.'
-                                            	onblur="validateDepartment();" required/>
+                                            <select name="department" required>
+                                              <option value="">Select...</option>
+                                              <option value="1">Executive Board</option>
+                                              <option value="2">Faculty Advisers</option>
+                                              <option value="3">Investments Divison</option>
+                                              <option value="4">Operations Division</option>
+                                            </select>
                                             </td>
                                             <td id="department-err"></td>
                                         </tr>
@@ -233,9 +238,13 @@
                                         </tr>  
                                         <tr>
                                         	<td>
-	                                    	<button name="updateprofile" type="submit" onclick="validateAll()" formmethod="post">Update Profile</button>
+	                                    	<button name="updateprofile" type="submit" onclick="validateAll();" formmethod="post">Update Profile</button>
 	                                    	</td>
                                     	</tr> 
+                                        <tr>
+                                            <td>'.$_SESSION['editProfileStatus'].'
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                               </form>
@@ -258,7 +267,7 @@
                                     <tr>
                                         <td>Last Name</td>
                                         <td>
-                                        <input type="text" width="30" name="department" id="department" 
+                                        <input type="text" width="30" name="lastname" id="lastname" 
                                         	value='.$lastname.'
                                         	onblur="validateLast();" required/>
                                         </td>
@@ -289,7 +298,7 @@
                                         	<input type="text" width="30" name="phone" id="phone" value='.$phone.' onblur="validatePhone();" required/>
 
                                         </td>
-                                        <td id="phone-err"></td>
+                                        <td id="phone-err">Hello</td>
                                     </tr>
                                     <tr>
                                         <td>Email</td>
@@ -300,7 +309,7 @@
                                     </tr>    
                                     <tr>
                                     	<td>
-                                    	<button name="updateprofile" type="submit" onclick="validateAll()" formmethod="post">Update Profile</button>
+                                    	<button name="updateprofile" type="submit" onclick="validateAll();" formmethod="post">Update Profile</button>
                                     	</td>
                                     </tr>
                                 </tbody>
