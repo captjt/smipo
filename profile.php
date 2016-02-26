@@ -15,7 +15,7 @@ require('connect.php');
         #querying the users information to populate the profile page
 
         if($status>0):
-            $queryCheckPosition = "Select * from department_assignment where `member_id` = '$member_id'";
+            $queryCheckPosition = "Select * from department_assignment where `member_id` = '$user_id'";
             $queryCheckPosition = mysql_query($queryCheckPosition);
 
             #this is seeing if the member is already assigned a position
@@ -245,7 +245,7 @@ require('connect.php');
                                         <td>    
                                             <a href=' . $email . '>' . $email . '</a>
                                         </td>
-                                    </tr>   
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>';

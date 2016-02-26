@@ -15,7 +15,7 @@
         #querying the users information to populate the edit profile page
 
         if($status>0):
-        	$queryCheckPosition = "Select * from department_assignment where `member_id` = '$member_id'";
+        	$queryCheckPosition = "Select * from department_assignment where `member_id` = '$user_id'";
             $queryCheckPosition = mysql_query($queryCheckPosition);
 
             #this is seeing if the member is already assigned a position

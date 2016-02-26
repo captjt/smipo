@@ -10,46 +10,49 @@ $user_id = $_SESSION['user_id'];
 $status = $_SESSION['status'];
 $logged_in = $_SESSION['logged_in'];
 $member_id = $_SESSION['user_id'];
+$outputResult = '';
 
 if($logged_in):
  
   if($status>0):
     #query to delete the members account
     $queryMember = "DELETE FROM `members` WHERE `username` = '$username'";
-    $query = mysql_query($queryMember);
-
-    if($query):
+    $queryOutput = mysql_query($queryMember);
+    if(mysql_affected_rows()>0):
       $firstQuery = true;
-    else
+    else:
       $firstQuery = false;
     endif;
-
+    
     $queryCheckPosition = "Select * from department_assignment where `member_id` = '$member_id'";
     $queryCheckPosition = mysql_query($queryCheckPosition);
 
     #this is seeing if the member is already assigned a position to delete from this table as well
     if(mysql_num_rows($queryCheckPosition)==1):
-      if($firstQuery):
+      if($firstQuery==true):
         $queryMember = "DELETE FROM `department_assignment` WHERE `member_id` = '$member_id'";
         $queryMember = mysql_query($queryMember);
-        if($queryMember):
-          $outputResult = '<span style="color:#0000ff">Successfully Deleted Profile</span><br />';
+        if(mysql_affected_rows()>0):
+          $outputResult .= '<span style="color:#0000ff">Successfully Deleted Profile</span><br />';
+          header("Location:logout.php");
         else:
-          $outputResult = '<span style="color:#ff0000">Error Deleting Profile 2</span><br />';
+          $outputResult .= '<span style="color:#ff0000">Error Deleting Profile 2</span><br />';
         endif;
       else:
-        $outputResult = '<span style="color:#ff0000">Error Deleting Profile 1</span><br />';
+        header("Location:logout.php");
       endif;
-    endif; 
 
+    endif; 
+  
   elseif($status==0):
     #query to delete the members account
     $queryMember = "DELETE FROM `members` WHERE `username` = '$username'";
     $query = mysql_query($queryMember);
-    if($query):
-      $outputResult = '<span style="color:#0000ff">Successfully Deleted Profile</span><br />';
+    if(mysql_affected_rows()>0):
+      $outputResult .= '<span style="color:#0000ff">Successfully Deleted Profile</span><br />';
+      header("Location:logout.php");
     else:
-      $outputResult = '<span style="color:#ff0000">Error Deleting Profile 1</span><br />';
+      $outputResult .= '<span style="color:#ff0000">Error Deleting Profile 1</span><br />';
     endif;
   else:
 
@@ -112,17 +115,15 @@ endif;
                       </h2>
                       </hr>
                       <p>
-                          <form name="search_user" id="search_user" action="usersearch.php" method="post">
-                              <center>
-                                  <table class="table-condensed">
-                                      <tr>
-                                          <td>
-                                            <?php echo "$outputResult"; ?>
-                                          </td>
-                                      </tr>
-                                  </table>
-                              </center>
-                          </form>
+                        <center>
+                            <table class="table-condensed">
+                                <tr>
+                                    <td>
+                                      <?php echo 'Hello '.$outputResult; ?>
+                                    </td>
+                                </tr>
+                            </table>
+                        </center>
                       </p>
                   </div>
               </div>
