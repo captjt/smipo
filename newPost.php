@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- SMIPO Thread Selection
+<!-- SMIPO Create new thread
 	@author James
 
  -->
 <?php
 require("connect.php");
-$board_id = $_GET['board'];
 $thread_id = $_GET['thread'];
+$req = $_GET['req'];
+$topic = $_GET['topic'];
 $sql = 'SELECT * FROM Topics WHERE topic_id = ' . $thread_id;
 $result = $db->query($sql);
 $row = $result->fetchRow();
-$topic_sub = $row['topic_subject'];
 ?>
 <head>
 
@@ -21,7 +21,7 @@ $topic_sub = $row['topic_subject'];
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Forums - SMIPO</title>
+    <title>New Thread - SMIPO</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -53,52 +53,66 @@ $topic_sub = $row['topic_subject'];
                 <div class="col-lg-12">
                     <hr>
                     <h2 class="intro-text text-center"> 
-						<?php echo "<p>You are viewing the " . $row['topic_subject'] . " thread.</p><br />";?>
+						<?php echo "<p>Posting to the " . $row['topic_subject'] . " thread</p><br />";?>
                     </h2>
                     <hr>
                 </div>
-                <div class="row">
-				<!-- main content area -->
-						<div id="replies" >
-							<?php
+					<div class="row">
+					<!-- main content area -->
+						<div id="boards" >
+							<div class="col-sm-4">
+								<!-- empty -->
+							</div>
 							
-								/* Get threads */
-								$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id;
-								$result2 = $db->query($sql2);
-								/* set up table headers */
-								echo "<table class='thread_table'>";
-								echo "<tr>";
-								echo "<th class='thread_header'> <strong> Poster </strong> </th>";
-								echo "<th class='thread_header'> <strong> Date </strong> </th>";
-								echo "<th class='thread_header'> <strong> Content </strong> </th>";
-								echo "</tr>";
-								/* end table headers */
-								/* pull replies from database and display */
-								while($replies = $result2->fetchRow()) {
-									echo "<tr class='thread_row'>";
-									echo "<td class='thread_data'>" . displayMember($replies['reply_by']) . "</td>";
-									echo "<td class='thread_data'>" . $replies['reply_date'] . "</td>";
-									echo "<td class='thread_data'>" . $replies['reply_content'] . "</td>";
-									echo "</tr class='thread_data'>";
+							<div class="col-sm-4">
+							<?php
+								if($req == 'new') {
+									// request now equal to post
+									echo "<form method='POST' action='newPost.php?thread=" . $thread_id . "&req=pos&topic=$topic'>";
+									echo "<br>Post Data<br>";
+									echo "<textarea name='reply' cols='75' rows='10'></textarea><br><br>";
+									echo "<input type='submit' value='Submit'>";
+									echo "</form>";
+									echo "<div class='clearfix'></div>";
 								}
-								echo "</table>";
-								
-								function displayMember($member_id) {
-									require("connect.php");
-									$member_sql = 'SELECT * FROM members WHERE member_id = ' . $member_id;
-									$member_result = $db->query($member_sql);
-									$member = $member_result->fetchRow();
-									return $member['username'];
+								else {
+									/* Get topic info from post and user info from session variables */
+									$reply = $_POST['reply'];
+									$username = $_SESSION['user'];
+									$user_id = $_SESSION['user_id'];
+									$logged_in = $_SESSION['logged_in'];
+									$status = $_SESSION['status'];
+									/* user is logged in and allowed to post */
+									if ($logged_in == true && $status > 0) {			
+										/* insert first reply into Replies table */
+										$insert_sql = "INSERT INTO Replies (reply_content, reply_date, reply_topic, reply_by, thread_id)" .
+													  " VALUES ('$reply', CURDATE(), '$topic', $user_id, $thread_id)";
+									    $db->query($insert_sql);
+										/* end insert */
+										echo "Posted Successfully";
+										/*
+										INSERT INTO TOPICS (topic_subject, topic_date, topic_cat, topic_by, board_id)
+										VALUES ("Hello world", CURDATE(), "Automotive", "jt0021", 1)
+										*/
+									}
+									/* user is not allowed */
+									else {
+										echo "Not allowed to post";
+									}
 								}
-								
-								echo "<form action='newPost.php?thread=$thread_id&req=new&topic=$topic_sub' method='POST'>";
-								echo "<input type='submit' value='Reply'>";
-								echo "</form>";
-								
 							?>
-							<div class="clearfix"></div>
+							</div>
+							
+							<div class="col-sm-4">
+								<!-- empty -->
+							</div>
+							
 						</div>
+						
+					</div>
+					
 				</div>
+				
                 <div class="clearfix"></div>
             </div>
         </div>		
