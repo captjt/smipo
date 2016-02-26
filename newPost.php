@@ -12,6 +12,7 @@ $topic = $_GET['topic'];
 $sql = 'SELECT * FROM Topics WHERE topic_id = ' . $thread_id;
 $result = $db->query($sql);
 $row = $result->fetchRow();
+$board_id = $row['board_id'];
 ?>
 <head>
 
@@ -89,7 +90,7 @@ $row = $result->fetchRow();
 													  " VALUES ('$reply', CURDATE(), '$topic', $user_id, $thread_id)";
 									    $db->query($insert_sql);
 										/* end insert */
-										echo "Posted Successfully";
+										header("Location: thread.php?board=$board_id&thread=$thread_id");
 										/*
 										INSERT INTO TOPICS (topic_subject, topic_date, topic_cat, topic_by, board_id)
 										VALUES ("Hello world", CURDATE(), "Automotive", "jt0021", 1)

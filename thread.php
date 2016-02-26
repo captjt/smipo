@@ -63,7 +63,7 @@ $topic_sub = $row['topic_subject'];
 							<?php
 							
 								/* Get threads */
-								$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id;
+								$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id . ' ORDER BY reply_id ASC';
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='thread_table'>";

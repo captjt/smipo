@@ -61,7 +61,7 @@ $row = $result->fetchRow();
 							<?php
 								/* Get threads */
 								//"SELECT * FROM `Topics` WHERE board_id = '$board_id' ORDER BY 'topic_id' ASC LIMIT '$startingThread', 25";
-								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id;
+								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY topic_id';
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='thread_table'>";
