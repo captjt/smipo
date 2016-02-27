@@ -76,7 +76,8 @@ $topic_sub = $row['topic_subject'];
 								/* pull replies from database and display */
 								while($replies = $result2->fetchRow()) {
 									echo "<tr class='thread_row'>";
-									echo "<td class='thread_data'>" . displayMember($replies['reply_by']) . "</td>";
+									echo "<td class='thread_data'>" . "<img src='img/" . displayMemberPicture($replies['reply_by']) . "' height='100' width='100'>" .
+									     "<br>" . displayMember($replies['reply_by']) . "</td>";
 									echo "<td class='thread_data'>" . $replies['reply_date'] . "</td>";
 									echo "<td class='thread_data'>" . $replies['reply_content'] . "</td>";
 									echo "</tr class='thread_data'>";
@@ -89,6 +90,19 @@ $topic_sub = $row['topic_subject'];
 									$member_result = $db->query($member_sql);
 									$member = $member_result->fetchRow();
 									return $member['username'];
+								}
+								function displayMemberPicture($member_id) {
+									require("connect.php");
+									$pic_sql = "SELECT * FROM members WHERE member_id = $member_id";
+									$pic_result = $db->query($pic_sql);
+									$pic = $pic_result->fetchRow();
+									$picture = $pic['img_source'];
+									if ($picture == null) {
+										return "smipo-logo.jpg";
+									}
+									else {
+										return $picture;
+									}
 								}
 								
 								echo "<form action='newPost.php?thread=$thread_id&req=new&topic=$topic_sub' method='POST'>";
