@@ -89,8 +89,6 @@ $page = $_GET['page'];
 								$page_result = $page_count->fetchRow();
 								$total = $page_result['total'];
 								/* round up */
-								echo "<p> this is a test $total </p>";
-								//echo $page_count;
 								$total = ceil($total / 20);
 								/* for loop to create page links */
 								for ($x = 0; $x < $total; $x ++) {
