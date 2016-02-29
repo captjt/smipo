@@ -12,6 +12,7 @@ $sql = 'SELECT * FROM Topics WHERE topic_id = ' . $thread_id;
 $result = $db->query($sql);
 $row = $result->fetchRow();
 $topic_sub = $row['topic_subject'];
+$page = $_GET['page'];
 ?>
 <head>
 
@@ -63,7 +64,7 @@ $topic_sub = $row['topic_subject'];
 							<?php
 							
 								/* Get threads */
-								$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id . ' ORDER BY reply_id ASC';
+								$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id . ' ORDER BY reply_id ASC LIMIT 5 OFFSET ' . $page * 5;
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='thread_table'>";
@@ -83,6 +84,19 @@ $topic_sub = $row['topic_subject'];
 									echo "</tr class='thread_data'>";
 								}
 								echo "</table>";
+								
+								/* Split results into pages */
+								$page_count_sql = 'SELECT COUNT(reply_id) as total FROM Replies WHERE thread_id = ' . $thread_id;
+								$page_count = $db->query($page_count_sql);
+								$page_result = $page_count->fetchRow();
+								$total = $page_result['total'];
+								/* round up */
+								$total = ceil($total / 5);
+								/* for loop to create page links */
+								for ($x = 0; $x < $total; $x ++) {
+									echo "<a href=thread.php?board=$board_id&thread=$thread_id&page=$x>$x|</a>";
+								}
+								/* end split results */
 								
 								function displayMember($member_id) {
 									require("connect.php");

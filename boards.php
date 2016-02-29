@@ -62,8 +62,7 @@ $page = $_GET['page'];
 						<div id="boards" >
 							<?php
 								/* Get threads */
-								//"SELECT * FROM `Topics` WHERE board_id = '$board_id' ORDER BY 'topic_id' ASC LIMIT '$startingThread', 25";
-								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY topic_id LIMIT 20 OFFSET ' . $page * 20;
+								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY topic_id LIMIT 5 OFFSET ' . $page * 5;
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='thread_table'>";
@@ -78,7 +77,8 @@ $page = $_GET['page'];
 								while($threads = $result2->fetchRow()) {
 									echo "<tr class='thread_row'>";
 									echo "<td class='thread_data'>" . $threads['topic_date'] . "</td>";
-									echo "<td class='thread_data'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "'>" . $threads['topic_subject'] . "</a></td>";
+									echo "<td class='thread_data'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "&page=0'>"
+										 . $threads['topic_subject'] . "</a></td>";
 									echo "<td class='thread_data'>" . $threads['topic_by'] . "</td>";
 									echo "</tr class='thread_data'>";
 								}
@@ -89,7 +89,7 @@ $page = $_GET['page'];
 								$page_result = $page_count->fetchRow();
 								$total = $page_result['total'];
 								/* round up */
-								$total = ceil($total / 20);
+								$total = ceil($total / 5);
 								/* for loop to create page links */
 								for ($x = 0; $x < $total; $x ++) {
 									echo "<a href=boards.php?id=$board_id&page=$x>$x|</a>";
