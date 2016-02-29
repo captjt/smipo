@@ -64,7 +64,7 @@ require("connect.php");
 								echo "<th class='thread_header'> <strong>Board Name</strong> </th> <th class='thread_header'> <strong>Description</strong> </th>";
 								while ($row = $result->fetchRow()) {
 									echo "<tr class='thread_row'>";
-									echo "<h3> <td class='thread_data'>" . "<a href='boards.php?id=" . $row['cat_id'] . "'>" . $row['cat_name'] . '</a> ' . "</td> ";
+									echo "<h3> <td class='thread_data'>" . "<a href='boards.php?id=" . $row['cat_id'] . "&page=0'>" . $row['cat_name'] . '</a> ' . "</td> ";
 									echo "<td class='thread_data'> <small>" . $row['cat_description'] . "</small> </h3> </td>";
 									echo "</tr>";
 								}

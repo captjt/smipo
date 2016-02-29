@@ -10,6 +10,8 @@ $board_id = $_GET['id'];
 $sql = 'SELECT * FROM Categories WHERE cat_id = ' . $board_id;
 $result = $db->query($sql);
 $row = $result->fetchRow();
+/* get the page */
+$page = $_GET['page'];
 ?>
 <head>
 
@@ -61,7 +63,7 @@ $row = $result->fetchRow();
 							<?php
 								/* Get threads */
 								//"SELECT * FROM `Topics` WHERE board_id = '$board_id' ORDER BY 'topic_id' ASC LIMIT '$startingThread', 25";
-								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY topic_id';
+								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY topic_id LIMIT 20 OFFSET ' . $page * 20;
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='thread_table'>";
@@ -81,7 +83,20 @@ $row = $result->fetchRow();
 									echo "</tr class='thread_data'>";
 								}
 								echo "</table>";
-								/*  */
+								/* Split results into pages */
+								$page_count_sql = 'SELECT COUNT(topic_id) as total FROM Topics WHERE board_id = ' . $board_id;
+								$page_count = $db->query($page_count_sql);
+								$page_result = $page_count->fetchRow();
+								$total = $page_result['total'];
+								/* round up */
+								echo "<p> this is a test $total </p>";
+								//echo $page_count;
+								$total = ceil($total / 20);
+								/* for loop to create page links */
+								for ($x = 0; $x < $total; $x ++) {
+									echo "<a href=boards.php?id=$board_id&page=$x>$x|</a>";
+								}
+								/* end split results */
 								
 								echo "<form action='newThread.php?board=" . $board_id . "&req=new' method='POST'>";
 								echo "<input type='submit' value='New Topic'>";
