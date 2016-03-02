@@ -83,6 +83,10 @@ $board_id = $row['board_id'];
 									$user_id = $_SESSION['user_id'];
 									$logged_in = $_SESSION['logged_in'];
 									$status = $_SESSION['status'];
+									/* sanitize */
+									$reply = htmlspecialchars($reply);
+									$reply = stripslashes($reply);
+									$reply = mysql_real_escape_string($reply);
 									/* user is logged in and allowed to post */
 									if ($logged_in == true && $status > 0) {			
 										/* insert first reply into Replies table */
