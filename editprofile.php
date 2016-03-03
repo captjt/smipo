@@ -98,7 +98,7 @@
 		}
 
     else:
-        header("Location:profile.php");
+        header("Location:login.php");
     endif;
 
     if ($status == 0):
@@ -167,6 +167,12 @@
                                         echo "<img class='img-circle img-responsive' src=" . 'img/' . $row['img_source'] . " alt='img/smipo-logo.jpg' width='125' height='125'>";
                                     endif;
                                     ?>
+                                    <div style="font-size:8px" align="left">
+                                        <form action="uploadimg.php" method="POST" enctype="multipart">
+                                            <input id="imgfile" type="file" name="imgfile">
+                                            <input type="submit" value="Upload Profile Picture">
+                                        </form>
+                                    </div>
                                 </div>
 
             <?php 
@@ -250,7 +256,7 @@
                                                 '<input type="text" width="30" name="email" id="email" value='.$email.' onblur="validateEmail();" required/>'.
                                             '</td>
                                             <td id="email-err"></td>
-                                        </tr>  
+                                        </tr> 
                                         <tr>
                                         	<td>
 	                                    	<button name="updateprofile" type="submit" onclick="validateAll();" formmethod="post">Update Profile</button>
@@ -322,6 +328,11 @@
                                         </td>
                                         <td id="email-err"></td>
                                     </tr>    
+                                    <tr>
+                                        <td>
+                                            <input id="imgfile" type="file" name="imgfile">
+                                        </td>
+                                    </tr>
                                     <tr>
                                     	<td>
                                     	<button name="updateprofile" type="submit" onclick="validateAll();" formmethod="post">Update Profile</button>

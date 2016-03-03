@@ -24,6 +24,7 @@ if($logged_in):
     $grad_year = $_POST['grad_year'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
+    $image = $_POST['imgfile'];
 
     $firstname = htmlspecialchars($firstname);
     $lastname = htmlspecialchars($lastname);
@@ -88,7 +89,7 @@ if($logged_in):
     if($errorMsg==""):
       #query to update the members table for the profile - that is a member account
       $queryMember = "UPDATE `members` SET `firstname` = '$firstname', `lastname` = '$lastname',
-                `email` = '$email', `phone` = '$phone', `graduation_year` = $grad_year
+                `email` = '$email', `phone` = '$phone', `graduation_year` = $grad_year, `img_source` = $image
                 WHERE `username` = '$username'";
       $query = mysql_query($queryMember);
 
@@ -125,6 +126,7 @@ if($logged_in):
     $grad_year = $_POST['grad_year'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
+    $image = $_POST['imgfile'];
 
     $firstname = htmlspecialchars($firstname);
     $lastname = htmlspecialchars($lastname);
