@@ -93,9 +93,13 @@ $page = $_GET['page'];
 								/* round up */
 								$total = ceil($total / 5);
 								/* for loop to create page links */
+								echo "<div class='col-sm-4'></div>";
+								echo "<div class='col-sm-4'>";
 								for ($x = 0; $x < $total; $x ++) {
 									echo "<a href=thread.php?board=$board_id&thread=$thread_id&page=$x>$x|</a>";
 								}
+								echo "</div>";
+								echo "<div class='col-sm-4'></div>";
 								/* end split results */
 								
 								function displayMember($member_id) {
@@ -118,7 +122,7 @@ $page = $_GET['page'];
 										return $picture;
 									}
 								}
-								
+								echo "<br><br>";
 								echo "<form action='newPost.php?thread=$thread_id&req=new&topic=$topic_sub' method='POST'>";
 								echo "<input type='submit' value='Reply'>";
 								echo "</form>";

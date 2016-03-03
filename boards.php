@@ -62,7 +62,7 @@ $page = $_GET['page'];
 						<div id="boards" >
 							<?php
 								/* Get threads */
-								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY topic_id LIMIT 5 OFFSET ' . $page * 5;
+								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY topic_id DESC LIMIT 5 OFFSET ' . $page * 5;
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='thread_table'>";
@@ -84,6 +84,8 @@ $page = $_GET['page'];
 								}
 								echo "</table>";
 								/* Split results into pages */
+								echo "<div class='col-sm-4'></div>";
+								echo "<div class='col-sm-4'>";
 								$page_count_sql = 'SELECT COUNT(topic_id) as total FROM Topics WHERE board_id = ' . $board_id;
 								$page_count = $db->query($page_count_sql);
 								$page_result = $page_count->fetchRow();
@@ -94,8 +96,10 @@ $page = $_GET['page'];
 								for ($x = 0; $x < $total; $x ++) {
 									echo "<a href=boards.php?id=$board_id&page=$x>$x|</a>";
 								}
+								echo "</div>";
+								echo "<div class='col-sm-4'></div>";
 								/* end split results */
-								
+								echo "<br><br>";
 								echo "<form action='newThread.php?board=" . $board_id . "&req=new' method='POST'>";
 								echo "<input type='submit' value='New Topic'>";
 								echo "</form>";
