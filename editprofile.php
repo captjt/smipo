@@ -329,11 +329,6 @@
                                         <td id="email-err"></td>
                                     </tr>    
                                     <tr>
-                                        <td>
-                                            <input id="imgfile" type="file" name="imgfile">
-                                        </td>
-                                    </tr>
-                                    <tr>
                                     	<td>
                                     	<button name="updateprofile" type="submit" onclick="validateAll();" formmethod="post">Update Profile</button>
                                     	</td>
