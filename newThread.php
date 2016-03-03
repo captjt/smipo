@@ -58,12 +58,8 @@ $row = $result->fetchRow();
                 </div>
 					<div class="row">
 					<!-- main content area -->
-						<div id="boards" >
-							<div class="col-sm-4">
-								<!-- empty -->
-							</div>
-							
-							<div class="col-sm-4">
+						<div id="boards">
+							<center>
 							<?php
 								if($req == 'new') {
 									// request now equal to post
@@ -126,11 +122,7 @@ $row = $result->fetchRow();
 									}
 								}
 							?>
-							</div>
-							
-							<div class="col-sm-4">
-								<!-- empty -->
-							</div>
+							</center>
 							
 						</div>
 						

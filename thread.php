@@ -123,9 +123,11 @@ $page = $_GET['page'];
 									}
 								}
 								echo "<br><br>";
+								echo "<center>";
 								echo "<form action='newPost.php?thread=$thread_id&req=new&topic=$topic_sub' method='POST'>";
 								echo "<input type='submit' value='Reply'>";
 								echo "</form>";
+								echo "</center>";
 								
 							?>
 							<div class="clearfix"></div>

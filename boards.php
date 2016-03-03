@@ -93,16 +93,20 @@ $page = $_GET['page'];
 								/* round up */
 								$total = ceil($total / 5);
 								/* for loop to create page links */
+								echo "<center>";
 								for ($x = 0; $x < $total; $x ++) {
 									echo "<a href=boards.php?id=$board_id&page=$x>$x|</a>";
 								}
+								echo "</center>";
 								echo "</div>";
 								echo "<div class='col-sm-4'></div>";
 								/* end split results */
+								echo "<center>";
 								echo "<br><br>";
 								echo "<form action='newThread.php?board=" . $board_id . "&req=new' method='POST'>";
 								echo "<input type='submit' value='New Topic'>";
 								echo "</form>";
+								echo "</center>";
 							?>
 							<div class="clearfix"></div>
 						</div>

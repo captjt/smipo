@@ -61,11 +61,7 @@ $board_id = $row['board_id'];
 					<div class="row">
 					<!-- main content area -->
 						<div id="boards" >
-							<div class="col-sm-4">
-								<!-- empty -->
-							</div>
-							
-							<div class="col-sm-4">
+							<center>
 							<?php
 								if($req == 'new') {
 									// request now equal to post
@@ -106,11 +102,7 @@ $board_id = $row['board_id'];
 									}
 								}
 							?>
-							</div>
-							
-							<div class="col-sm-4">
-								<!-- empty -->
-							</div>
+							</center>
 							
 						</div>
 						
