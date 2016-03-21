@@ -1,14 +1,14 @@
 <?php
-	
-	require('connect.php'); 
-      
-    if(empty($_SESSION)) // if the session not yet started 
+
+	require('connect.php');
+
+    if(empty($_SESSION)) // if the session not yet started
         session_start();
 
     $username = $_SESSION['user'];
     $user_id = $_SESSION['user_id'];
     $status = $_SESSION['status'];
-	$logged_in = $_SESSION['logged_in'];
+		$logged_in = $_SESSION['logged_in'];
     $_SESSION['toggle'] = false;
 
     if($logged_in):
@@ -22,17 +22,17 @@
             #if they have not been assigned yet - this will insert a new record in the department_assignment table
             if(mysql_num_rows($queryCheckPosition)==1):
                     $query = "Select *
-                                from 
+                                from
                                 (
-                                    Select members.member_id, firstname, lastname, username, email, phone, graduation_year, status, img_source, department_assignment.department_id, position, name 
+                                    Select members.member_id, firstname, lastname, username, email, phone, graduation_year, status, img_source, department_assignment.department_id, position, name
                                     from `members`
                                     inner join `department_assignment`
                                     on members.member_id = department_assignment.member_id
                                     inner join `department`
-                                    on department_assignment.department_id = department.department_id 
+                                    on department_assignment.department_id = department.department_id
                                 ) as alias
                                 where username = '$username' AND member_id = '$user_id'";
-            else: 
+            else:
                  $query = "Select * from members
                         where username = '$username' AND member_id = '$user_id'";
             endif;
@@ -65,8 +65,8 @@
 		if (mysql_num_rows($query))
 		{
 			#while loop to get the data from database
-			while($row = mysql_fetch_array($query)) 
-			{ 
+			while($row = mysql_fetch_array($query))
+			{
 				$member_id = $row['member_id'];
 				$firstname = $row['firstname'];
 				$lastname = $row['lastname'];
@@ -159,7 +159,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-3 col-lg-3 " align="center"> 
+                                <div class="col-md-3 col-lg-3 " align="center">
                                     <?php
                                     if ($row['img_source'] == null):
                                         echo "<img class='img-circle img-responsive' src='img/smipo-logo.jpg' alt='' width='125' height='125'>";
@@ -175,18 +175,18 @@
                                     </div>
                                 </div>
 
-            <?php 
+            <?php
 
                 if($status>0):
                     echo '
                             <div class=" col-md-9 col-lg-9 ">
-                              <form name="editprofile" id="editprofile" action="editprofile-handle.php" method="post">  
+                              <form name="editprofile" id="editprofile" action="editprofile-handle.php" method="post">
                                 <table class="table table-user-information">
                                     <tbody>
                                     	<tr>
                                             <td>First Name</td>
                                             <td>
-                                            <input type="text" width="30" name="firstname" id="firstname" 
+                                            <input type="text" width="30" name="firstname" id="firstname"
                                             	value='.$firstname.'
                                             	onblur="validateFirst();" required/>
                                             </td>
@@ -195,7 +195,7 @@
                                         <tr>
                                             <td>Last Name</td>
                                             <td>
-                                            <input type="text" width="30" name="lastname" id="lastname" 
+                                            <input type="text" width="30" name="lastname" id="lastname"
                                             	value='.$lastname.'
                                             	onblur="validateLast();" required/>
                                             </td>
@@ -216,7 +216,7 @@
                                         </tr>
                                         <tr>
                                             <td>Position</td>
-                                            <td><input type="text" width="30" name="position" id="position" 
+                                            <td><input type="text" width="30" name="position" id="position"
                                             	value='.$position.'
                                             	onblur="validatePosition();" required/>
                                             </td>
@@ -237,7 +237,7 @@
                                         <tr>
                                             <td>Graduation Year</td>
                                             <td>'.
-                                            	'<input type="text" width="30" name="grad_year" id="grad_year" 
+                                            	'<input type="text" width="30" name="grad_year" id="grad_year"
                                             		value='.$grad_year.' onblur="validateGradYear();" required/>'.
                                             '</td>
                                             <td id="grad_year-err"></td>
@@ -245,7 +245,7 @@
                                         <tr>
                                             <td>Phone</td>
                                             <td>'.
-                                            	'<input type="text" width="30" name="phone" id="phone" 
+                                            	'<input type="text" width="30" name="phone" id="phone"
                                             		onblur="validatePhone();" value='.$phone.' required/>'.
                                             '</td>
                                             <td id="phone-err"></td>
@@ -256,12 +256,12 @@
                                                 '<input type="text" width="30" name="email" id="email" value='.$email.' onblur="validateEmail();" required/>'.
                                             '</td>
                                             <td id="email-err"></td>
-                                        </tr> 
+                                        </tr>
                                         <tr>
                                         	<td>
 	                                    	<button name="updateprofile" type="submit" onclick="validateAll();" formmethod="post">Update Profile</button>
 	                                    	</td>
-                                    	</tr> 
+                                    	</tr>
                                         <tr>
                                             <td>'.$_SESSION['editProfileStatus'].'
                                             </td>
@@ -273,13 +273,13 @@
                 else:
                     echo '
                         <div class=" col-md-9 col-lg-9 ">
-                         <form name="editprofile" id="editprofile" action="editprofile-handle.php" method="post">  
+                         <form name="editprofile" id="editprofile" action="editprofile-handle.php" method="post">
                           <table class="table table-user-information">
                                 <tbody>
                                 	<tr>
                                         <td>First Name</td>
                                         <td>
-                                        <input type="text" width="30" name="firstname" id="firstname" 
+                                        <input type="text" width="30" name="firstname" id="firstname"
                                         	value='.$firstname.'
                                         	onblur="validateFirst();" required/>
                                         </td>
@@ -288,7 +288,7 @@
                                     <tr>
                                         <td>Last Name</td>
                                         <td>
-                                        <input type="text" width="30" name="lastname" id="lastname" 
+                                        <input type="text" width="30" name="lastname" id="lastname"
                                         	value='.$lastname.'
                                         	onblur="validateLast();" required/>
                                         </td>
@@ -296,7 +296,7 @@
                                     </tr>
                                     <tr>
                                         <td>Username</td>
-                                        <td>' 
+                                        <td>'
                                         	. $username .
                                         '</td>
                                     </tr>
@@ -327,7 +327,7 @@
                                             <input type="text" width="30" name="email" id="email" value='.$email.' onblur="validateEmail();" required/>
                                         </td>
                                         <td id="email-err"></td>
-                                    </tr>    
+                                    </tr>
                                     <tr>
                                     	<td>
                                     	<button name="updateprofile" type="submit" onclick="validateAll();" formmethod="post">Update Profile</button>

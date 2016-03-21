@@ -6,6 +6,15 @@
  -->
 <?php
 require("connect.php");
+
+if(empty($_SESSION)) // if the session not yet started
+    session_start();
+
+$username = $_SESSION['user'];
+$user_id = $_SESSION['user_id'];
+$status = $_SESSION['status'];
+$logged_in = $_SESSION['logged_in'];
+$_SESSION['toggle'] = false;
 ?>
 <head>
 
@@ -51,9 +60,9 @@ require("connect.php");
                     <hr>
                 </div>
                 <div class="row">
-						<?php 
-							/* display loop 
-							   grabs all information from Categories table and 
+						<?php
+							/* display loop
+							   grabs all information from Categories table and
 							   displays them accordingly.
 							*/
 							function displayLoop($preparedSQL) {
@@ -61,7 +70,7 @@ require("connect.php");
 								$result = $db->query($preparedSQL);
 								echo "<table class='thread_table'>";
 								echo "<tr>";
-								echo "<th class='thread_header'> <strong>Board Name</strong> </th> <th class='thread_header'> <strong>Description</strong> </th>";
+								echo "<th class='thread_header'> <strong>General</strong> </th> <th class='thread_header'> <strong>Description</strong> </th>";
 								while ($row = $result->fetchRow()) {
 									echo "<tr class='thread_row'>";
 									echo "<h3> <td class='thread_data'>" . "<a href='boards.php?id=" . $row['cat_id'] . "&page=0'>" . $row['cat_name'] . '</a> ' . "</td> ";
@@ -70,19 +79,41 @@ require("connect.php");
 								}
 								echo "</table>";
 							}
+
+              function displayLoopMember($preparedSQL) {
+                require("connect.php");
+                $result = $db->query($preparedSQL);
+                echo "<table class='thread_table'>";
+                echo "<tr>";
+                echo "<th class='thread_header'> <strong>Member Section</strong> </th> <th class='thread_header'> <strong>Description</strong> </th>";
+                while ($row = $result->fetchRow()) {
+                  echo "<tr class='thread_row'>";
+                  echo "<h3> <td class='thread_data'>" . "<a href='boards.php?id=" . $row['cat_id'] . "&page=0'>" . $row['cat_name'] . '</a> ' . "</td> ";
+                  echo "<td class='thread_data'> <small>" . $row['cat_description'] . "</small> </h3> </td>";
+                  echo "</tr>";
+                }
+                echo "</table>";
+              }
 						?>
 						<div id="boards" >
 							<?php
-								$sql = 'SELECT * FROM Categories';
-								displayLoop($sql);
+                if($status>0):
+                  $sql = 'SELECT * FROM Categories where cat_permission = "0"';
+                  displayLoop($sql);
+								  $sql = 'SELECT * FROM Categories where cat_permission = "1"';
+                  displayLoopMember($sql);
+                elseif($status==0):
+                  $sql = 'SELECT * FROM Categories where cat_permission = "0"';
+                  displayLoop($sql);
+                endif;
 							?>
 							<div class="clearfix"></div>
 						</div>
 				</div>
                 <div class="clearfix"></div>
             </div>
-        </div>		
-		
+        </div>
+
 
     </div>
     <!-- /.container -->
