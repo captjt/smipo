@@ -74,10 +74,10 @@ require("connect.php");
 					<div class="col-md-2"></div>
 					<div class="col-md-8">
 						<div class="text-center">
-							<button type="button" class="btn btn-primary" id="executive_button" onClick="toggleExec()">Excecutive Board</button>
-							<button type="button" class="btn btn-primary" id="faculty_button" onClick="toggleFaculty()">Faculty Advisors</button>
-							<button type="button" class="btn btn-primary" id="investment_button" onClick="toggleInvestments()">Investments Division</button>
-							<button type="button" class="btn btn-primary" id="operations_button" onClick="toggleOperations()">Operations Division</button>
+							<button type="button" class="btn btn-primary" id="executive_button" onClick="toggle(1)">Excecutive Board</button>
+							<button type="button" class="btn btn-primary" id="faculty_button" onClick="toggle(2)">Faculty Advisors</button>
+							<button type="button" class="btn btn-primary" id="investment_button" onClick="toggle(3)">Investments Division</button>
+							<button type="button" class="btn btn-primary" id="operations_button" onClick="toggle(4)">Operations Division</button>
 						</div>
 					</div>
 					<div class="col-md-2"></div>
@@ -93,58 +93,68 @@ require("connect.php");
 					 There is probably a better way to do this, to much repeated code.
 				-->
 				<script>
-					  var toggleExec = function() {
+				var toggle = function(i){
+					//Exec
+					  if (i == 1){
 						  var mydiv = document.getElementById('execSQL'); // if clicked others shouldn't show up either.
 						  var facdiv = document.getElementById('facSQL');
 						  var invdiv = document.getElementById('invSQL');
 						  var oprdiv = document.getElementById('oprSQL');
 						  if (mydiv.style.display === 'block' || mydiv.style.display === '')
 							mydiv.style.display = 'none';
-						  else
+						  else {
 							mydiv.style.display = 'block';
 							facdiv.style.display = 'none';
 							invdiv.style.display = 'none';
 							oprdiv.style.display = 'none';
+						  }
 					  }
-					  var toggleFaculty = function() {
+					  //Faculty
+					  if (i == 2) {
 						  var mydiv = document.getElementById('facSQL'); // if clicked others shouldn't show up either.
 						  var execdiv = document.getElementById('execSQL');
 						  var invdiv = document.getElementById('invSQL');
 						  var oprdiv = document.getElementById('oprSQL');
 						  if (mydiv.style.display === 'block' || mydiv.style.display === '')
 							mydiv.style.display = 'none';
-						  else
+						  else {
 							mydiv.style.display = 'block';
 							execdiv.style.display = 'none';
 							invdiv.style.display = 'none';
 							oprdiv.style.display = 'none';
+						  }
 					  }
-					  var toggleInvestments = function() {
+					  //Invetments
+					  if (i == 3) {
 						  var mydiv = document.getElementById('invSQL'); // if clicked others shouldn't show up either.
 						  var facdiv = document.getElementById('facSQL');
 						  var execdiv = document.getElementById('execSQL');
 						  var oprdiv = document.getElementById('oprSQL');
 						  if (mydiv.style.display === 'block' || mydiv.style.display === '')
 							mydiv.style.display = 'none';
-						  else
+						  else {
 							mydiv.style.display = 'block';
 							execdiv.style.display = 'none';
 							facdiv.style.display = 'none';
 							oprdiv.style.display = 'none';
+						  }
 					  }
-					  var toggleOperations = function() {
+					  //Operations
+					  if (i == 4) {
 						  var mydiv = document.getElementById('oprSQL'); // if clicked others shouldn't show up either.
 						  var execdiv = document.getElementById('execSQL');
 						  var invdiv = document.getElementById('invSQL');
 						  var facdiv = document.getElementById('facSQL');
 						  if (mydiv.style.display === 'block' || mydiv.style.display === '')
 							mydiv.style.display = 'none';
-						  else
+						  else {
 							mydiv.style.display = 'block';
 							execdiv.style.display = 'none';
 							invdiv.style.display = 'none';
 							facdiv.style.display = 'none';
+						  }
 					  }
+					}
 				</script>
 				<div class="row">
 						<?php 
@@ -228,3 +238,12 @@ require("connect.php");
 </body>
 
 </html>
+Status API Training Shop Blog About 
+© 2016 GitHub, Inc. Terms Privacy Security Contact Help
+
+
+
+
+
+
+
