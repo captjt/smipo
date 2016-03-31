@@ -165,6 +165,43 @@
                 </div>
             </div>
         </div>
+	
+		<div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">Industry Updates</strong>
+                    </h2>
+                    <hr>
+                    <p>
+                        <table class="table-condensed">
+                            <?php
+								$url = "https://feeds.finance.yahoo.com/rss/2.0/headline?s=aapl,bac,cvs,cat,rmax,wmt,t,cmc,so,mmp&region=US&lang=en-US";
+								$rssOutput = getResults($url);
+								$results = $rssOutput->channel;
+								$count = 0;
+								while( $count < count($results->item)){
+								$title = $results->item[$count]->title;
+								$link = $results->item[$count]->link;
+								echo("<tr><td><a href='" . $link. "'>" . $title . "</a></td></tr>");
+								$count++;	
+								}
+											
+								function getResults($url){
+									$rssOutput = simplexml_load_string(file_get_contents($url));
+									return $rssOutput;
+								}
+							?>
+							<tr>
+                                <td>
+                                    To develop an appreciation for the complexity of interactions required in an organizational setting.
+                                </td>
+                            </tr>
+                        </table>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.container -->
 
