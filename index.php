@@ -183,7 +183,7 @@
 								while( $count < count($results->item)){
 								$title = $results->item[$count]->title;
 								$link = $results->item[$count]->link;
-								echo("<tr><td align='center'><a href='" . $link. "'>" . $title . "</a></td></tr>");
+								echo("<tr><td><a href='" . $link. "'>" . $title . "</a></td></tr>");
 								$count++;	
 								}
 											
