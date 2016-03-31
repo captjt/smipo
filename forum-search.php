@@ -6,6 +6,14 @@
  -->
 <?php
 require("connect.php");
+<<<<<<< HEAD
+$query = $_POST['query'];
+/* Sanitize the query */
+$query = htmlspecialchars($query);
+$query = stripslashes($query);
+$query = mysql_real_escape_string($query);
+=======
+>>>>>>> 74259baab0d1d4298fbaec6601b47f1c01529f8b
 ?>
 <head>
 
