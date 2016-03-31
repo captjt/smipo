@@ -183,7 +183,7 @@
 								while( $count < count($results->item)){
 								$title = $results->item[$count]->title;
 								$link = $results->item[$count]->link;
-								echo("<tr><td><a href='" . $link. "'>" . $title . "</a></td></tr>");
+								echo("<tr><td align='center'><a href='" . $link. "'>" . $title . "</a></td></tr>");
 								$count++;	
 								}
 											
@@ -192,11 +192,6 @@
 									return $rssOutput;
 								}
 							?>
-							<tr>
-                                <td>
-                                    To develop an appreciation for the complexity of interactions required in an organizational setting.
-                                </td>
-                            </tr>
                         </table>
                     </p>
                 </div>
