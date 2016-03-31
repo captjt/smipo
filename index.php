@@ -174,7 +174,7 @@
                     </h2>
                     <hr>
                     <p>
-                        <table class="table-condensed">
+                        <ul class="list-group">
                             <?php
 								$url = "https://feeds.finance.yahoo.com/rss/2.0/headline?s=aapl,bac,cvs,cat,rmax,wmt,t,cmc,so,mmp&region=US&lang=en-US";
 								$rssOutput = getResults($url);
@@ -183,7 +183,7 @@
 								while( $count < count($results->item)){
 								$title = $results->item[$count]->title;
 								$link = $results->item[$count]->link;
-								echo("<tr><td align='center'><a href='" . $link. "'>" . $title . "</a></td></tr>");
+								echo("<li class='list-group-item'><a href='" . $link. "'>" . $title . "</a></li>");
 								$count++;	
 								}
 											
