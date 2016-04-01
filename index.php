@@ -184,6 +184,7 @@
 								$title = $results->item[$count]->title;
 								$link = $results->item[$count]->link;
 								echo("<li class='list-group-item'><a href='" . $link. "'>" . $title . "</a></li>");
+								echo("<tr><td><a href='" . $link. "'>" . $title . "</a></td></tr>");
 								$count++;	
 								}
 											
