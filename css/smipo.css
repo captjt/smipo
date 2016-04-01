@@ -131,6 +131,17 @@ hr {
 .thread_row:nth-child(even) {
 	background: #D3D3D3;
 }
+
+.holdings_row {
+	padding: 10px 50px;
+	border-bottom: 2px solid #000000;
+	
+}
+.holdings_data {
+	padding: 10px 50px;
+}
+
+
 footer {
     background: #fff;
     background: rgba(255,255,255,0.9);
