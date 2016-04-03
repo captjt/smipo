@@ -64,7 +64,7 @@ $page = $_GET['page'];
 				</div>
 				<div class="col-lg-4">
 					<form method="POST" action="forum-search.php">
-					<input type="text" class="form-control" id="search-field" value="Search the forums..." name="query" style="float:left">
+					<input type="text" class="form-control" id="search-field" placeholder="Search the forums..." name="query" style="float:left">
 					<input type="submit" class="btn-primary" value="Submit" style="float:left">
 					</form>
 				</div>
