@@ -6,14 +6,11 @@
  -->
 <?php
 require("connect.php");
-<<<<<<< HEAD
 $query = $_POST['query'];
 /* Sanitize the query */
 $query = htmlspecialchars($query);
 $query = stripslashes($query);
 $query = mysql_real_escape_string($query);
-=======
->>>>>>> 74259baab0d1d4298fbaec6601b47f1c01529f8b
 ?>
 <head>
 
@@ -65,7 +62,7 @@ $query = mysql_real_escape_string($query);
 							<?php
 								/* Get threads */
 								$sql2 = "SELECT * FROM (SELECT * FROM Topics INNER JOIN Replies ON thread_id = topic_id) AS q " .
-                                "WHERE q.reply_content LIKE '%" . $_POST['query'] . "%' ORDER BY topic_id";
+                                "WHERE q.reply_content LIKE '%" . $query . "%' ORDER BY topic_id";
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='thread_table'>";
