@@ -10,6 +10,56 @@
 <html lang="en">
 
 <head>
+	
+	<style style="text/css">
+		.ticker {
+		 height: 50px;	
+		 overflow: hidden;
+		 position: relative;
+		 background-color: black;
+		 white-space: nowrap;
+		}
+		.ticker h3 {
+		 position: absolute;
+		 width: 100%;
+		 height: 100%;
+		 margin: 0;
+		 line-height: 50px;
+		 text-align: center;
+		 /* Starting position */
+		 -moz-transform:translateX(100%);
+		 -webkit-transform:translateX(100%);	
+		 transform:translateX(100%);
+		 /* Apply animation to this element */	
+		 -moz-animation: ticker 15s linear infinite;
+		 -webkit-animation: ticker 15s linear infinite;
+		 animation: ticker 15s linear infinite;
+		}
+		/* Move it (define the animation) */
+		@-moz-keyframes ticker {
+		 0%   { -moz-transform: translateX(100%); }
+		 100% { -moz-transform: translateX(-100%); }
+		}
+		@-webkit-keyframes ticker {
+		 0%   { -webkit-transform: translateX(100%); }
+		 100% { -webkit-transform: translateX(-100%); }
+		}
+		@keyframes ticker {
+		 0%   { 
+		 -moz-transform: translateX(100%); /* Firefox bug fix */
+		 -webkit-transform: translateX(100%); /* Firefox bug fix */
+		 transform: translateX(100%); 		
+		 }
+		 100% { 
+		 -moz-transform: translateX(-100%); /* Firefox bug fix */
+		 -webkit-transform: translateX(-100%); /* Firefox bug fix */
+		 transform: translateX(-100%); 
+		 }
+		}
+	</style>
+
+
+
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -172,7 +222,37 @@
                     <hr>
                     <h2 class="intro-text text-center">Industry Updates</strong>
                     </h2>
-                    <hr>
+                    <hr>								
+					<div class="ticker">
+					<h3>
+					<?php
+					/*Determine color and arrow of stock change */
+					function setStockChange($change) {
+						if ($change > 0.0) {
+							return "<span style='color:green'>&uarr; $change &nbsp;&nbsp;&nbsp;&nbsp;</span>";
+						}
+						else {
+							return "<span style='color:red'>&darr; $change &nbsp;&nbsp;&nbsp;&nbsp;</span>";
+						}
+					}
+					
+					
+						$queryURL = "http://finance.yahoo.com/webservice/v1/symbols/BKCC,BCO,WTR,VR,NRZ,WBS,EMLP,CTB,SIMO,HPT/quote?format=json&view=detail";
+						$session = curl_init($queryURL);
+						curl_setopt($session, CURLOPT_RETURNTRANSFER,true);
+						$json = curl_exec($session);
+						$phpObj =  json_decode($json);
+						for ($i = 0; $i < 10; $i++) {
+							$stock = $phpObj->{'list'}->{'resources'}[$i]->{'resource'}->{'fields'};
+							echo "<span style='color:white'>" . $stock->{'symbol'} . "</span>";
+							echo setStockChange($stock->{'change'});
+						}
+						curl_close($session);
+					?>
+						</h3>
+					</div>
+					
+					<hr>
                     <p>
                         <ul class="list-group">
                             <?php
