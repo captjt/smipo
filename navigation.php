@@ -47,10 +47,18 @@
                                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">More<span class="caret"></span></a>
                                  ';
                             echo '<ul class="dropdown-menu">';
+                            
                             echo '<li><a href="profile.php">Profile</a></li>';
                             if($_SESSION['logged_in']&&$_SESSION['status']==2):
                                 echo "<li>";
                                 echo '<a href="admin.php">Admin</a>';
+                                echo "</li";
+                            else:
+                                #do nothing
+                            endif;
+                            if($_SESSION['logged_in']&&$_SESSION['status']==0):
+                                echo "<li>";
+                                echo '<a href="club-application.php">Apply Today</a>';
                                 echo "</li";
                             else:
                                 #do nothing
