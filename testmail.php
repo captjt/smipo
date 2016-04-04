@@ -2,32 +2,28 @@
 
 require 'connect.php';
 
-ini_set('display_errors',1);
-error_reporting(E_ALL);
-
 if(empty($_SESSION)) // if the session not yet started
-  session_start();
+session_start();
 
 $username = $_SESSION['user'];
 $user_id = $_SESSION['user_id'];
 $status = $_SESSION['status'];
 $logged_in = $_SESSION['logged_in'];
-$_SESSION['toggle'] = false;
 
 if($logged_in):
   #querying the users information to populate the application profile page
 
-  if($status>0):
-    #this is going to be not needed they are already a member
+    if($status>0):
+        header("Location:forum.php");
     $isMember = true;
-  elseif($status==0):
-      $query = "Select * from members
-                  where username = '$username' AND member_id = '$user_id'";
-      $query = mysql_query($query);
-  else:
-      #not a valid user
-      break;
-  endif;
+    elseif($status==0):
+        $query = "Select * from members
+    where `username` = '$username' and `member_id` = '$user_id'";
+    $query = mysql_query($query);
+    else:
+        #not a valid user
+        break;
+    endif;
 
 #checking for valid rows from $query
     if (mysql_num_rows($query) === 0){
@@ -40,10 +36,10 @@ if($logged_in):
 
     #checking if the result is NULL
     if (!$query){
-  if(!$status>0):
-        echo 'Could not run query: ' . mysql_error();
+        if(!$status>0):
+            echo 'Could not run query: ' . mysql_error();
         exit;
-  endif;
+        endif;
     }
 
     #checking each returned value from the query - with '$username'
@@ -56,17 +52,7 @@ if($logged_in):
             $firstname = $row['firstname'];
             $lastname = $row['lastname'];
             $email = $row['email'];
-
-            if($row['phone']==""):
-                $phone="Default";
-            else:
-                $phone = $row['phone'];
-            endif;
-
-            $grad_year = $row['graduation_year'];
             $_SESSION['searchError'] = "";
-
-
             break;
         }
     }
@@ -75,58 +61,67 @@ if($logged_in):
       #set error message
       $errorMsg = '<span style="color:#ff0000">There are no members accounts with that information</span><br />';
       $_SESSION['searchError'] = $errorMsg;
-    }
-else:
-  header("Location:login.php");
-endif;
+  }
+  else:
+      header("Location:login.php");
+  endif;
 
 /**
  * PHPMailer simple file upload and send example
  */
 
 $msg = '';
-if (array_key_exists('userfile', $_FILES)) {
+#if (array_key_exists('userfile', $_FILES)) {
 
     require 'phpmailer/PHPMailerAutoload.php';
-    
+    require 'phpmailer/class.phpmailer.php';
+
     $filename = $_FILES['userfile']['name'];
     $fileerror = $_FILES['userfile']['error'];
     $temp_name = $_FILES['userfile']['tmp_name'];
+    $upload_dir = 'uploads/';
 
-    if(isset($filename)){
-        if(!empty($filename)){
+    if(isset($_POST)){
+        #if(!empty($filename)){
 
-            $upload_dir = '/Volumes/jtaylor32/dynamic_php/smipo/tmp/';
-            $msg .= $fileerror . 'hello';
+            $msg .= $fileerror . '<br />';
+
             #if (move_uploaded_file($temp_name, $upload_dir.$filename)) {
                 // First handle the upload
                 // Don't trust provided filename - same goes for MIME types
                 // See http://php.net/manual/en/features.file-upload.php#114004 for more thorough upload validation
 
+                #chmod("uploads/", 0777);
                 $from_email = $_POST['email'];
                 $from_message = $_POST['message'];
+                $from_resume = $_POST['resume'];
+
+                $msg .= $from_resume;
+
+                $file_address = $upload_dir.$filename;
                 
                 $mail = new PHPMailer;
                 $mail->setFrom($from_email, $firstname . " " . $lastname);
                 $mail->addAddress('jtaylor32@radford.edu', 'Mr. President');
                 $mail->Subject = 'Club Application';
-                $mail->AltBody($from_message);
+                $mail->Body = $from_message;
+
                 // Attach the file
-                #$mail->addAttachment($upload_dir.$filename, 'My Resume');
+                #$mail->addAttachment("uploads/Jordan-Taylor-Resume.pdf", "Resume");
                 if (!$mail->send()) {
                     $msg .= "Mailer Error: " . $mail->ErrorInfo;
                 } else {
-                    $msg .= "Message sent!";
+                    $msg .= "Application Recieved - We will reach out to you within 2 weeks!";
                 }
             #}
             #else {
             #    $msg .= 'Failed to move file to ' .$upload_dir.$filename;
             #}
-        }
+        #}
     }
 
     
-} 
+#} 
 
 ?>
 
@@ -161,31 +156,31 @@ if (array_key_exists('userfile', $_FILES)) {
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <![endif]-->
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-    <?php require_once("navigation.php"); ?>
+        <?php require_once("navigation.php"); ?>
 
-    <div class="container">
-        <div class="row">
-            <div class="box">
-                <div class="col-lg-12">
-                    <hr>
-                    <h2 class="intro-text text-center">Applicant Information
-                        <strong></strong>
-                    </h2>
+        <div class="container">
+            <div class="row">
+                <div class="box">
+                    <div class="col-lg-12">
+                        <hr>
+                        <h2 class="intro-text text-center">Applicant Information
+                            <strong></strong>
+                        </h2>
                     </hr>
                     <p>
-                    <?php if (empty($msg) && empty($_FILES)) { ?>
+                        <?php if (empty($msg) && empty($_FILES)) { ?>
                         <form method="post" enctype="multipart/form-data">
                             <center>
                                 <table class="table-condensed">
                                     <tr>
                                         <td>First Name:</td>
-                                        <td><input type="text" width="30" name="firstname" id="firstname" value="<?php echo "$firstname"; ?>" onblur="validateFirst();" required/></td>
+                                        <td><input type="text" width="30" name="firstname" id="firstname" value="<?php echo "$username"; ?>" onblur="validateFirst();" required/></td>
                                         <td id="firstname-err"></td>
                                     </tr>
                                     <tr>
@@ -198,44 +193,48 @@ if (array_key_exists('userfile', $_FILES)) {
                                         <td><input type="text" width="30" name="email" id="email" value="<?php echo "$email"; ?>" onblur="validateEmail();" required/></td>
                                         <td id="email-err"></td>
                                     </tr>
-                            <tr>
-                              <td>Message</td>
-                              <td><textarea name="message" id="message"></textarea></td>
-                            </tr>
-                            <tr>
-                              <td>Resume (PDF): </td>
-                              <td><input name="userfile" type="file"></td>
-                            </tr>
-                                </table>
-                                <br />
-                                <input type="submit" value="Apply">
-                            </center>
-                        </form>
-                    <?php } else {
-                        echo $msg;
-                    } ?>
-                    </p>
-                </div>
+                                    <tr>
+                                      <td><label for='message'>Message</label></td>
+                                      <td><textarea name="message" placeholder="What would you benefit from this position?" id="message" rows="4"></textarea></td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                        <label for="resume">Paste Your Resume</label>
+                                    </td>
+                                    <td>
+                                        <textarea name="resume" id="resume" rows="10"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                        <br />
+                        <input type="submit" value="Apply">
+                    </center>
+                </form>
+                <?php } else {
+                    echo $msg;
+                } ?>
+            </p>
+        </div>
+    </div>
+</div>
+</div>
+<!-- /.container -->
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Copyright &copy; Radford SMIPO 2015</p>
             </div>
         </div>
     </div>
-    <!-- /.container -->
+</footer>
 
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Radford SMIPO 2015</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
 
 </body>
 
