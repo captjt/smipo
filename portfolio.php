@@ -63,27 +63,18 @@ require("connect.php");
 								return "<p style='color:red'>&darr; $change</p>";
 							}
 						}
-					
-					
-					
-					
-					
-						$symbol_array = array('BKCC', 'BCO', 'WTR', 'VR', 'NRZ', 'WBS', 'EMLP', 'CTB', 'SIMO', 'HPT');
-						for ($i = 0; $i < count($symbol_array); $i++) {
-							$api_url = "http://finance.yahoo.com/webservice/v1/symbols/$symbol_array[$i]/quote?format=json&view=detail";
-							$session = curl_init($api_url);
-							curl_setopt($session, CURLOPT_RETURNTRANSFER,true);
-							$json = curl_exec($session);
-							$phpObj =  json_decode($json);
-							$stock = $phpObj->{'list'}->{'resources'}[0]->{'resource'}->{'fields'};
+						$api_url = "http://finance.yahoo.com/webservice/v1/symbols/BKCC,BCO,WTR,VR,NRZ,WBS,EMLP,CTB,SIMO,HPT/quote?format=json&view=detail";
+						$session = curl_init($api_url);
+						curl_setopt($session, CURLOPT_RETURNTRANSFER,true);
+						$json = curl_exec($session);
+						$phpObj =  json_decode($json);
+						for ($i = 0; $i < 10; $i ++) {
+							$stock = $phpObj->{'list'}->{'resources'}[$i]->{'resource'}->{'fields'};
 							echo "<tr class='holdings_row'><td class='holdings_data'><p>" . $stock->{'symbol'} . "</p></td><td class='holdings_data'><p>" . $stock->{'name'} . 
-							     "</p></td><td class='holdings_data'><p>$" . $stock->{'price'} . "</p></td><td class='holdings_data'>" . setStockChange($stock->{'change'}) . '</td></tr>';
-							curl_close($session);
-							
-							
-						
-						
+							 "</p></td><td class='holdings_data'><p>$" . $stock->{'price'} . "</p></td><td class='holdings_data'>" . setStockChange($stock->{'change'}) . '</td></tr>';
 						}
+						curl_close($session);
+
 						?>
                     </table>
                 </div>
