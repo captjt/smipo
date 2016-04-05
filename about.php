@@ -61,7 +61,10 @@ require("connect.php");
                         management and decision-making processes of a corporate 
                         structured organization by participating in hands-on management 
                         of the funds of Radford University Foundation’s endowment to 
-                        the Student Managed Investment Portfolio Organization. <a href="portfolio.php"> Check out our portfolio. </a>
+                        the Student Managed Investment Portfolio Organization.
+                    </p>
+                    <p>
+                    	<a href="portfolio.php"> Check out our portfolio. </a>
                     </p>
                 </div>
                 <div class="clearfix"></div>
