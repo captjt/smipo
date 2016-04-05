@@ -13,6 +13,16 @@ $result = $db->query($sql);
 $row = $result->fetchRow();
 $topic_sub = $row['topic_subject'];
 $page = $_GET['page'];
+
+
+if(empty($_SESSION)) // if the session not yet started
+    session_start();
+
+$username = $_SESSION['user'];
+$user_id = $_SESSION['user_id'];
+$status = $_SESSION['status'];
+$logged_in = $_SESSION['logged_in'];
+$_SESSION['toggle'] = false;
 ?>
 <head>
 
@@ -60,18 +70,22 @@ $page = $_GET['page'];
                 </div>
 				
 				
-			<div class="row">
-				<div class="col-lg-4">
-				</div>
-				<div class="col-lg-4">
-				</div>
-				<div class="col-lg-4">
-					<form method="POST" action="forum-search.php">
-					<input type="text" class="form-control" id="search-field" placeholder="Search the forums..." name="query" style="float:left">
-					<input type="submit" class="btn-primary" value="Submit" style="float:left">
-					</form>
-				</div>
-			</div>
+			<?php
+			if ($status > 0) {
+				echo "<div class='row'>";
+					echo "<div class='col-lg-4'>";
+					echo "</div>";
+					echo "<div class='col-lg-4'>";
+					echo "</div>";
+					echo "<div class='col-lg-4'>";
+						echo "<form method='POST' action='forum-search.php'>";
+						echo "<input type='text' class='form-control' id='search-field' placeholder='Search the forums...' name='query' style='float:left'>";
+						echo "<input type='submit' class='btn-primary' value='Submit' style='float:left'>";
+						echo "</form>";
+					echo "</div>";
+				echo "</div>";
+			}
+			?>
 			<br>
 				
 				
@@ -79,73 +93,74 @@ $page = $_GET['page'];
 				<!-- main content area -->
 						<div id="replies" >
 							<?php
-							
-								/* Get threads */
-								$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id . ' ORDER BY reply_id ASC LIMIT 5 OFFSET ' . $page * 5;
-								$result2 = $db->query($sql2);
-								/* set up table headers */
-								echo "<table class='thread_table'>";
-								echo "<tr>";
-								echo "<th class='thread_header'> <strong> Poster </strong> </th>";
-								echo "<th class='thread_header'> <strong> Date </strong> </th>";
-								echo "<th class='thread_header'> <strong> Content </strong> </th>";
-								echo "</tr>";
-								/* end table headers */
-								/* pull replies from database and display */
-								while($replies = $result2->fetchRow()) {
-									echo "<tr class='thread_row'>";
-									echo "<td class='thread_data'>" . "<img src='img/" . displayMemberPicture($replies['reply_by']) . "' height='100' width='100'>" .
-									     "<br>" . displayMember($replies['reply_by']) . "</td>";
-									echo "<td class='thread_data'>" . $replies['reply_date'] . "</td>";
-									echo "<td class='thread_data'>" . $replies['reply_content'] . "</td>";
-									echo "</tr class='thread_data'>";
-								}
-								echo "</table>";
-								
-								/* Split results into pages */
-								$page_count_sql = 'SELECT COUNT(reply_id) as total FROM Replies WHERE thread_id = ' . $thread_id;
-								$page_count = $db->query($page_count_sql);
-								$page_result = $page_count->fetchRow();
-								$total = $page_result['total'];
-								/* round up */
-								$total = ceil($total / 5);
-								/* for loop to create page links */
-								echo "<div class='col-sm-4'></div>";
-								echo "<div class='col-sm-4'>";
-								for ($x = 0; $x < $total; $x ++) {
-									echo "<a href=thread.php?board=$board_id&thread=$thread_id&page=$x>$x|</a>";
-								}
-								echo "</div>";
-								echo "<div class='col-sm-4'></div>";
-								/* end split results */
-								
-								function displayMember($member_id) {
-									require("connect.php");
-									$member_sql = 'SELECT * FROM members WHERE member_id = ' . $member_id;
-									$member_result = $db->query($member_sql);
-									$member = $member_result->fetchRow();
-									return $member['username'];
-								}
-								function displayMemberPicture($member_id) {
-									require("connect.php");
-									$pic_sql = "SELECT * FROM members WHERE member_id = $member_id";
-									$pic_result = $db->query($pic_sql);
-									$pic = $pic_result->fetchRow();
-									$picture = $pic['img_source'];
-									if ($picture == null) {
-										return "smipo-logo.jpg";
+							if (($status > 0) || ($board_id == 6)) { 
+									/* Get threads */
+									$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id . ' ORDER BY reply_id ASC LIMIT 5 OFFSET ' . $page * 5;
+									$result2 = $db->query($sql2);
+									/* set up table headers */
+									echo "<table class='thread_table'>";
+									echo "<tr>";
+									echo "<th class='thread_header'> <strong> Poster </strong> </th>";
+									echo "<th class='thread_header'> <strong> Date </strong> </th>";
+									echo "<th class='thread_header'> <strong> Content </strong> </th>";
+									echo "</tr>";
+									/* end table headers */
+									/* pull replies from database and display */
+									while($replies = $result2->fetchRow()) {
+										echo "<tr class='thread_row'>";
+										echo "<td class='thread_data'>" . "<img src='img/" . displayMemberPicture($replies['reply_by']) . "' height='100' width='100'>" .
+											 "<br>" . displayMember($replies['reply_by']) . "</td>";
+										echo "<td class='thread_data'>" . $replies['reply_date'] . "</td>";
+										echo "<td class='thread_data'>" . $replies['reply_content'] . "</td>";
+										echo "</tr class='thread_data'>";
 									}
-									else {
-										return $picture;
+									echo "</table>";
+									/* Split results into pages */
+									$page_count_sql = 'SELECT COUNT(reply_id) as total FROM Replies WHERE thread_id = ' . $thread_id;
+									$page_count = $db->query($page_count_sql);
+									$page_result = $page_count->fetchRow();
+									$total = $page_result['total'];
+									/* round up */
+									$total = ceil($total / 5);
+									/* for loop to create page links */
+									echo "<div class='col-sm-4'></div>";
+									echo "<div class='col-sm-4'>";
+									for ($x = 0; $x < $total; $x ++) {
+										echo "<a href=thread.php?board=$board_id&thread=$thread_id&page=$x>$x|</a>";
 									}
-								}
-								echo "<br><br>";
-								echo "<center>";
-								echo "<form action='newPost.php?thread=$thread_id&req=new&topic=$topic_sub' method='POST'>";
-								echo "<input type='submit' value='Reply'>";
-								echo "</form>";
-								echo "</center>";
-								
+									echo "</div>";
+									echo "<div class='col-sm-4'></div>";
+									/* end split results */
+									echo "<br><br>";
+									echo "<center>";
+									echo "<form action='newPost.php?thread=$thread_id&req=new&topic=$topic_sub' method='POST'>";
+									echo "<input type='submit' value='Reply'>";
+									echo "</form>";
+									echo "</center>";
+							}
+							else {
+								echo "<h3> How did you get here? </h3>";
+							}
+							function displayMember($member_id) {
+										require("connect.php");
+										$member_sql = 'SELECT * FROM members WHERE member_id = ' . $member_id;
+										$member_result = $db->query($member_sql);
+										$member = $member_result->fetchRow();
+										return $member['username'];
+							}
+							function displayMemberPicture($member_id) {
+										require("connect.php");
+										$pic_sql = "SELECT * FROM members WHERE member_id = $member_id";
+										$pic_result = $db->query($pic_sql);
+										$pic = $pic_result->fetchRow();
+										$picture = $pic['img_source'];
+										if ($picture == null) {
+											return "smipo-logo.jpg";
+										}
+										else {
+											return $picture;
+										}
+							}
 							?>
 							<div class="clearfix"></div>
 						</div>

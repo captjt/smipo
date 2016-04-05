@@ -59,18 +59,22 @@ $_SESSION['toggle'] = false;
                     </h2>
                     <hr>
                 </div>
-			<div class="row">
-				<div class="col-lg-4">
-				</div>
-				<div class="col-lg-4">
-				</div>
-				<div class="col-lg-4">
-					<form method="POST" action="forum-search.php">
-					<input type="text" class="form-control" id="search-field" placeholder="Search the forums..." name="query" style="float:left">
-					<input type="submit" class="btn-primary" value="Submit" style="float:left">
-					</form>
-				</div>
-			</div>
+			<?php
+			if ($status > 0) {
+				echo "<div class='row'>";
+					echo "<div class='col-lg-4'>";
+					echo "</div>";
+					echo "<div class='col-lg-4'>";
+					echo "</div>";
+					echo "<div class='col-lg-4'>";
+						echo "<form method='POST' action='forum-search.php'>";
+						echo "<input type='text' class='form-control' id='search-field' placeholder='Search the forums...' name='query' style='float:left'>";
+						echo "<input type='submit' class='btn-primary' value='Submit' style='float:left'>";
+						echo "</form>";
+					echo "</div>";
+				echo "</div>";
+			}
+			?>
                 <div class="row">
 						<?php
 							/* display loop

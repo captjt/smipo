@@ -31,18 +31,18 @@
 		 -webkit-transform:translateX(100%);	
 		 transform:translateX(100%);
 		 /* Apply animation to this element */	
-		 -moz-animation: ticker 15s linear infinite;
-		 -webkit-animation: ticker 15s linear infinite;
-		 animation: ticker 15s linear infinite;
+		 -moz-animation: ticker 35s linear infinite;
+		 -webkit-animation: ticker 35s linear infinite;
+		 animation: ticker 35s linear infinite;
 		}
 		/* Move it (define the animation) */
 		@-moz-keyframes ticker {
 		 0%   { -moz-transform: translateX(100%); }
-		 100% { -moz-transform: translateX(-100%); }
+		 100% { -moz-transform: translateX(-750%); }
 		}
 		@-webkit-keyframes ticker {
 		 0%   { -webkit-transform: translateX(100%); }
-		 100% { -webkit-transform: translateX(-100%); }
+		 100% { -webkit-transform: translateX(-750%); }
 		}
 		@keyframes ticker {
 		 0%   { 
@@ -51,9 +51,9 @@
 		 transform: translateX(100%); 		
 		 }
 		 100% { 
-		 -moz-transform: translateX(-100%); /* Firefox bug fix */
-		 -webkit-transform: translateX(-100%); /* Firefox bug fix */
-		 transform: translateX(-100%); 
+		 -moz-transform: translateX(-750%); /* Firefox bug fix */
+		 -webkit-transform: translateX(-750%); /* Firefox bug fix */
+		 transform: translateX(-750%); 
 		 }
 		}
 	</style>
@@ -237,12 +237,12 @@
 					}
 					
 					
-						$queryURL = "http://finance.yahoo.com/webservice/v1/symbols/BKCC,BCO,WTR,VR,NRZ,WBS,EMLP,CTB,SIMO,HPT/quote?format=json&view=detail";
+						$queryURL = "http://finance.yahoo.com/webservice/v1/symbols/BKCC,BCO,WTR,VR,NRZ,WBS,EMLP,CTB,SIMO,HPT,AFSI,LM,GT,CPK,SMP,OMI,OHI,MATW,IQNT,PRI,AIT,POR,GLT,HRS,KBWP,FRAF,FDP,CLH,ALE,UVV,AEE,PSCT,CCE,CACI,RMD,TSO,TAP,SCG,VAW,EMN,SSS,IYT,RCD,DGX,RMR/quote?format=json&view=detail";
 						$session = curl_init($queryURL);
 						curl_setopt($session, CURLOPT_RETURNTRANSFER,true);
 						$json = curl_exec($session);
 						$phpObj =  json_decode($json);
-						for ($i = 0; $i < 10; $i++) {
+						for ($i = 0; $i < 35; $i++) {
 							$stock = $phpObj->{'list'}->{'resources'}[$i]->{'resource'}->{'fields'};
 							echo "<span style='color:white'>" . $stock->{'symbol'} . "</span>";
 							echo setStockChange($stock->{'change'});
