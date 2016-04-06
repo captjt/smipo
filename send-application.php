@@ -19,7 +19,7 @@ else {
 	$resume = $_POST['resume'];
 
 	// Create the email and send the message
-	$to = 'jtaylor32@radford.edu';
+	$to = 'cwolf4@radford.edu';
 	$email_subject = "Applicatant Contact:  $firstname $lastname";
 	$email_body = "You have a new applicant\n\n"."Here are the details:\n\nName: $firstname $lastname\n\nEmail: $email_address\n\nMessage: $message\n\nResume:\n$resume";
 	$headers = "From: \n";
