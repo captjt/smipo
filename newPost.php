@@ -22,7 +22,7 @@ $board_id = $row['board_id'];
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>New Thread - SMIPO</title>
+    <title>New Post - SMIPO</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@ $board_id = $row['board_id'];
 									$reply = stripslashes($reply);
 									$reply = mysql_real_escape_string($reply);
 									/* user is logged in and allowed to post */
-									if ($logged_in == true && $status > 0) {			
+									if ($logged_in == true && $status >= 0) {			
 										/* insert first reply into Replies table */
 										$insert_sql = "INSERT INTO Replies (reply_content, reply_date, reply_topic, reply_by, thread_id)" .
 													  " VALUES ('$reply', CURDATE(), '$topic', $user_id, $thread_id)";

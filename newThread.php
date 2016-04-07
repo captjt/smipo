@@ -93,12 +93,13 @@ $row = $result->fetchRow();
 									$board_name = $board_row['cat_name'];
 									/* end getting board name */
 									/* user is logged in and allowed to post */
-									if ($logged_in == true && $status > 0) {
+									if ($logged_in == true && $status >= 0) {
 										$insert_sql = "INSERT INTO Topics (topic_subject, topic_date, topic_cat, topic_by, board_id)" .
 													  " VALUES ('$topic_name', CURDATE(), '$board_name', '$username', $board_id)";
 										$db->query($insert_sql);
 										
 										/* getting our newly created thread's ID */
+										// FIX THIS QUERY 
 										$id_sql = "SELECT * FROM Topics WHERE topic_subject = '$topic_name'";
 										$id_result = $db->query($id_sql);
 										$id_row = $id_result->fetchRow();
