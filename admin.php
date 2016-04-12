@@ -62,7 +62,7 @@
                 <div class="col-lg-12">
                     <hr>
                     <h2 class="intro-text text-center">
-                        Search for Site Member
+                        Search for Members
                     </h2>
                     </hr>
                     <p>
@@ -70,6 +70,17 @@
                             <center>
                                 <table class="table-condensed">
                                     <tr>
+                                    <?php 
+                                        $sql="SELECT username FROM members"; 
+                                        $result = mysql_query($sql);
+                                        echo "<select class='form-control input-lg' id='username' name='username' value=''>Member Name"; // list box select  
+                                        while ($row = mysql_fetch_array($result)) {
+                                           echo '<option value="'.$row['username'].'">'.$row['username'].'</option>';
+                                        }
+                                        echo "</select";
+                                     ?>
+                                    </tr>
+<!--                                     <tr>
                                         <td>First Name :</td>
                                         <td><input type="text" width="30" name="firstname" id="firstname" onblur="validateFirst();"/></td>
                                         <td id="firstname-err"></td>
@@ -79,7 +90,7 @@
                                         <td><input type="text" width="30" name="lastname" id="lastname" onblur="validateLast();"/></td>
                                         <td id="lastname-err"></td>
                                     </tr>
-                                    <tr>
+ -->                                    <tr>
                                         <td id="search-err">
                                             <?php
                                                 echo $_SESSION['searchError'];

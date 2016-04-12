@@ -15,12 +15,10 @@ if($_SESSION['status']<2)
 
 $errorMsg = '';
 
-$firstname = $_POST['firstname'];
-$lastname = $_POST['lastname'];
-
-$username = htmlspecialchars($username);
-
-$username = mysql_real_escape_string($username);
+$searchUsername = $_POST['username'];
+$errorMsg = $searchUsername;
+// $firstname = $_POST['firstname'];
+// $lastname = $_POST['lastname'];
 
 #query to search database with the admin's input for username
 /*$query = mysql_query("SELECT members.member_id, firstname, lastname, username, status, department_id, position 
@@ -30,37 +28,25 @@ $username = mysql_real_escape_string($username);
   WHERE `username` = '$username'");
 */
 
-$query2 = "Select *
-            from (
-              Select members.member_id, firstname, lastname, username, status, department_assignment.department_id, position, name 
-              from `members`
-              inner join `department_assignment`
-              on members.member_id = department_assignment.member_id
-              inner join `department`
-              on department_assignment.department_id = department.department_id ) as alias
-            where firstname = '$firstname' and lastname = '$lastname'";
+// $query1 = "Select *
+//             from (
+//               Select members.member_id, firstname, lastname, username, status, department_assignment.department_id, position, name 
+//               from `members`
+//               inner join `department_assignment`
+//               on members.member_id = department_assignment.member_id
+//               inner join `department`
+//               on department_assignment.department_id = department.department_id ) as alias
+//             where username = '$searchUsername'";
 
-$query3 = "Select *
+$query = "Select *
             from members  
-            where firstname = '$firstname' or lastname ='$lastname'";
+            where username = '$searchUsername'";
 
-$query4 = "Select * 
-            from members 
-            where firstname = '$firstname' and lastname = '$lastname'";
-
-if ($firstname === "" OR $lastname === "")
-{
-  $query = mysql_query($query3);
-}
-if ($firstname !== "" and $lastname !== "")
-{
-  $query = mysql_query($query4);
-}
-
+$query = mysql_query($query);
 
 #checking for valid rows from $query
 if (mysql_num_rows($query) === 0){
-  $errorMsg = '<span style="color:#ff0000">There are no members accounts with that information</span><br />';
+  $errorMsg .= '<span style="color:#ff0000">There are no members accounts with that information</span><br />';
   $_SESSION['searchError'] = $errorMsg;
   header("Location:admin.php");
 }
@@ -71,18 +57,18 @@ if (!$query){
   exit;
 }
 #checking each returned value from the query - with '$username'
-if (mysql_num_rows($query)){
+if (mysql_num_rows($query)==1){
   while($row = mysql_fetch_array($query)) { 
     $member_id = $row['member_id'];
     $sel_username = $row['username'];
     $firstname = $row['firstname'];
     $lastname = $row['lastname'];
     $status = $row['status'];
-    $department_id = $row['department_id'];
-    $position = $row['position'];
-    $department = $row['name'];
+    // $department_id = $row['department_id'];
+    // $position = $row['position'];
+    // $department = $row['name'];
 
-    $_SESSION['selectedUsername'] = $sel_username;
+    $_SESSION['selectedUsername'] = $searchUsername;
     $_SESSION['searchError'] = "";
     break;
   }
@@ -152,7 +138,7 @@ else{
                 <div class="col-lg-12">
                   <hr>
                   <h2 class="intro-text text-center">Change the permission status for 
-                    <strong><?php echo "$firstname $lastname"; ?></strong>
+                    <strong><?php echo "$searchUsername"; ?></strong>
                   </h2>
                 </hr>
               </div>
@@ -194,14 +180,19 @@ else{
                   <center>
                     <table class="table-condensed">
                       <tr>
+                        <td>Username:</td>
+                        <td class="bordered"><?php echo "$searchUsername"; ?></td>
+                        <td id="username-err"></td>
+                      </tr>
+                      <tr>
                         <td>First Name:</td>
                         <td class="bordered"><?php echo "$firstname"; ?></td>
-                        <td id="firstname-err"><?php echo "$oneNameInvalid" ?></td>
+                        <td id="firstname-err"><?php echo "$test" ?></td>
                       </tr>
                       <tr>
                         <td>Last Name:</td>
                         <td class="bordered"><?php echo "$lastname"; ?></td>
-                        <td id="lastname-err"></td>
+                        <td id="lastname-err"><?php echo "$test_inner" ?></td>
                       </tr>
                       <tr>
                         <td>Current Status:</td>
@@ -219,6 +210,12 @@ else{
                       </tr>
                     </table>
                     <button name="edit" type="submit" onclick="validateAll()" formmethod="post">Update</button>
+                  </center>
+                </form>
+                <br />
+                <form name="delete_user" id="delete_user" action="admin-deleteprofile.php">
+                  <center>
+                    <button name="delete" type="submit" formmethod="post">Delete User</button>
                   </center>
                 </form>
               </div>

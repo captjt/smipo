@@ -11,7 +11,7 @@
 
 <html>
     <div class="brand">Radford SMIPO</div>
-    <div class="address-bar">Radford's Division of SMIPO | <a href="https://www.radford.edu/content/radfordcore/home.html"> Radford University </a> | Radford, Virginia
+    <div class="address-bar">Student Managed Investment Portfolio Organization | <a href="https://www.radford.edu/content/radfordcore/home.html"> Radford University </a> | Radford, Virginia
     </div>
 
     <!-- Navigation -->
