@@ -59,22 +59,18 @@ $_SESSION['toggle'] = false;
                     </h2>
                     <hr>
                 </div>
-			<?php
-			if ($status > 0) {
-				echo "<div class='row'>";
-					echo "<div class='col-lg-4'>";
-					echo "</div>";
-					echo "<div class='col-lg-4'>";
-					echo "</div>";
-					echo "<div class='col-lg-4'>";
-						echo "<form method='POST' action='forum-search.php'>";
-						echo "<input type='text' class='form-control' id='search-field' placeholder='Search the forums...' name='query' style='float:left'>";
-						echo "<input type='submit' class='btn-primary' value='Submit' style='float:left'>";
-						echo "</form>";
-					echo "</div>";
-				echo "</div>";
-			}
-			?>
+			<div class="row">
+				<div class="col-lg-4">
+				</div>
+				<div class="col-lg-4">
+				</div>
+				<div class="col-lg-4">
+					<form method="POST" action="forum-search.php">
+					<input type="text" class="form-control" id="search-field" placeholder="Search the forums..." name="query" style="float:left">
+					<input type="submit" class="btn-primary" value="Submit" style="float:left">
+					</form>
+				</div>
+			</div>
                 <div class="row">
 						<?php
 							/* display loop
@@ -84,31 +80,33 @@ $_SESSION['toggle'] = false;
 							function displayLoop($preparedSQL) {
 								require("connect.php");
 								$result = $db->query($preparedSQL);
-								echo "<table class='thread_table'>";
-								echo "<tr>";
-								echo "<th class='thread_header'> <strong>General</strong> </th> <th class='thread_header'> <strong>Description</strong> </th>";
+								echo "<table class='table forum table-striped'>";
+								echo "<thead><tr>";
+								echo "<th class='cell-stat'> <h3><strong>Public Topics</strong></h3> </th></thead>";
+                                echo "<tbody>";
 								while ($row = $result->fetchRow()) {
-									echo "<tr class='thread_row'>";
-									echo "<h3> <td class='thread_data'>" . "<a href='boards.php?id=" . $row['cat_id'] . "&page=0'>" . $row['cat_name'] . '</a> ' . "</td> ";
-									echo "<td class='thread_data'> <small>" . $row['cat_description'] . "</small> </h3> </td>";
+									echo "<tr class='cell-stat'>";
+									echo "<td><h4>" . "<a href='boards.php?id=" . $row['cat_id'] . "&page=0'>" . $row['cat_name'] . '</a> ' . "<br>";
+									echo "<small>" . $row['cat_description'] . "</small> </h4> </td>";
 									echo "</tr>";
 								}
-								echo "</table>";
+								echo "</tbody></table>";
 							}
 
               function displayLoopMember($preparedSQL) {
                 require("connect.php");
                 $result = $db->query($preparedSQL);
-                echo "<table class='thread_table'>";
-                echo "<tr>";
-                echo "<th class='thread_header'> <strong>Member Section</strong> </th> <th class='thread_header'> <strong>Description</strong> </th>";
+                echo "<table class='table forum table-striped'>";
+                echo "<thead><tr>";
+                echo "<th class='cell-stat'> <h3><strong>Member Topics</strong></h3> </th></thead>";
+                echo "<tbody>";
                 while ($row = $result->fetchRow()) {
-                  echo "<tr class='thread_row'>";
-                  echo "<h3> <td class='thread_data'>" . "<a href='boards.php?id=" . $row['cat_id'] . "&page=0'>" . $row['cat_name'] . '</a> ' . "</td> ";
-                  echo "<td class='thread_data'> <small>" . $row['cat_description'] . "</small> </h3> </td>";
-                  echo "</tr>";
+                    echo "<tr class='cell-stat'>";
+                    echo "<td><h4>" . "<a href='boards.php?id=" . $row['cat_id'] . "&page=0'>" . $row['cat_name'] . '</a> ' . "<br>";
+                    echo "<small>" . $row['cat_description'] . "</small> </h4> </td>";
+                    echo "</tr>";
                 }
-                echo "</table>";
+                echo "</tbody></table>";
               }
 						?>
 						<div id="boards" >

@@ -6,22 +6,12 @@
  -->
 <?php
 require("connect.php");
-
-if(empty($_SESSION)) // if the session not yet started
-    session_start();
-
 $board_id = $_GET['id'];
 $sql = 'SELECT * FROM Categories WHERE cat_id = ' . $board_id;
 $result = $db->query($sql);
 $row = $result->fetchRow();
 /* get the page */
 $page = $_GET['page'];
-/* user info */
-$username = $_SESSION['user'];
-$user_id = $_SESSION['user_id'];
-$status = $_SESSION['status'];
-$logged_in = $_SESSION['logged_in'];
-$_SESSION['toggle'] = false;
 ?>
 <head>
 
@@ -67,81 +57,70 @@ $_SESSION['toggle'] = false;
                     </h2>
                     <hr>
                 </div>
-			<?php
-			if ($status > 0) {
-				echo "<div class='row'>";
-					echo "<div class='col-lg-4'>";
-					echo "</div>";
-					echo "<div class='col-lg-4'>";
-					echo "</div>";
-					echo "<div class='col-lg-4'>";
-						echo "<form method='POST' action='forum-search.php'>";
-						echo "<input type='text' class='form-control' id='search-field' placeholder='Search the forums...' name='query' style='float:left'>";
-						echo "<input type='submit' class='btn-primary' value='Submit' style='float:left'>";
-						echo "</form>";
-					echo "</div>";
-				echo "</div>";
-			}
-			?>
+			<div class="row">
+				<div class="col-lg-4">
+				</div>
+				<div class="col-lg-4">
+				</div>
+				<div class="col-lg-4">
+					<form method="POST" action="forum-search.php">
+					<input type="text" class="form-control" id="search-field" placeholder="Search the forums..." name="query" style="float:left">
+					<input type="submit" class="btn-primary" value="Submit" style="float:left">
+					</form>
+				</div>
+			</div>
 			<br>
 				
                 <div class="row">
 				<!-- main content area -->
 						<div id="boards" >
 							<?php
-							/* 6 is general discussion in current database setup */
-							if (($board_id == 6) ||  ($status > 0)) { 
-									/* Get threads */
-									$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY topic_id DESC LIMIT 5 OFFSET ' . $page * 5;
-									$result2 = $db->query($sql2);
-									/* set up table headers */
-									echo "<table class='thread_table'>";
-									echo "<tr>";
-									echo "<th class='thread_header'> <strong> Date </strong> </th>";
-									echo "<th class='thread_header'> <strong> Topic </strong> </th>";
-									echo "<th class='thread_header'> <strong> Original Poster </strong> </th>";
-									echo "</tr>";
-									/* end table headers */
-									
-									/* pull threads from database and display */
-									while($threads = $result2->fetchRow()) {
-										echo "<tr class='thread_row'>";
-										echo "<td class='thread_data'>" . $threads['topic_date'] . "</td>";
-										echo "<td class='thread_data'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "&page=0'>"
-											 . $threads['topic_subject'] . "</a></td>";
-										echo "<td class='thread_data'>" . $threads['topic_by'] . "</td>";
-										echo "</tr class='thread_data'>";
-									}
-									echo "</table>";
-									/* Split results into pages */
-									echo "<div class='col-sm-4'></div>";
-									echo "<div class='col-sm-4'>";
-									$page_count_sql = 'SELECT COUNT(topic_id) as total FROM Topics WHERE board_id = ' . $board_id;
-									$page_count = $db->query($page_count_sql);
-									$page_result = $page_count->fetchRow();
-									$total = $page_result['total'];
-									/* round up */
-									$total = ceil($total / 5);
-									/* for loop to create page links */
-									echo "<center>";
-									for ($x = 0; $x < $total; $x ++) {
-										echo "<a href=boards.php?id=$board_id&page=$x>$x|</a>";
-									}
-									echo "</center>";
-									echo "</div>";
-									echo "<div class='col-sm-4'></div>";
-									/* end split results */
-									echo "<center>";
-									echo "<br><br>";
-									echo "<form action='newThread.php?board=" . $board_id . "&req=new' method='POST'>";
-									echo "<input type='submit' value='New Topic'>";
-									echo "</form>";
-									echo "</center>";
-							}
-							else {
-								echo "<h3>You cannot view this board.</h3>";
+								/* Get threads */
+								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY topic_id DESC LIMIT 5 OFFSET ' . $page * 5;
+								$result2 = $db->query($sql2);
+								/* set up table headers */
+								echo "<table class='table forum table-striped'>";
+								echo "<thead><tr>";
+								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Date </strong> </th>";
+								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Topic </strong> </th>";
+								echo "<th class='cell-stat-2x hidden-xs hidden-sm'> Original Poster </strong> </th>";
+								echo "</tr></thead><tbody>";
+								/* end table headers */
 								
-							}
+								/* pull threads from database and display */
+								while($threads = $result2->fetchRow()) {
+									echo "<tr>";
+									echo "<td class='text-center'>" . $threads['topic_date'] . "</td>";
+									echo "<td class='text-center hidden-xs hidden-sm'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "&page=0'>"
+										 . $threads['topic_subject'] . "</a></td>";
+									echo "<td class='hidden-xs'>" . $threads['topic_by'] . "</td>";
+									echo "</tr>";
+								}
+								echo "</tbody></table>";
+								/* Split results into pages */
+								echo "<div class='col-sm-4'></div>";
+								echo "<div class='col-sm-4'>";
+								$page_count_sql = 'SELECT COUNT(topic_id) as total FROM Topics WHERE board_id = ' . $board_id;
+								$page_count = $db->query($page_count_sql);
+								$page_result = $page_count->fetchRow();
+								$total = $page_result['total'];
+								/* round up */
+								$total = ceil($total / 5);
+								/* for loop to create page links */
+								echo "<center>";
+								for ($x = 0; $x < $total; $x ++) {
+									echo "<a href=boards.php?id=$board_id&page=$x>$x|</a>";
+								}
+								echo "</center>";
+								echo "</div>";
+								echo "<div class='col-sm-4'></div>";
+								/* end split results */
+								echo "<center>";
+								echo "<br><br>";
+								echo "<form action='newThread.php?board=" . $board_id . "&req=new' method='POST'>";
+								echo "<input type='submit' value='New Topic'>";
+								echo "</form>";
+								echo "</center>";
 							?>
 							<div class="clearfix"></div>
 						</div>

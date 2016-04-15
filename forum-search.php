@@ -6,6 +6,13 @@
  -->
 <?php
 require("connect.php");
+
+if(empty($_SESSION)) // if the session not yet started 
+    session_start();
+
+$status = $_SESSION['status'];
+$user = $_SESSION['user'];
+
 $query = $_POST['query'];
 /* Sanitize the query */
 $query = htmlspecialchars($query);
@@ -60,29 +67,35 @@ $query = mysql_real_escape_string($query);
 				<!-- main content area -->
 						<div id="boards" >
 							<?php
-								/* Get threads */
-								$sql2 = "SELECT * FROM (SELECT * FROM Topics INNER JOIN Replies ON thread_id = topic_id) AS q " .
-                                "WHERE q.reply_content LIKE '%" . $query . "%' ORDER BY topic_id";
-								$result2 = $db->query($sql2);
+                                if($status>0):
+    								/* Get threads */
+    								$sql2 = "SELECT * FROM (SELECT * FROM Topics INNER JOIN Replies ON thread_id = topic_id) AS q " .
+                                    "WHERE q.reply_content LIKE '%" . $query . "%' ORDER BY topic_id";
+    								$result2 = $db->query($sql2);
+                                else:
+                                    $sql2 = "SELECT * FROM (SELECT * FROM Topics INNER JOIN Replies ON thread_id = topic_id) AS q " .
+                                    "WHERE q.reply_content LIKE '%" . $query . "%' AND q.topic_cat = 'General Discussion' ORDER BY topic_id";
+                                    $result2 = $db->query($sql2);
+                                endif;
 								/* set up table headers */
-								echo "<table class='thread_table'>";
-								echo "<tr>";
-								echo "<th class='thread_header'> <strong> Date </strong> </th>";
-								echo "<th class='thread_header'> <strong> Topic </strong> </th>";
-								echo "<th class='thread_header'> <strong> Original Poster </strong> </th>";
-								echo "</tr>";
+								echo "<table class='table forum table-striped'>";
+								echo "<thead><tr>";
+								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Date </strong> </th>";
+								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Topic </strong> </th>";
+								echo "<th class='cell-stat-2x hidden-xs hidden-sm'> Original Poster </strong> </th>";
+								echo "</tr></thead><tbody>";
 								/* end table headers */
 								
 								/* pull threads from database and display */
 								while($threads = $result2->fetchRow()) {
-									echo "<tr class='thread_row'>";
-									echo "<td class='thread_data'>" . $threads['topic_date'] . "</td>";
-									echo "<td class='thread_data'>" . "<a href='thread.php?board=" . $threads['board_id'] . "&thread=" . 
+									echo "<tr>";
+									echo "<td class='text-center'>" . $threads['topic_date'] . "</td>";
+									echo "<td class='text-center hidden-xs hidden-sm'>" . "<a href='thread.php?board=" . $threads['board_id'] . "&thread=" . 
 									$threads['topic_id'] . "&page=0'>" . $threads['topic_subject'] . "</a></td>";
-									echo "<td class='thread_data'>" . $threads['topic_by'] . "</td>";
-									echo "</tr class='thread_data'>";
+									echo "<td class='hidden-xs'>" . $threads['topic_by'] . "</td>";
+									echo "</tr>";
 								}
-								echo "</table>";
+								echo "</tbody></table>";
 								
 							?>
 							<div class="clearfix"></div>
@@ -100,7 +113,7 @@ $query = mysql_real_escape_string($query);
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Radford SMIPO 2015 Testing</p>
+                    <p>Copyright &copy; Radford SMIPO 2015</p>
                 </div>
             </div>
         </div>
