@@ -83,9 +83,9 @@ $row = $result->fetchRow();
 									$topic_name = htmlspecialchars($topic_name);
 									$topic_name = stripslashes($topic_name);
 									$topic_name = mysql_real_escape_string($topic_name);
-									$first_reply = htmlspecialchars($first_reply);
-									$first_reply = stripslashes($first_reply);
-									$first_reply = mysql_real_escape_string($first_reply);
+									//$first_reply = htmlspecialchars($first_reply);
+									//$first_reply = stripslashes($first_reply);
+									//$first_reply = mysql_real_escape_string($first_reply);
 									/* getting board name */
 									$board_sql = "SELECT * FROM Categories WHERE cat_id = $board_id";
 									$board_result = $db->query($board_sql);

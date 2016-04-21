@@ -99,9 +99,9 @@ function sendMessage($firstname, $lastname, $email, $message, $resume)
                     // Don't trust provided filename - same goes for MIME types
                     // See http://php.net/manual/en/features.file-upload.php#114004 for more thorough upload validation
 
-                    #chmod("uploads/", 0777);
+                    #chmod("uploads/", 0755);
 
-                    // $file_address = $upload_dir.$filename;
+                    #$file_address = $upload_dir.$filename;
                     
                     $from_message = $message . ' ' .$resume;
 
@@ -195,20 +195,66 @@ function sendMessage($firstname, $lastname, $email, $message, $resume)
                                         <td id="lastname-err"></td>
                                     </tr>
                                     <tr>
+                                        <td>Major(s):</td>
+                                        <td><input type="text" width="30" name="major" id="major" required/></td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Minor(s):</td>
+                                        <td><input type="text" width="30" name="minor" id="minor" required/></td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Class Status (FR,SO,JR,SR,Grad):</td>
+                                        <td><input type="text" width="30" name="class-status" id="class-status" required/></td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Student ID #:</td>
+                                        <td><input type="text" width="30" name="student-id" id="student-id" required/></td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Current Cumulative GPA (2.7+):</td>
+                                        <td><input type="text" width="30" name="cum-gpa" id="cum-gpa" required/></td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>In-Major GPA:</td>
+                                        <td><input type="text" width="30" name="major-gpa" id="major-gpa" required/></td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
                                         <td>Email</td>
                                         <td><input type="text" width="30" name="email" id="email" value="<?php echo "$email"; ?>" onblur="validateEmail();" required/></td>
                                         <td id="email-err"></td>
                                     </tr>
                                     <tr>
-                                      <td><label for='message'>Message</label></td>
+                                        <td>Local Address:</td>
+                                        <td><input type="text" width="30" name="address" id="address" required/></td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>City, State, ZIP:</td>
+                                        <td><input type="text" width="30" name="city" id="city" required/></td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cell Phone:</td>
+                                        <td><input type="text" width="30" name="cell-phone" id="cell-phone" required/></td>
+                                        <td id="lastname-err"></td>
+                                    </tr>
+                                    <tr>
+                                      <td><label for='message'>Previous Work Experience</label></td>
                                       <td><textarea name="message" placeholder="What would you benefit from this position?" id="message" rows="4"></textarea></td>
                                   </tr>
                                   <tr>
-                                      <td>
-                                        <label for="resume">Paste Your Resume</label>
+                                    <td>
+                                        <label for='resume'>Upload Your Resume</label>
                                     </td>
                                     <td>
-                                        <textarea name="resume" id="resume" rows="10"></textarea>
+                                        <input type="hidden" name="MAX_FILE_SIZE" value="10000000000" />
+                                        <input name="resume" type="file" />
                                     </td>
                                 </tr>
                             </table>

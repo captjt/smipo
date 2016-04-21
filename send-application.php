@@ -2,9 +2,17 @@
 // Check for empty fields
 if(empty($_POST['firstname'])  		||
    empty($_POST['lastname']) 		||
+   empty($_POST['major'])        ||
+   empty($_POST['minor'])        ||
+   empty($_POST['class-status'])        ||
+   empty($_POST['student-id'])        ||
+   empty($_POST['cum-gpa'])        ||
+   empty($_POST['major-gpa'])        ||
    empty($_POST['email'])	||
+   empty($_POST['address'])        ||
+   empty($_POST['city'])        ||
+   empty($_POST['cell-phone'])        ||
    empty($_POST['message']) 		||
-   empty($_POST['resume'])	||
    !filter_var($_POST['email'],FILTER_VALIDATE_EMAIL))
    {
 	$msg .= "No arguments Provided!";
@@ -14,14 +22,39 @@ if(empty($_POST['firstname'])  		||
 else {
    	$firstname = $_POST['firstname'];
 	$lastname = $_POST['lastname'];
+    $major = $_POST['major'];
+    $minor = $_POST['minor'];
+    $class_status = $_POST['class-status'];
+    $student_id = $_POST['student-id'];
+    $cum_gpa = $_POST['cum-gpa'];
+    $major_gpa = $_POST['major-gpa'];
 	$email_address = $_POST['email'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $cell_phone = $_POST['cell-phone'];
 	$message = $_POST['message'];
-	$resume = $_POST['resume'];
+	$resume = uploadResume();
 
 	// Create the email and send the message
-	$to = 'cwolf4@radford.edu';
+	$to = 'jtaylor32@radford.edu';
 	$email_subject = "Applicatant Contact:  $firstname $lastname";
-	$email_body = "You have a new applicant\n\n"."Here are the details:\n\nName: $firstname $lastname\n\nEmail: $email_address\n\nMessage: $message\n\nResume:\n$resume";
+
+	$email_body = "You have a new applicant\n\n".
+    "Here are the details:\n\n
+        Name: $firstname $lastname\n
+        Major: $major\n
+        Minor: $minor\n
+        Class Status: $class_status\n
+        Student ID: $student_id\n
+        Cumulative GPA: $cum_gpa\n
+        Major GPA: $major_gpa\n
+        Email: $email_address\n
+        Address: \n 
+        $address\n
+        $city\n
+        Cell Phone: $cell_phone\n\n
+        Previous Experience: $message\n\n
+        Resume:\n$resume";
 	$headers = "From: \n";
 	$headers .= "Reply-To: $email_address";
 	mail($to,$email_subject,$email_body,$headers);
@@ -33,6 +66,28 @@ if ($sent) {
 }
 else {
 	echo "Your application was not successfully submitted - please re-enter your information or try again later.";
+}
+
+function uploadResume(){
+    $title = $_POST;
+    $target_path = "tmp/".$title;
+    /* Add the original filename to our target path.
+    Result is "uploads/filename.extension" */
+    $target_path = $target_path . basename( $_FILES['resume']['name']);
+    $file = $_FILES['resume']['tmp_name'];
+    $target_path = "tmp/";
+    $target_path = $target_path . basename( $_FILES['resume']['name']);
+    
+    if(move_uploaded_file($file, $target_path)) {
+        $upload_msg = "The file ".  basename( $_FILES).
+            " has been uploaded";
+        return "file:///Volumes/jtaylor32/dynamic_php/smipo/" . $target_path;
+    } else{
+        $upload_msg = "There was an error uploading the file, please try again!";
+        return "Resume was not uploaded request a new one.";
+    }
+    #$target_path=addslashes($target_path);
+    #return $target_path;
 }
 ?>
 
