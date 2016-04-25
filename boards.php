@@ -75,7 +75,7 @@ $page = $_GET['page'];
 				<!-- main content area -->
 						<div id="boards" >
 							<?php
-							
+
 								function dateOrSticky($th) {
 									if($th['sticky'] > 0) {
 										return "<strong>STICKY</strong>";
@@ -93,17 +93,15 @@ $page = $_GET['page'];
 										return "";
 									}
 								}
-							
-							
+
 								/* Get threads */
 								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY sticky DESC, topic_id DESC LIMIT 5 OFFSET ' . $page * 5;
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='table forum table-striped'>";
 								echo "<thead><tr>";
-								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> 
-								Date </strong> </th>";
 								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Topic </strong> </th>";
+								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Date </strong> </th>";
 								echo "<th class='cell-stat-2x hidden-xs hidden-sm'> Original Poster </strong> </th>";
 								echo "</tr></thead><tbody>";
 								/* end table headers */
@@ -111,9 +109,10 @@ $page = $_GET['page'];
 								/* pull threads from database and display */
 								while($threads = $result2->fetchRow()) {
 									echo "<tr>";
-									echo "<td class='text-center'>" . stickyButton($threads['topic_id'], $board_id) . dateOrSticky($threads) . "</td>";
-									echo "<td class='text-center hidden-xs hidden-sm'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "&page=0'>"
+									echo "<td class='text-center'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "&page=0'>"
 										 . $threads['topic_subject'] . "</a></td>";
+									echo "<td class='text-center'>" . stickyButton($threads['topic_id'], $board_id) . dateOrSticky($threads) . "</td>";
+									#echo "<td class='text-center'>" . $threads['topic_date'] . "</td>";
 									echo "<td class='hidden-xs'>" . $threads['topic_by'] . "</td>";
 									echo "</tr>";
 								}
@@ -142,11 +141,6 @@ $page = $_GET['page'];
 								echo "<input type='submit' value='New Topic'>";
 								echo "</form>";
 								echo "</center>";
-								
-								
-								
-								
-								
 							?>
 							<div class="clearfix"></div>
 						</div>

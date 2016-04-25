@@ -54,7 +54,7 @@ else {
         $city\n
         Cell Phone: $cell_phone\n\n
         Previous Experience: $message\n\n
-        Resume:\n$resume";
+        Resume: $resume\n\n";
 	$headers = "From: \n";
 	$headers .= "Reply-To: $email_address";
 	mail($to,$email_subject,$email_body,$headers);
@@ -75,6 +75,7 @@ function uploadResume(){
     Result is "uploads/filename.extension" */
     $target_path = $target_path . basename( $_FILES['resume']['name']);
     $file = $_FILES['resume']['tmp_name'];
+    #$file = preg_replace('/\s+/', '_', $file);
     $target_path = "tmp/";
     $target_path = $target_path . basename( $_FILES['resume']['name']);
     

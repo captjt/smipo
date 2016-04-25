@@ -86,18 +86,18 @@ $page = $_GET['page'];
 								/* set up table headers */
 								echo "<table class='table forum table-striped'>";
 								echo "<thead><tr>";
-								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Poster </strong> </th>";
-								echo "<th class='cell-stat text-center hidden-xs hidden-sm'>  Date </strong> </th>";
 								echo "<th class='cell-stat-2x hidden-xs hidden-sm'> Content </strong> </th>";
+								echo "<th class='cell-stat text-center hidden-xs hidden-sm'>  Date </strong> </th>";
+								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Poster </strong> </th>";
 								echo "</tr></thead><tbody>";
 								/* end table headers */
 								/* pull replies from database and display */
 								while($replies = $result2->fetchRow()) {
 									echo "<tr>";
+									echo "<td class=''>" . $replies['reply_content'] . "</td>";
+									echo "<td class='text-center hidden-xs hidden-sm'>" . $replies['reply_date'] . "</td>";
 									echo "<td class='text-center'>" . "<img src='img/" . displayMemberPicture($replies['reply_by']) . "' height='100' width='100'>" .
 									     "<br>" . displayMember($replies['reply_by']) . "</td>";
-									echo "<td class='text-center hidden-xs hidden-sm'>" . $replies['reply_date'] . "</td>";
-									echo "<td class='hidden-xs'>" . $replies['reply_content'] . "</td>";
 									echo "</tr>";
 								}
 								echo "</tbody></table>";
