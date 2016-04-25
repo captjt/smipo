@@ -80,7 +80,7 @@ else {
             <div class="row">
 				<div class="col-lg-12 text-center">
 				<?php
-					echo "<a href='http://php.radford.edu/~jrummel5/smipo/boards.php?id=$board_id&page=0'> Return to boards. </a>";
+					echo "<a href='boards.php?id=$board_id&page=0'> Return to boards. </a>";
 				?>
 				</div>
                 <div class="col-lg-12 text-center">
