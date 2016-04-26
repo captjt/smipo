@@ -5,6 +5,14 @@
 
  -->
 <?php
+if(empty($_SESSION)) // if the session not yet started
+session_start();
+
+$username = $_SESSION['user'];
+$user_id = $_SESSION['user_id'];
+$status = $_SESSION['status'];
+$logged_in = $_SESSION['logged_in'];
+
 require("connect.php");
 $board_id = $_GET['id'];
 $sql = 'SELECT * FROM Categories WHERE cat_id = ' . $board_id;
@@ -95,7 +103,7 @@ $page = $_GET['page'];
 								}
 								
 								function flaggedButton($th_id, $u_id, $b_id) {
-									if ($_SESSION['status'] >= 0) {
+									if ($_SESSION['status'] >= 0 & $_SESSION['logged_in']) {
 										return "<form action='flag.php?user=$u_id&thread=$th_id&board=$b_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Flag this topic </button> </form>"; 
 									}
 									else {

@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 require 'connect.php';
 
@@ -246,7 +246,7 @@ function sendMessage($firstname, $lastname, $email, $message, $resume)
                                     </tr>
                                     <tr>
                                       <td><label for='message'>Previous Work Experience</label></td>
-                                      <td><textarea name="message" placeholder="What would you benefit from this position?" id="message" rows="4"></textarea></td>
+                                      <td><textarea name="message" placeholder="What kind of previous experience do you have?" id="message" rows="4"></textarea></td>
                                   </tr>
                                   <tr>
                                     <td>
@@ -276,7 +276,7 @@ function sendMessage($firstname, $lastname, $email, $message, $resume)
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <p>Copyright &copy; Radford SMIPO 2015</p>
+                <p>Copyright &copy; Radford SMIPO 2016</p>
             </div>
         </div>
     </div>

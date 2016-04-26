@@ -60,20 +60,39 @@
     <?php require_once("navigation.php"); ?>
 
     <div class="container">
-		
-
-    </div>
+        <div class="row">
+              <div class="box">
+                  <div class="col-lg-12">
+                      <hr>
+                      <h2 class="intro-text text-center">
+                          Deleting Replies
+                      </h2>
+                      </hr>
+                      <p>
+                        <center>
+                            <table class="table-condensed">
+                                <tr>
+                                    <td>
+                                      <?php
+                                            echo "<center>";
+                                            echo "$errorMsg<br />";
+                                            echo "<a href='forum.php'>Return to Forum</a>";
+                                            echo "</center>";
+                                        ?>
+                                    </td>
+                                </tr>
+                            </table>
+                        </center>
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
     <!-- /.container -->
 
     <footer>
         <div class="container">
             <div class="row">
-				<div class="col-lg-12 text-center">
-				<?php
-					echo "$errorMsg<br />";
-					echo "<a href='forum.php'>Return to Forum</a>";
-				?>
-				</div>
                 <div class="col-lg-12 text-center">
                     <p>Copyright &copy; Radford SMIPO 2016</p>
                 </div>

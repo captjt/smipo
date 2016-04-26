@@ -88,7 +88,7 @@ $user_id = $_SESSION['user_id'];
 							<?php
 
 								function deleteReplyButton($reply_by, $user_id, $replyID) {
-									if ($_SESSION['user_id'] === $reply_by) {
+									if (($_SESSION['user_id'] === $reply_by) || ($_SESSION['status'] === 2)) {
 										return "<form action='delete-reply.php?reply_by=$reply_by&reply_id=$replyID&thread_id=$thread_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Delete Reply</button> </form>"; 
 									}
 									else {
@@ -112,7 +112,7 @@ $user_id = $_SESSION['user_id'];
 								while($replies = $result2->fetchRow()) {
 									echo "<tr>";
 									echo "<td class=''>" . $replies['reply_content'] . "</td>";
-									echo "<td class=''>" . deleteReplyButton($replies['reply_by'], $user_id, $replies['reply_id']) . "</td>";
+									echo "<td class=''>" . deleteReplyButton($replies['reply_by'], $user_id, $replies['reply_id'], $status) . "</td>";
 									echo "<td class='text-center hidden-xs hidden-sm'>" . $replies['reply_date'] . "</td>";
 									echo "<td class='text-center'>" . "<img src='img/" . displayMemberPicture($replies['reply_by']) . "' height='100' width='100'>" .
 									     "<br>" . displayMember($replies['reply_by']) . "</td>";
