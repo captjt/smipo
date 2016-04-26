@@ -87,7 +87,7 @@ $page = $_GET['page'];
 								
 								function stickyButton($th_id, $b_id) {
 									if ($_SESSION['status'] > 1) {
-										return "<form action='sticky.php?board=$b_id&thread=$th_id' method='post'> <button type='submit' value='submit'> Sticky me </button> </form>"; 
+										return "<form action='sticky.php?board=$b_id&thread=$th_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Sticky me </button> </form>"; 
 									}
 									else {
 										return "";
@@ -95,8 +95,8 @@ $page = $_GET['page'];
 								}
 								
 								function flaggedButton($th_id, $u_id, $b_id) {
-									if ($_SESSION['status'] >= 1) {
-										return "<form action='flag.php?user=$u_id&thread=$th_id&board=$b_id' method='post'> <button type='submit' value='submit'> Flag this topic </button> </form>"; 
+									if ($_SESSION['status'] >= 0) {
+										return "<form action='flag.php?user=$u_id&thread=$th_id&board=$b_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Flag this topic </button> </form>"; 
 									}
 									else {
 										return "";
@@ -104,7 +104,7 @@ $page = $_GET['page'];
 								}
 
 								/* Get threads */
-								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY sticky DESC, topic_id DESC LIMIT 5 OFFSET ' . $page * 5;
+								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY sticky DESC, topic_id DESC LIMIT 10 OFFSET ' . $page * 10;
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='table forum table-striped'>";
@@ -134,7 +134,7 @@ $page = $_GET['page'];
 								$page_result = $page_count->fetchRow();
 								$total = $page_result['total'];
 								/* round up */
-								$total = ceil($total / 5);
+								$total = ceil($total / 10);
 								/* for loop to create page links */
 								echo "<center>";
 								for ($x = 0; $x < $total; $x ++) {
@@ -147,7 +147,7 @@ $page = $_GET['page'];
 								echo "<center>";
 								echo "<br><br>";
 								echo "<form action='newThread.php?board=" . $board_id . "&req=new' method='POST'>";
-								echo "<input type='submit' value='New Topic'>";
+								echo "<input type='submit' class='btn btn-primary' value='New Topic'>";
 								echo "</form>";
 								echo "</center>";
 							?>
@@ -166,7 +166,7 @@ $page = $_GET['page'];
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Radford SMIPO 2015 Testing</p>
+                    <p>Copyright &copy; Radford SMIPO 2016</p>
                 </div>
             </div>
         </div>

@@ -13,6 +13,13 @@ $result = $db->query($sql);
 $row = $result->fetchRow();
 $topic_sub = $row['topic_subject'];
 $page = $_GET['page'];
+
+if(empty($_SESSION)) // if the session not yet started 
+    session_start();
+
+$status = $_SESSION['status'];
+$user = $_SESSION['user'];
+$user_id = $_SESSION['user_id'];
 ?>
 <head>
 
@@ -79,9 +86,18 @@ $page = $_GET['page'];
 				<!-- main content area -->
 						<div id="replies" >
 							<?php
+
+								function deleteReplyButton($reply_by, $user_id, $replyID) {
+									if ($_SESSION['user_id'] === $reply_by) {
+										return "<form action='delete-reply.php?reply_by=$reply_by&reply_id=$replyID&thread_id=$thread_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Delete Reply</button> </form>"; 
+									}
+									else {
+										return "";
+									}
+								}
 							
 								/* Get threads */
-								$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id . ' ORDER BY reply_id ASC LIMIT 5 OFFSET ' . $page * 5;
+								$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id . ' ORDER BY reply_id ASC LIMIT 10 OFFSET ' . $page * 10;
 								$result2 = $db->query($sql2);
 								/* set up table headers */
 								echo "<table class='table forum table-striped'>";
@@ -95,6 +111,7 @@ $page = $_GET['page'];
 								while($replies = $result2->fetchRow()) {
 									echo "<tr>";
 									echo "<td class=''>" . $replies['reply_content'] . "</td>";
+									echo "<td class=''>" . deleteReplyButton($replies['reply_by'], $user_id, $replies['reply_id']) . "</td>";
 									echo "<td class='text-center hidden-xs hidden-sm'>" . $replies['reply_date'] . "</td>";
 									echo "<td class='text-center'>" . "<img src='img/" . displayMemberPicture($replies['reply_by']) . "' height='100' width='100'>" .
 									     "<br>" . displayMember($replies['reply_by']) . "</td>";
@@ -108,7 +125,7 @@ $page = $_GET['page'];
 								$page_result = $page_count->fetchRow();
 								$total = $page_result['total'];
 								/* round up */
-								$total = ceil($total / 5);
+								$total = ceil($total / 10);
 								/* for loop to create page links */
 								echo "<div class='col-sm-4'></div>";
 								echo "<div class='col-sm-4'>";
@@ -142,7 +159,7 @@ $page = $_GET['page'];
 								echo "<br><br>";
 								echo "<center>";
 								echo "<form action='newPost.php?thread=$thread_id&req=new&topic=$topic_sub' method='POST'>";
-								echo "<input type='submit' value='Reply'>";
+								echo "<input type='submit' class='btn btn-primary' value='Reply'>";
 								echo "</form>";
 								echo "</center>";
 								
@@ -162,7 +179,7 @@ $page = $_GET['page'];
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Radford SMIPO 2015</p>
+                    <p>Copyright &copy; Radford SMIPO 2016</p>
                 </div>
             </div>
         </div>

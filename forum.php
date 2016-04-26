@@ -67,7 +67,7 @@ $_SESSION['toggle'] = false;
 				<div class="col-lg-4">
 					<form method="POST" action="forum-search.php">
 					<input type="text" class="form-control" id="search-field" placeholder="Search the forums..." name="query" style="float:left">
-					<input type="submit" class="btn-primary" value="Submit" style="float:left">
+					<input type="submit" class="btn btn-primary" value="Submit" style="float:left">
 					</form>
 				</div>
 			</div>
@@ -136,7 +136,7 @@ $_SESSION['toggle'] = false;
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Radford SMIPO 2015</p>
+                    <p>Copyright &copy; Radford SMIPO 2016</p>
                 </div>
             </div>
         </div>
