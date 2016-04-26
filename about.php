@@ -46,8 +46,13 @@ require("connect.php");
                     	About <strong>SMIPO</strong>
                     </h2>
                     <hr>
+            		<p class="intro-text text-center">
+            			Recent News
+            		</p>
             		<p class="text-center">
-            			<a href="../smipo/misc/October-2015.pdf">Montly Newsletter</a>
+            			<a href="http://www.radford.edu/content/radfordcore/home/news/releases/2016/april/smipo-wins-big-in-new-york-city.html">SMIPO Wins Big in New York City</a>
+            			<br />
+            			<a href="http://www.radford.edu/content/radfordcore/home/search.html?q=smipo">SMIPO at Radford</a>
             		</p>
             		<hr>
             	</div>	
@@ -65,6 +70,9 @@ require("connect.php");
                     </p>
                     <p>
                     	<a href="portfolio.php"> Check out our portfolio. </a>
+                    </p>
+                    <p>
+                    	<a href="../smipo/misc/October-2015.pdf">Montly Newsletter</a>
                     </p>
                 </div>
                 <div class="clearfix"></div>
@@ -226,7 +234,7 @@ require("connect.php");
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Radford SMIPO 2015</p>
+                    <p>Copyright &copy; Radford SMIPO 2016</p>
                 </div>
             </div>
         </div>
