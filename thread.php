@@ -103,6 +103,7 @@ $user_id = $_SESSION['user_id'];
 								echo "<table class='table forum table-striped'>";
 								echo "<thead><tr>";
 								echo "<th class='cell-stat-2x hidden-xs hidden-sm'> Content </strong> </th>";
+								echo "<th></th>";
 								echo "<th class='cell-stat text-center hidden-xs hidden-sm'>  Date </strong> </th>";
 								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Poster </strong> </th>";
 								echo "</tr></thead><tbody>";
