@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- SMIPO Sticky
+<!-- SMIPO Flag 
 	@author James
 
  -->
@@ -13,25 +13,24 @@ if(empty($_SESSION)) // if the session not yet started
 
 $board_id = $_GET['board'];
 $thread_id = $_GET['thread'];
-$sql = "SELECT * FROM Topics WHERE topic_id=$thread_id";
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM Flagged WHERE t_id=$thread_id AND u_id=$user_id";
 $result = $db->query($sql);
 $row = $result->fetchRow();
-$sticky = $row['sticky'];
 $status = $_SESSION['status'];
 $_SESSION['toggle'] = false;
 
-echo $status;
-if ($status < 2) {
+if ($status < 1) {
 	//shouldnt be here...
 	echo "<script> alert('You shouldn't be here...'); </script>";
 }
 else {
-	if ($sticky > 0) {
-		$sql2 = "UPDATE Topics SET sticky=0 WHERE topic_id=$thread_id";
+	if ($row == null) {
+		$sql2 = "INSERT INTO Flagged (u_id, t_id) VALUES ($user_id, $thread_id)";
 		$db->query($sql2);
 	}
 	else {
-		$sql2 = "UPDATE Topics SET sticky=1 WHERE topic_id=$thread_id";
+		$sql2 = "DELETE FROM Flagged WHERE u_id=$user_id AND t_id=$thread_id";
 		$db->query($sql2);
 	}
 }
@@ -44,7 +43,7 @@ else {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Sticky Admin Page</title>
+    <title>Flag a topic</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">

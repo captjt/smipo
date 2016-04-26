@@ -93,6 +93,15 @@ $page = $_GET['page'];
 										return "";
 									}
 								}
+								
+								function flaggedButton($th_id, $u_id, $b_id) {
+									if ($_SESSION['status'] >= 1) {
+										return "<form action='flag.php?user=$u_id&thread=$th_id&board=$b_id' method='post'> <button type='submit' value='submit'> Flag this topic </button> </form>"; 
+									}
+									else {
+										return "";
+									}
+								}
 
 								/* Get threads */
 								$sql2 = 'SELECT * FROM Topics WHERE board_id = ' . $board_id . ' ORDER BY sticky DESC, topic_id DESC LIMIT 5 OFFSET ' . $page * 5;
@@ -110,7 +119,7 @@ $page = $_GET['page'];
 								while($threads = $result2->fetchRow()) {
 									echo "<tr>";
 									echo "<td class='text-center'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "&page=0'>"
-										 . $threads['topic_subject'] . "</a></td>";
+										 . $threads['topic_subject'] . "</a> <br> " . flaggedButton($threads['topic_id'], $_SESSION['user_id'], $board_id) . "</td>";
 									echo "<td class='text-center'>" . stickyButton($threads['topic_id'], $board_id) . dateOrSticky($threads) . "</td>";
 									#echo "<td class='text-center'>" . $threads['topic_date'] . "</td>";
 									echo "<td class='hidden-xs'>" . $threads['topic_by'] . "</td>";

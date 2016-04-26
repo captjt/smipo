@@ -63,6 +63,33 @@ $board_id = $row['board_id'];
 						<div id="boards" >
 							<center>
 							<?php
+							// flagMail(the thread, the topic name, link to topic)
+							// mails people subscribed to this thread
+							function flagMail($th_id, $top) {
+								require("connect.php");
+								// which users are subscribed to this thread
+								$userArray = array();
+								$inc = 0;
+								$flagSQL = "SELECT * FROM Flagged WHERE t_id=$th_id";
+								$flagResult = $db->query($flagSQL);
+								while ($row = $flagResult->fetchRow()) {
+									$uid = $row['u_id'];
+									$userSQL = "SELECT * FROM members WHERE member_id=$uid";
+									$userResult = $db->query($userSQL);
+									$userRow = $userResult->fetchRow();
+									$userArray[$inc] = $userRow['email'];
+									$inc ++;
+								}
+								// send e-mails
+								foreach ($userArray as &$us) {
+									$mailString = "Hello $us,\n A fellow SMIPO member has replied to $top on the SMIPO forums.";
+									$mailString = wordwrap($mailString, 70);
+									mail($us, "A new reply on $top thread on the SMIPO forums", $mailString);
+								}
+							} 
+							
+							
+							
 								if($req == 'new') {
 									// request now equal to post
 									echo "<form method='POST' action='newPost.php?thread=" . $thread_id . "&req=pos&topic=$topic'>";
@@ -90,11 +117,8 @@ $board_id = $row['board_id'];
 													  " VALUES ('$reply', CURDATE(), '$topic', $user_id, $thread_id)";
 									    $db->query($insert_sql);
 										/* end insert */
+										flagMail($thread_id, $topic);
 										header("Location: thread.php?board=$board_id&thread=$thread_id");
-										/*
-										INSERT INTO TOPICS (topic_subject, topic_date, topic_cat, topic_by, board_id)
-										VALUES ("Hello world", CURDATE(), "Automotive", "jt0021", 1)
-										*/
 									}
 									/* user is not allowed */
 									else {
