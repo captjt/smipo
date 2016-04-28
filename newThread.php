@@ -100,7 +100,7 @@ $row = $result->fetchRow();
 										
 										/* getting our newly created thread's ID */
 										// FIX THIS QUERY 
-										$id_sql = "SELECT * FROM Topics WHERE topic_by = 'test_admin' ORDER BY topic_id DESC LIMIT 1";
+										$id_sql = "SELECT * FROM Topics WHERE topic_by = '$username' ORDER BY topic_id DESC LIMIT 1";
 										//$id_sql = "SELECT * FROM Topics WHERE topic_subject = '$topic_name' AND topic_by = '$username' ORDER BY topic_id DESC";
 										$id_result = $db->query($id_sql);
 										$id_row = $id_result->fetchRow();
