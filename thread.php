@@ -59,7 +59,6 @@ $user_id = $_SESSION['user_id'];
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
-					<?php echo "<a href='/boards.php?id=$GET['board']&page=0'>Return to board</a>";?>
                     <hr>
                     <h2 class="intro-text text-center"> 
 						<?php echo "<p>You are viewing the " . $row['topic_subject'] . " thread.</p><br />";?>
