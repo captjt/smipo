@@ -186,7 +186,7 @@ function sendMessage($firstname, $lastname, $email, $message, $resume)
                                 <table class="table-condensed">
                                     <tr>
                                         <td>First Name:</td>
-                                        <td><input type="text" width="30" name="firstname" id="firstname" value="<?php echo "$username"; ?>" onblur="validateFirst();" required/></td>
+                                        <td><input type="text" width="30" name="firstname" id="firstname" value="<?php echo "$firstname"; ?>" onblur="validateFirst();" required/></td>
                                         <td id="firstname-err"></td>
                                     </tr>
                                     <tr>

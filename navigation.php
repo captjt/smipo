@@ -56,13 +56,6 @@
                             else:
                                 #do nothing
                             endif;
-                            if($_SESSION['logged_in']&&$_SESSION['status']==0):
-                                echo "<li>";
-                                echo '<a href="club-application.php">Apply Today</a>';
-                                echo "</li";
-                            else:
-                                #do nothing
-                            endif;
                             echo '<li><a href="logout.php">Logout</a></li>';
                             echo '</ul';
                         else:
