@@ -59,7 +59,8 @@ $user_id = $_SESSION['user_id'];
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
-                    <hr>
+					<?php echo "<a href = 'boards.php?id=".$_GET['board']."&page=0'>Back to board</a>"?>
+					<hr>
                     <h2 class="intro-text text-center"> 
 						<?php echo "<p>You are viewing the " . $row['topic_subject'] . " thread.</p><br />";?>
                     </h2>
@@ -95,6 +96,20 @@ $user_id = $_SESSION['user_id'];
 										return "";
 									}
 								}
+								function deleteThreadButton($user_id, $thread_id, $status, $db){
+									$query = "SELECT * FROM `Topics` WHERE topic_id= ". $thread_id;
+									$threadResult = $db->query($query);
+									$thread = $threadResult->fetchRow();
+									$username = thread['topic_by'];
+									$user_info_query = "SELECT * FROM members WHERE username = '$username'";
+									$user_info_result = $db->query($user_info_query);
+									$user_info = $user_info_result->fetchRow();
+									if(($user_id === $user_info['member_id']) || ($_SESSION['status'] === 2)){
+										return "<form action='delete-reply.php?reply_by=" . $thread['topic_by'] . "&thread_id=$thread_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Delete Post</button> </form>"; 
+									}else{
+										return "";
+									}
+								}
 							
 								/* Get threads */
 								$sql2 = 'SELECT * FROM Replies WHERE thread_id = ' . $thread_id . ' ORDER BY reply_id ASC LIMIT 10 OFFSET ' . $page * 10;
@@ -104,6 +119,7 @@ $user_id = $_SESSION['user_id'];
 								echo "<thead><tr>";
 								echo "<th class='cell-stat-2x hidden-xs hidden-sm'> Content </strong> </th>";
 								echo "<th></th>";
+								//echo "<th></th>";
 								echo "<th class='cell-stat text-center hidden-xs hidden-sm'>  Date </strong> </th>";
 								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Poster </strong> </th>";
 								echo "</tr></thead><tbody>";
@@ -112,7 +128,8 @@ $user_id = $_SESSION['user_id'];
 								while($replies = $result2->fetchRow()) {
 									echo "<tr>";
 									echo "<td class=''>" . $replies['reply_content'] . "</td>";
-									echo "<td class=''>" . deleteReplyButton($replies['reply_by'], $user_id, $replies['reply_id'], $status) . "</td>";
+									echo "<td class=''>" . deleteReplyButton($replies['reply_by'], $user_id, $replies['reply_id'], $status) . "</td>"; 
+									echo "<td class=''>" . deleteThreadButton($user_id, $replies['thread_id'], $status, $db) . "</td>";
 									echo "<td class='text-center hidden-xs hidden-sm'>" . $replies['reply_date'] . "</td>";
 									echo "<td class='text-center'>" . "<img src='img/" . displayMemberPicture($replies['reply_by']) . "' height='100' width='100'>" .
 									     "<br>" . displayMember($replies['reply_by']) . "</td>";
