@@ -89,8 +89,9 @@ $user_id = $_SESSION['user_id'];
 							<?php
 
 								function deleteReplyButton($reply_by, $user_id, $replyID) {
-									if (($_SESSION['user_id'] === $reply_by) || ($_SESSION['status'] === 2)) {
-										return "<form action='delete-reply.php?reply_by=$reply_by&reply_id=$replyID&thread_id=$thread_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Delete Reply</button> </form>"; 
+									/*Status must be compared to string becuase it is stored in SESSION as string*/
+									if (($_SESSION['user_id'] === $reply_by) || ($_SESSION['status'] === "2")) {
+										return "<form action='delete-reply.php?reply_by=$reply_by&reply_id=$replyID' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Delete Reply</button> </form>"; 
 									}
 									else {
 										return "";
@@ -104,8 +105,9 @@ $user_id = $_SESSION['user_id'];
 									$user_info_query = "SELECT * FROM members WHERE username = '$username'";
 									$user_info_result = $db->query($user_info_query);
 									$user_info = $user_info_result->fetchRow();
-									if(($user_id === $user_info['member_id']) || ($_SESSION['status'] === 2)){
-										return "<form action='delete-reply.php?reply_by=" . $thread['topic_by'] . "&thread_id=$thread_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Delete Post</button> </form>"; 
+									/*Status must be compared to string becuase it is stored in SESSION as string*/
+									if(($user_id === $user_info['member_id']) || ($_SESSION['status'] === "2")){
+										return "<form action='delete-reply.php?thread_id=" . $thread_id . "&board='" . $_GET['board'] . "'' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Delete Post</button> </form>"; 
 									}else{
 										return "";
 									}
@@ -125,15 +127,21 @@ $user_id = $_SESSION['user_id'];
 								echo "</tr></thead><tbody>";
 								/* end table headers */
 								/* pull replies from database and display */
+								$repliesShown = 0;
 								while($replies = $result2->fetchRow()) {
 									echo "<tr>";
 									echo "<td class=''>" . $replies['reply_content'] . "</td>";
 									echo "<td class=''>" . deleteReplyButton($replies['reply_by'], $user_id, $replies['reply_id'], $status) . "</td>"; 
-									echo "<td class=''>" . deleteThreadButton($user_id, $replies['thread_id'], $status, $db) . "</td>";
+									if($repliesShown === 0){
+										echo "<td class=''>" . deleteThreadButton($user_id, $replies['thread_id'], $status, $db) . "</td>";
+									}else{
+										echo "<td class=''></td>";
+									}
 									echo "<td class='text-center hidden-xs hidden-sm'>" . $replies['reply_date'] . "</td>";
 									echo "<td class='text-center'>" . "<img src='img/" . displayMemberPicture($replies['reply_by']) . "' height='100' width='100'>" .
 									     "<br>" . displayMember($replies['reply_by']) . "</td>";
 									echo "</tr>";
+									$repliesShown++;
 								}
 								echo "</tbody></table>";
 								
