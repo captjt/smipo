@@ -89,7 +89,7 @@ if($logged_in):
     if($errorMsg==""):
       #query to update the members table for the profile - that is a member account
       $queryMember = "UPDATE `members` SET `firstname` = '$firstname', `lastname` = '$lastname',
-                `email` = $email, `phone` = $phone, `graduation_year` = $grad_year, `img_source` = $image
+                `email` = '$email', `phone` = '$phone', `graduation_year` = $grad_year
                 WHERE `username` = '$username'";
       $query = mysql_query($queryMember);
 
@@ -181,7 +181,7 @@ if($logged_in):
     if($errorMsg==""):
       #query to update the members table for the profile - that is a member account
       $queryMember = "UPDATE `members` SET `firstname` = '$firstname', `lastname` = '$lastname',
-                `email` = $email, `phone` = $phone, `graduation_year` = $grad_year
+                `email` = '$email', `phone` = '$phone', `graduation_year` = $grad_year
                 WHERE `username` = '$username'";
       $query = mysql_query($queryMember);
       $_SESSION['editProfileStatus'] = '<span style="color:#0000ff">Successful Update</span><br />';

@@ -2,7 +2,7 @@
 	// This is used to connect to database. Required anytime we wish to use database.
 	$dbhost = 'localhost';
 	$dbuser = 'smipo';
-	$dbpass = '';
+	$dbpass = 'Radford2016';
 	$dbname = 'smipo';
 	require_once( 'DB.php' );
 

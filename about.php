@@ -57,7 +57,7 @@ require("connect.php");
             		<hr>
             	</div>	
                 <div class="col-md-6">
-                    <img class="img-responsive img-border img-center" src="../smipo/img/smipo-logo.jpg" alt="">
+                    <img class="img-responsive img-border img-center" src="img/smipo-logo.jpg" alt="">
                 </div>
                 <div class="col-md-6">
                     <p>
@@ -72,7 +72,7 @@ require("connect.php");
                     	<a href="portfolio.php"> Check out our portfolio. </a>
                     </p>
                     <p>
-                    	<a href="../smipo/misc/October-2015.pdf">Montly Newsletter</a>
+                    	<a href="misc/October-2015.pdf">Montly Newsletter</a>
                     </p>
                 </div>
                 <div class="clearfix"></div>

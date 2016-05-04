@@ -110,7 +110,7 @@
                                 <img class="img-responsive img-full" src="https://developer.ibm.com/apimanagement/wp-content/uploads/sites/23/2015/03/financial-services.png" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-responsive img-full" src="../smipo/img/investment-portfolio.jpg" alt="">
+                                <img class="img-responsive img-full" src="img/investment-portfolio.jpg" alt="">
                             </div>
                             <div class="item">
                                 <img class="img-responsive img-full" src="http://www.ryerson.ca/science/programs/undergraduate/financialmathematics/jcr:content/center/columns/col1/image.img.jpg/1388420426693.jpg" alt="">
@@ -147,7 +147,7 @@
                     
                     </h2>
                     <hr>
-                    <img class="img-responsive img-border img-left" src="../smipo/img/smipo_group_1.jpg" width="320px" height="240px" alt="">
+                    <img class="img-responsive img-border img-left" src="img/smipo_group_1.jpg" width="320px" height="240px" alt="">
                     <hr class="visible-xs">
                     <p>
                         Welcome to the Student Managed Investment Portfolio Organization (SMIPO) website! Our goal is to allow students at Radford University an opportunity to gain practical experience in the management and decision-making processes of a corporate structured organization by participating in hands-on management of the funds of Radford University Foundation’s endowment to the Student Managed Investment Portfolio Organization.
@@ -164,7 +164,7 @@
                     </h2>
                     <hr>
                     <p>
-                        <img class="img-responsive img-border img-left" src="../smipo/img/smipo_NYC.jpg" width="320px" height="240px" alt="">
+                        <img class="img-responsive img-border img-left" src="img/smipo_NYC.jpg" width="320px" height="240px" alt="">
 
                         <table class="table-condensed">
                             <tr>
@@ -215,6 +215,17 @@
                         </table>
                     </p>
                 </div>
+            </div>
+        </div>
+		
+		<div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+						<a href="https://php.radford.edu/~smipo/boards.php?id=6&page=0">Learn More About Joining SMIPO</a>
+                    </h2>
+				</div>
             </div>
         </div>
 	

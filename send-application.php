@@ -36,7 +36,7 @@ else {
 	$resume = uploadResume();
 
 	// Create the email and send the message
-	$to = 'jtaylor32@radford.edu';
+	$to = 'smipo@radford.edu';
 	$email_subject = "Applicatant Contact:  $firstname $lastname";
 
 	$email_body = "You have a new applicant\n\n".
@@ -54,7 +54,8 @@ else {
         $city\n
         Cell Phone: $cell_phone\n\n
         Previous Experience: $message\n\n
-        Resume: $resume\n\n";
+		Resume: $resume\n\n
+		NOTE: If the link has spaces - highlight the whole line and enter it into the address of another tab.";
 	$headers = "From: \n";
 	$headers .= "Reply-To: $email_address";
 	mail($to,$email_subject,$email_body,$headers);
@@ -82,7 +83,7 @@ function uploadResume(){
     if(move_uploaded_file($file, $target_path)) {
         $upload_msg = "The file ".  basename( $_FILES).
             " has been uploaded";
-        return "file:///Volumes/jtaylor32/dynamic_php/smipo/" . $target_path;
+		return "https://php.radford.edu/~smipo/" . $target_path;
     } else{
         $upload_msg = "There was an error uploading the file, please try again!";
         return "Resume was not uploaded request a new one.";
@@ -152,7 +153,7 @@ function uploadResume(){
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright &copy; Radford SMIPO 2015</p>
+                    <p>Copyright &copy; Radford SMIPO 2016</p>
                 </div>
             </div>
         </div>

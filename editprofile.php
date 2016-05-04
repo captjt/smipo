@@ -168,7 +168,7 @@
                                     endif;
                                     ?>
                                     <div style="font-size:8px" align="left">
-                                        <form action="uploadimg.php" method="POST" enctype="multipart">
+                                        <form action="uploadimg.php" method="POST" enctype="multipart/form-data">
                                             <input id="imgfile" type="file" name="imgfile">
                                             <input type="submit" value="Upload Profile Picture">
                                         </form>

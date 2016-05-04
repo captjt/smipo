@@ -13,12 +13,13 @@
 
 	#function to delete a specific reply from a specific thread	
 	$thread_id = $_GET['thread_id'];
+	$thread_by = $_GET['thread_by'];
 
-	$delete_thread_query = "DELETE FROM Topics WHERE topic_id = $thread_id";
-	$query = $db->query($delete_thread_query);
-	$delete_replies_query = "DELETE FROM Replies WHERE thread_id = $thread_id";
-	$delete = $db->query($delete_replies_query);
-	if (!$query && !$reply){
+	$sql_topics = "DELETE FROM `Topics` WHERE `topic_id` = $thread_id";
+	$queryTopics = mysql_query($sql_topics);
+	$sql_replies = "DELETE FROM `Replies` WHERE `thread_id` = $thread_id";
+	$queryReplies = mysql_query($sql_replies);
+	if (!$queryTopics && !$queryReplies){
 	  $errorMsg = '<span style="color:#ff0000">Could not run delete</span><br />';
 	}
 	else{
@@ -76,7 +77,6 @@
                                       <?php
                                             echo "<center>";
                                             echo "$errorMsg<br />";
-											echo "<a href = 'boards.php?id=" . $_GET['board'] . "&page=0'>Return to board</a><br />";
                                             echo "<a href='forum.php'>Return to Forum</a>";
                                             echo "</center>";
                                         ?>

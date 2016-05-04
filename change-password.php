@@ -12,7 +12,7 @@ require("connect.php");
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>New Image - SMIPO</title>
+    <title>Change Password</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -56,59 +56,26 @@ require("connect.php");
 						$user_id = $_SESSION['user_id'];
 						$status = $_SESSION['status'];
 						$logged_in = $_SESSION['logged_in'];
-
-						if($logged_in):
-							$target_dir = "img/";
-							$target_file = $target_dir . basename($_FILES["imgfile"]["name"]);
-							$uploadOk = 1;
-							$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-							// Check if image file is a actual image or fake image
-							if(isset($_POST["submit"])) {
-								$check = getimagesize($_FILES["imgfile"]["tmp_name"]);
-								if($check !== false) {
-									echo "File is an image - " . $check["mime"] . ".";
-									$uploadOk = 1;
-								} else {
-									echo "File is not an image.";
-									$uploadOk = 0;
-								}
+						$pass1 = $_POST['pass1'];
+						$pass2 = $_POST['pass2'];
+						if($logged_in) {
+							if ($pass1 !== $pass2 ) {
+								echo "<p style='color:red;'>The passwords did not match </p>";
 							}
-							// Check if file already exists
-							if (file_exists($target_file)) {
-								echo "Sorry, file already exists. Try using a different name\n";
-								$uploadOk = 0;
+							else if ($pass1 === $pass2 && $pass1 !== "" && $pass1 != null) {
+								$updateSQL = "UPDATE members SET password='$pass1' WHERE username='$username'";
+								$db->query($updateSQL);
+								echo "Success!";
 							}
-							// Check file size
-							if ($_FILES["imgfile"]["size"] > 500000000) {
-								echo "Sorry, your file is too large.";
-								$uploadOk = 0;
+							else {
+								echo "Something went wrong";
 							}
-							// Allow certain file formats
-							if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-							&& $imageFileType != "gif" && $imageFileType != "JPG") {
-								echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-								$uploadOk = 0;
-							}
-							// Check if $uploadOk is set to 0 by an error
-							if ($uploadOk == 0) {
-								echo "Sorry, your file was not uploaded.\n";
-							// if everything is ok, try to upload file
-							} else {
-								if (move_uploaded_file($_FILES["imgfile"]["tmp_name"], $target_file)) {
-									//echo "The file ". basename( $_FILES["imgfile"]["name"]). " has been uploaded.";
-									$filename = basename($_FILES["imgfile"]["name"]);
-									$img_sql = "UPDATE members SET img_source='$filename' WHERE username='$username'";
-									$db->query($img_sql);
-									echo "Upload Successful!";
-								} else {
-									echo "Sorry, there was an error uploading your file.\n";
-								}
-							}
-							echo "<br><br><br><br><a href='profile.php'>Return to Profile. </a><br><br><br><br>";
-					
-						else:
-							header("Location:login.php");
-						endif;
+							
+							echo "<br><br><br><br><a href='profile.php'>Return to Your Profile </a><br><br><br><br>";
+						}
+						else {
+							echo "You shouldn't be here...";
+						}
  ?>
                 </div>
                 <div class="clearfix"></div>

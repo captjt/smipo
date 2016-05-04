@@ -85,7 +85,7 @@ else {
                                     <td>
                                       <?php
                                             echo "<center>";
-                                            echo "<a href='boards.php?id=$board_id&page=0'> Return to boards. </a>";
+                                            echo "<a href='boards.php?id=$board_id&page=0'> Return to the Discussions. </a>";
                                             echo "</center>";
                                         ?>
                                     </td>

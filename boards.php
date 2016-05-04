@@ -102,6 +102,15 @@ $page = $_GET['page'];
 									}
 								}
 								
+								function deleteThreadButton($thread_by, $thread_id, $status){
+									/*Status must be compared to string becuase it is stored in SESSION as string*/
+									if(($_SESSION['user'] === $thread_by) || ($_SESSION['status'] === "2")){
+										return "<form action='delete-thread.php?thread_by=$thread_by&thread_id=$thread_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'>Delete Thread</button> </form>";
+									}else{
+										return "";
+									}
+								}
+								
 								function flaggedButton($th_id, $u_id, $b_id) {
 									if ($_SESSION['status'] >= 0 & $_SESSION['logged_in']) {
 										return "<form action='flag.php?user=$u_id&thread=$th_id&board=$b_id' method='post'> <button type='submit' class='btn btn-primary' value='submit'> Flag this topic </button> </form>"; 
@@ -118,6 +127,7 @@ $page = $_GET['page'];
 								echo "<table class='table forum table-striped'>";
 								echo "<thead><tr>";
 								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Topic </strong> </th>";
+								echo "<th></th>";
 								echo "<th class='cell-stat text-center hidden-xs hidden-sm'> Date </strong> </th>";
 								echo "<th class='cell-stat-2x hidden-xs hidden-sm'> Original Poster </strong> </th>";
 								echo "</tr></thead><tbody>";
@@ -128,6 +138,7 @@ $page = $_GET['page'];
 									echo "<tr>";
 									echo "<td class='text-center'>" . "<a href='thread.php?board=" . $board_id . "&thread=" . $threads['topic_id'] . "&page=0'>"
 										 . $threads['topic_subject'] . "</a> <br> " . flaggedButton($threads['topic_id'], $_SESSION['user_id'], $board_id) . "</td>";
+								echo "<td class=''>" . deleteThreadButton($threads['topic_by'], $threads['topic_id'], $status) . "</td>"; 
 									echo "<td class='text-center'>" . stickyButton($threads['topic_id'], $board_id) . dateOrSticky($threads) . "</td>";
 									#echo "<td class='text-center'>" . $threads['topic_date'] . "</td>";
 									echo "<td class='hidden-xs'>" . $threads['topic_by'] . "</td>";
