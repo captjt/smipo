@@ -248,21 +248,17 @@ require('connect.php');
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>';
-						
-						echo "<button class='btn-primary' onClick='toggleReset()'>Change Password</button>";
-						
-						echo "<div style='display:none;' id='passDiv'>";
-						echo "<form action='change-password.php' method='post'>";
-						echo "New Password<input type='password' name='pass1' id='pass1'><br><br>";
-						echo "Confirmation<input type='password' name='pass2' id='pass2'><br><br>";
-						echo "<input type='submit' name='submit' value='Submit' class='btn-primary'><br><br>";
-						echo "</form>";
-						echo "</div>";
-						
-						
-						
+                        </div>';		
                 endif;
+                
+                echo "<button class='btn-primary' onClick='toggleReset()'>Change Password</button>";
+		echo "<div style='display:none;' id='passDiv'>";
+		echo "<form action='change-password.php' method='post'>";
+		echo "New Password<input type='password' name='pass1' id='pass1'><br><br>";
+		echo "Confirmation<input type='password' name='pass2' id='pass2'><br><br>";
+		echo "<input type='submit' name='submit' value='Submit' class='btn-primary'><br><br>";
+		echo "</form>";
+		echo "</div>";
              ?>
 			 
 			 <script>
